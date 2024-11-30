@@ -23,6 +23,7 @@ public class User {
    private String dateOfBirth;
    private String status;
    
+   
    public void generateUser_id(String username,Set <String> allIds){
        int uniqueCounter = 1;
        this.userId = username + uniqueCounter;
@@ -52,7 +53,7 @@ public class User {
    }
    
    public void setUserStatus(){
-       if(user_login(userId,password)) this.status = "online";
+       if(user_login(userId,password) ) this.status = "online";
        else this.status = "offline";
    }
    
@@ -128,19 +129,26 @@ public class User {
      return true;
   }
    
-  public String user_signup(String email,String username,String password,LocalDate dateOfBirth,Set <String> allIds) throws NoSuchAlgorithmException{
-    if(!setUserEmail(email)) return "invalidemail";
+   public String getPassword(){
+       return this.password;
+   }
+   
+  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth,Set <String> allIds) throws NoSuchAlgorithmException{
+    if(!setUserEmail(email)) return false;
     generateUser_id(username,allIds);
     setUserHashedPassword(password);
     setUsername(username);
     setUserDateOfBirth(dateOfBirth);
     setUserStatus();
-    return "";
+    return true;
   }
    
    public boolean user_login(String userId,String password){
-      
-       return true;
+       
+       for(User user:UserDatabase.){
+           if(user.getUserId().equals(userId) && user.getPassword().equals(password)) return true;
+       }
+       return false;
   }
   
   public void user_logout(){
