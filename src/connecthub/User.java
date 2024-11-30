@@ -143,9 +143,8 @@ public class User {
     return true;
   }
    
-   public boolean user_login(String userId,String password){
-       
-       for(User user:UserDatabase.){
+   public boolean user_login(String userId,String password){  
+       for(User user:UserDatabase.getInstance().getUsers()){
            if(user.getUserId().equals(userId) && user.getPassword().equals(password)) return true;
        }
        return false;
