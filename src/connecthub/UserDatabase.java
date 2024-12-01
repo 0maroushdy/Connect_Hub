@@ -19,6 +19,7 @@ public class UserDatabase {
     
     private static UserDatabase user_database;
     private ArrayList <User> users;
+    private static int uniqueCounter;
     
     private UserDatabase(){
         this.users = new ArrayList<>();
@@ -27,12 +28,13 @@ public class UserDatabase {
     public static synchronized UserDatabase getInstance(){
         if(user_database == null){
             user_database = new UserDatabase();
+            UserDatabase.uniqueCounter++;
         }
         return user_database;
     }
     
-    public Set <String> getUserIds(){
-        Set <String> ids = new HashSet<>();
+    public ArrayList <String> getUserIds(){
+        ArrayList <String> ids = new ArrayList<>();
         for(User user:users){
             ids.add(user.getUserId());
         }
@@ -47,6 +49,7 @@ public class UserDatabase {
         User user = new User();
         if(user.user_login(userId, password) || user.user_signup(email, username, password, dateOfBirth,this.getUserIds())){
             users.add(user);
+            UserDatabase.uniqueCounter ++;
             return true;
         }
         return false;

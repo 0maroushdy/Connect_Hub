@@ -8,6 +8,7 @@ import java.util.Set;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,9 +25,9 @@ public class User {
    private String status;
    
    
-   public void generateUser_id(String username,Set <String> allIds){
-       int uniqueCounter = 1;
-       this.userId = username + uniqueCounter;
+   public void generateUser_id(String username,ArrayList <String> allIds){
+      
+       this.userId = username + UserDatabase.getInstance()
        while(allIds.contains(this.userId)){
            uniqueCounter++;
            this.userId = username + uniqueCounter;
@@ -96,7 +97,7 @@ public class User {
          else if(email.charAt(i) == '.') countDots++;
      }
      /*Validation to ensure there is only one dot and one @ sign*/
-     if(countAtSigns != 1 || countDots != 1) return false; 
+     if(countAtSigns != 1 || countDots == 0) return false; 
      
      int ind = 0;
      int countChars=0;
@@ -133,7 +134,7 @@ public class User {
        return this.password;
    }
    
-  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth,Set <String> allIds) throws NoSuchAlgorithmException{
+  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth,ArrayList <String> allIds) throws NoSuchAlgorithmException{
     if(!setUserEmail(email)) return false;
     generateUser_id(username,allIds);
     setUserHashedPassword(password);
