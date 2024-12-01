@@ -26,7 +26,6 @@ public class User {
    
    
    public void generateUser_id(String username,ArrayList <String> allIds){
-   
        this.userId = username + UserDatabase.getInstance().getUniqueCounter();
    }
    
