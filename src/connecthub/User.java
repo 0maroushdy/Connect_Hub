@@ -25,7 +25,7 @@ public class User {
    private String status;
    
    
-   public void generateUser_id(String username,ArrayList <String> allIds){
+   public void generateUser_id(String username){
        this.userId = username + UserDatabase.getInstance().getUniqueCounter();
    }
    
@@ -47,10 +47,7 @@ public class User {
        this.dateOfBirth = date.toString();
    }
    
-   public void setUserStatus(){
-       if(user_login(userId,password) ) this.status = "online";
-       else this.status = "offline";
-   }
+
    
    public void setUsername(String username){
        this.username = username;
@@ -128,19 +125,23 @@ public class User {
        return this.password;
    }
    
-  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth,ArrayList <String> allIds) throws NoSuchAlgorithmException{
-    if(!setUserEmail(email)) return false;
-    generateUser_id(username,allIds);
-    setUserHashedPassword(password);
-    setUsername(username);
-    setUserDateOfBirth(dateOfBirth);
-    setUserStatus();
-    return true;
+  public User user_signup(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
+    User user = new User();
+    if(!user.setUserEmail(email)) return null;
+    user.generateUser_id(username);
+    user.setUserHashedPassword(password);
+    user.setUsername(username);
+    user.setUserDateOfBirth(dateOfBirth);
+    user.status = "online";
+    return user;
   }
    
    public boolean user_login(String userId,String password){  
        for(User user:UserDatabase.getInstance().getUsers()){
-           if(user.getUserId().equals(userId) && user.getPassword().equals(password)) return true;
+           if(user.getUserId().equals(userId) && user.getPassword().equals(password)){
+               user.status = "online";
+               return true;
+           }
        }
        return false;
   }

@@ -15,7 +15,8 @@ public class ConnectHub {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        WelcomeWindow window = new WelcomeWindow();
+        window.setVisible(true);
     }
     
 }

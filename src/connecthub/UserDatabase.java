@@ -50,14 +50,8 @@ public class UserDatabase {
         return this.users;
     }
     
-    public boolean addUser(String userId,String password,String email,String username, LocalDate dateOfBirth) throws NoSuchAlgorithmException{
-        User user = new User();
-        if(user.user_login(userId, password) || user.user_signup(email, username, password, dateOfBirth,this.getUserIds())){
-            users.add(user);
-            UserDatabase.uniqueCounter ++;
-            return true;
-        }
-        return false;
+    public void addUser(User user) throws NoSuchAlgorithmException{
+       this.users.add(user);
     }
     
     public void saveUsersToFile(String filePath){
