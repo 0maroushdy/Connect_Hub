@@ -25,10 +25,15 @@ public class UserDatabase {
         this.users = new ArrayList<>();
     }
     
+    public int getUniqueCounter(){
+        return UserDatabase.uniqueCounter;
+    }
+    
+    
     public static synchronized UserDatabase getInstance(){
         if(user_database == null){
             user_database = new UserDatabase();
-            UserDatabase.uniqueCounter++;
+            UserDatabase.uniqueCounter = 1;
         }
         return user_database;
     }

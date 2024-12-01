@@ -26,13 +26,8 @@ public class User {
    
    
    public void generateUser_id(String username,ArrayList <String> allIds){
-      
-       this.userId = username + UserDatabase.getInstance()
-       while(allIds.contains(this.userId)){
-           uniqueCounter++;
-           this.userId = username + uniqueCounter;
-       }
-       
+   
+       this.userId = username + UserDatabase.getInstance().getUniqueCounter();
    }
    
    public void setUserHashedPassword(String password) throws NoSuchAlgorithmException{
