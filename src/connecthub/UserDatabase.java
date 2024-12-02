@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.json.*;
 
 
 /**
@@ -50,12 +51,17 @@ public class UserDatabase {
         return this.users;
     }
     
-    public void addUser(User user) throws NoSuchAlgorithmException{
-       this.users.add(user);
+    public boolean addUser(User user) throws NoSuchAlgorithmException{
+       if(user != null){
+        this.users.add(user);
+       uniqueCounter++;
+       return true;}
+       
+       return false;
     }
     
     public void saveUsersToFile(String filePath){
-        StringBuilder jsonBuilder = new StringBuilder();
+       /* StringBuilder jsonBuilder = new StringBuilder();
 
         jsonBuilder.append("[\n");
         for (int i = 0; i < this.users.size(); i++) {
@@ -81,13 +87,17 @@ public class UserDatabase {
             System.out.println("Users saved successfully to " + filePath);
         } catch (IOException e) {
             System.err.println("Failed to save users to file: " + e.getMessage());
-        }
+        } */
+       
+       
+       
+       
     }
 
     // Utility method to escape JSON special characters
-    private static String escapeJson(String text) {
+    /*private static String escapeJson(String text) {
         return text.replace("\"", "\\\"").replace("\\", "\\\\");
-    }
+    } */
     
     }
     

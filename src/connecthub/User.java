@@ -24,12 +24,29 @@ public class User {
    private String dateOfBirth;
    private String status;
    
+  public User(String email,String username,String password,LocalDate dateOfBirth){
+       this.userId = generateUser_id(username);
+       this.email = email;
+       this.username = username;
+       this.password = password;
+       this.dateOfBirth = dateOfBirth.toString();
+   }
+
+   public User() {
+        
+    }
    
-   public void generateUser_id(String username){
-       this.userId = username + UserDatabase.getInstance().getUniqueCounter();
+   
+   public String generateUser_id(String username){
+       String id = username + "-" + UserDatabase.getInstance().getUniqueCounter();
+       return id;
    }
    
-   public void setUserHashedPassword(String password) throws NoSuchAlgorithmException{
+   public boolean validateUser_input(String email,String username,String password,LocalDate dateOfBirth){
+       return !email.isEmpty() && !username.isEmpty() && !password.isEmpty();
+   }
+   
+   public String setUserHashedPassword(String password) throws NoSuchAlgorithmException{
        MessageDigest mssg = MessageDigest.getInstance("SHA-256");
        byte [] hashedBytes = mssg.digest(password.getBytes());
        StringBuilder hexadecimalString = new StringBuilder();
@@ -40,7 +57,7 @@ public class User {
            }
            hexadecimalString.append(hexadecimal);
        }
-       this.password = hexadecimalString.toString();
+       return hexadecimalString.toString();
    }
    
    public void setUserDateOfBirth(LocalDate date){
@@ -125,15 +142,17 @@ public class User {
        return this.password;
    }
    
-  public User user_signup(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
-    User user = new User();
-    if(!user.setUserEmail(email)) return null;
-    user.generateUser_id(username);
-    user.setUserHashedPassword(password);
-    user.setUsername(username);
-    user.setUserDateOfBirth(dateOfBirth);
-    user.status = "online";
-    return user;
+  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
+   if(!validateUser_input(email,username,password,dateOfBirth)) return false;
+   
+   if(!validateUser_email(email)) return false;
+   
+   
+   User user = new User(email,username,password,dateOfBirth);
+   user.status = "online";
+   UserDatabase.getInstance().addUser(user);
+   return true;
+   
   }
    
    public boolean user_login(String userId,String password){  
