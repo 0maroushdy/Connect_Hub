@@ -11,8 +11,8 @@ public class UserProfile {
     private String profilePhoto;
     private String profileCover;
     private String profileBio;
-    private User user;
-//    private ArrayList<User> friends ; // may be better to impelement in User Calss
+//    private User user;
+//    private ArrayList<User> friends ; // may be better to impelement in User Class
     
     // -----------** Constructor **-----------
     public UserProfile(String photo, String cover, String bio){
