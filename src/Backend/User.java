@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.json.*;
 
 /**
  *
@@ -152,6 +153,17 @@ public class User {
    
   public void userLogout(){
       this.status = "offline";
+  }
+  
+  public JSONObject toJSON(){
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put("UserId",this.userId);
+      jsonObject.put("Username",this.username);
+      jsonObject.put("Email",this.email);
+      jsonObject.put("Password",this.password);
+      jsonObject.put("DateOfBirth",this.dateOfBirth);
+      jsonObject.put("Status",this.status);
+      return jsonObject;
   }
   
   static class UserBuilder{

@@ -87,7 +87,7 @@ public class UserSignupSingleton {
    user = User.UserBuilder.create(email, username, password, dateOfBirth);
    user.setUserStatus("online");
    UserDatabase.getInstance().addUser(user);
-   
+   UserDatabase.getInstance().saveUsersToFile("UserDatabase.txt");
    return true;
    
   }

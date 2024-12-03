@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import org.json.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 /**
@@ -79,6 +81,7 @@ public class UserDatabase {
        for(User user:this.users){
            if(user.getUserId().equals(userId) && user.getUserPassword().equals(generateUserHashedPassword(password))){
                user.setUserStatus("online");
+               saveUsersToFile("UserDatabase.txt");
                return true;
            }
        }
@@ -86,44 +89,17 @@ public class UserDatabase {
   }
     
     public void saveUsersToFile(String filePath){
-       /* StringBuilder jsonBuilder = new StringBuilder();
-
-        jsonBuilder.append("[\n");
-        for (int i = 0; i < this.users.size(); i++) {
-            User user = this.users.get(i);
-            jsonBuilder.append("  {\n");
-            jsonBuilder.append("    \"UserId\": \"").append(escapeJson(user.getUserId())).append("\",\n");
-            jsonBuilder.append("    \"Email\": \"").append(escapeJson(user.getUserEmail())).append("\",\n");
-            jsonBuilder.append("    \"Username\": ").append(user.getUsername()).append("\n");
-            jsonBuilder.append("    \"Password\": ").append(user.getPassword()).append("\n");
-            jsonBuilder.append("    \"DateOfBirth\": ").append(user.getUserDateOfBirth()).append("\n");
-            jsonBuilder.append("    \"Status\": ").append(user.getUserStatus()).append("\n");
-            jsonBuilder.append("  }");
-
-            if (i < users.size() - 1) {
-                jsonBuilder.append(",");
-            }
-            jsonBuilder.append("\n");
-        }
-        jsonBuilder.append("]");
-
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write(jsonBuilder.toString());
-            System.out.println("Users saved successfully to " + filePath);
+       JSONArray jsonArray = new JSONArray();
+       for(User user:this.users){
+           jsonArray.put(user.toJSON());
+       }
+        try (FileWriter file = new FileWriter(filePath)) {
+            file.write(jsonArray.toString(4)); // Indented with 4 spaces
+            System.out.println("User data saved to " + filePath);
         } catch (IOException e) {
-            System.err.println("Failed to save users to file: " + e.getMessage());
-        } */
-       
-       
-       
-       
+            e.printStackTrace();
+        }
     }
-
-    // Utility method to escape JSON special characters
-    /*private static String escapeJson(String text) {
-        return text.replace("\"", "\\\"").replace("\\", "\\\\");
-    } */
-    
     }
     
     

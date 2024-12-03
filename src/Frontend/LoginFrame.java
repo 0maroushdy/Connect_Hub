@@ -8,6 +8,9 @@ import Backend.User;
 import Backend.UserDatabase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,12 +35,15 @@ public class LoginFrame extends javax.swing.JFrame {
                 String UserId = userid.getText();
                 String passwordd = password.getText();
                 
-              if(UserDatabase.getInstance().userLogin(UserId, passwordd)){
-                  JOptionPane.showMessageDialog(null,"Succeeded to login user","Success",JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null,"Failed to login user","Fail",JOptionPane.INFORMATION_MESSAGE);
-              }
+                try {
+                    if(UserDatabase.getInstance().userLogin(UserId, passwordd)){
+                        JOptionPane.showMessageDialog(null,"Succeeded to login user","Success",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Failed to login user","Fail",JOptionPane.INFORMATION_MESSAGE);
+                    } } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
