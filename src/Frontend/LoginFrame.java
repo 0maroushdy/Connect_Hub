@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package connecthub;
+package Frontend;
 
+import Backend.User;
+import Backend.UserDatabase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -30,8 +32,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 String UserId = userid.getText();
                 String passwordd = password.getText();
                 
-                User user = new User();
-              if(user.user_login(UserId, passwordd)){
+              if(UserDatabase.getInstance().userLogin(UserId, passwordd)){
                   JOptionPane.showMessageDialog(null,"Succeeded to login user","Success",JOptionPane.INFORMATION_MESSAGE);
               }
               else {

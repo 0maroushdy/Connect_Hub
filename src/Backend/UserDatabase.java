@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package connecthub;
+package Backend;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.MessageDigest;
 import org.json.*;
 
 
@@ -53,12 +54,36 @@ public class UserDatabase {
     
     public boolean addUser(User user) throws NoSuchAlgorithmException{
        if(user != null){
-        this.users.add(user);
+       this.users.add(user);
        uniqueCounter++;
        return true;}
        
        return false;
     }
+    
+    public String generateUserHashedPassword(String password) throws NoSuchAlgorithmException{
+       MessageDigest mssg = MessageDigest.getInstance("SHA-256");
+       byte [] hashedBytes = mssg.digest(password.getBytes());
+       StringBuilder hexadecimalString = new StringBuilder();
+       for(byte b:hashedBytes){
+           String hexadecimal = Integer.toHexString(0xff & b);
+           if(hexadecimal.length() == 1){
+               hexadecimalString.append('0');
+           }
+           hexadecimalString.append(hexadecimal);
+       }
+       return hexadecimalString.toString();
+   }
+    
+     public boolean userLogin(String userId,String password) throws NoSuchAlgorithmException{  
+       for(User user:this.users){
+           if(user.getUserId().equals(userId) && user.getUserPassword().equals(generateUserHashedPassword(password))){
+               user.setUserStatus("online");
+               return true;
+           }
+       }
+       return false;
+  }
     
     public void saveUsersToFile(String filePath){
        /* StringBuilder jsonBuilder = new StringBuilder();

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package connecthub;
+package Backend;
 
 import java.util.Set;
 import java.security.MessageDigest;
@@ -24,11 +24,11 @@ public class User {
    private String dateOfBirth;
    private String status;
    
-  public User(String email,String username,String password,LocalDate dateOfBirth){
-       this.userId = generateUser_id(username);
+  private User(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
+       this.userId = generateUserId(username);
        this.email = email;
        this.username = username;
-       this.password = password;
+       this.password = generateUserHashedPassword(password);
        this.dateOfBirth = dateOfBirth.toString();
    }
 
@@ -36,17 +36,21 @@ public class User {
         
     }
    
+   public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
+       this.password = generateUserHashedPassword(unHashedPassword);
+   }
    
-   public String generateUser_id(String username){
+   
+   public String generateUserId(String username){
        String id = username + "-" + UserDatabase.getInstance().getUniqueCounter();
        return id;
    }
    
-   public boolean validateUser_input(String email,String username,String password,LocalDate dateOfBirth){
+   public boolean validateUserInput(String email,String username,String password,LocalDate dateOfBirth){
        return !email.isEmpty() && !username.isEmpty() && !password.isEmpty();
    }
    
-   public String setUserHashedPassword(String password) throws NoSuchAlgorithmException{
+   public String generateUserHashedPassword(String password) throws NoSuchAlgorithmException{
        MessageDigest mssg = MessageDigest.getInstance("SHA-256");
        byte [] hashedBytes = mssg.digest(password.getBytes());
        StringBuilder hexadecimalString = new StringBuilder();
@@ -70,8 +74,12 @@ public class User {
        this.username = username;
    }
    
+   public void setUserStatus(String status){
+       this.status = status;
+   }
+   
    public boolean setUserEmail(String email){
-       if(validateUser_email(email)) this.email = email;
+       if(validateUserEmail(email)) this.email = email;
        else return false;
        
        return true;
@@ -97,7 +105,7 @@ public class User {
        return this.status;
    }
    
-   public boolean validateUser_email(String email){
+   public boolean validateUserEmail(String email){
      int countAtSigns = 0;
      int countDots = 0;
      for(int i=0;i<email.length();i++){
@@ -138,34 +146,18 @@ public class User {
      return true;
   }
    
-   public String getPassword(){
+   public String getUserPassword(){
        return this.password;
    }
    
-  public boolean user_signup(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
-   if(!validateUser_input(email,username,password,dateOfBirth)) return false;
-   
-   if(!validateUser_email(email)) return false;
-   
-   
-   User user = new User(email,username,password,dateOfBirth);
-   user.status = "online";
-   UserDatabase.getInstance().addUser(user);
-   return true;
-   
-  }
-   
-   public boolean user_login(String userId,String password){  
-       for(User user:UserDatabase.getInstance().getUsers()){
-           if(user.getUserId().equals(userId) && user.getPassword().equals(password)){
-               user.status = "online";
-               return true;
-           }
-       }
-       return false;
-  }
-  
-  public void user_logout(){
+  public void userLogout(){
       this.status = "offline";
   }
+  
+  static class UserBuilder{
+      static User create(String email, String username, String password, LocalDate dateOfBirth) throws NoSuchAlgorithmException {
+            return new User(email, username, password, dateOfBirth);
+        }
+  }
+  
 }

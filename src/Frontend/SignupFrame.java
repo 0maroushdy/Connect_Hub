@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package connecthub;
+package Frontend;
 
+import Backend.User;
+import Backend.UserDatabase;
+import Backend.UserSignupSingleton;
 import com.raven.datechooser.SelectedDate;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +20,7 @@ import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Calendar;
-import javax.swing.SpinnerDateModel;
+
 
 /**
  *
@@ -37,6 +38,8 @@ public class SignupFrame extends javax.swing.JFrame {
     
      private void initCustomComponents(){
          setTitle("User_signup");
+         
+         
         signup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,11 +93,10 @@ public class SignupFrame extends javax.swing.JFrame {
             LocalDate localDate = LocalDate.parse(date, formatter);
 
             // Proceed with the user signup process
-            User user = new User();
             
             
-            if (user.user_signup(Email, Username, Password, localDate)) {
-                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + user.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, localDate)) {
+                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
