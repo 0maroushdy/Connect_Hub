@@ -1,0 +1,26 @@
+[
+    {
+        "DateOfBirth": "2024-12-19",
+        "Status": "online",
+        "Email": "beego@gmail.com",
+        "Username": "beego",
+        "UserId": "beego-1",
+        "Password": "500481d9a730fdacd7dd2740efb8e6e99a471e5c8c85d2a18fe05320d7452131"
+    },
+    {
+        "DateOfBirth": "2024-12-12",
+        "Status": "online",
+        "Email": "beego@gmail..com",
+        "Username": "beego",
+        "UserId": "beego-2",
+        "Password": "500481d9a730fdacd7dd2740efb8e6e99a471e5c8c85d2a18fe05320d7452131"
+    },
+    {
+        "DateOfBirth": "2024-12-12",
+        "Status": "online",
+        "Email": "beego@gmail.com.ae",
+        "Username": "beego",
+        "UserId": "beego-3",
+        "Password": "500481d9a730fdacd7dd2740efb8e6e99a471e5c8c85d2a18fe05320d7452131"
+    }
+]
