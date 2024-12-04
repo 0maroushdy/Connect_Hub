@@ -34,23 +34,12 @@ public class UserSignupSingleton {
         }
         return userInstance;
     }
-     
-    public boolean validateUserInput(String email,String username,String password,LocalDate dateOfBirth){
-       return !email.isEmpty() && !username.isEmpty() && !password.isEmpty();
-   }
-    
-    public boolean validateUserEmail(String email){
-     String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-       Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-  }
     
    public boolean userSignup(String email,String username,String password,LocalDate dateOfBirth) throws NoSuchAlgorithmException{
    
-   if(!validateUserInput(email,username,password,dateOfBirth)) return false;
+   if(!ValidationUtil.validateUserInput(email,username,password,dateOfBirth)) return false;
    
-   if(!validateUserEmail(email)) return false;
+   if(!ValidationUtil.validateUserEmail(email)) return false;
    
    user = User.UserFactory.create(email, username, password, dateOfBirth);
    user.setUserStatus("online");
