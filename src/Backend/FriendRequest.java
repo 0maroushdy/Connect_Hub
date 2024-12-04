@@ -13,7 +13,6 @@ public class FriendRequest {
     private User requestSender;
     private User requestReceiver;
     private Status requestStatus;
-    
     public enum Status{
         Accepted, Declined, Pending
     }

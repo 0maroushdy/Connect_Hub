@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class FriendshipManagement {
     
-    public boolean sendFriendRequest(User requestSender, User requestReceiver){
+    public boolean sendFriendRequest(User requestSender,User requestReceiver){
         if(!requestSender.isUserBlocked(requestReceiver)){
             requestSender.sendFriendRequest(requestReceiver);
             return true;

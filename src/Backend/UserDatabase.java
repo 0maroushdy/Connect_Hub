@@ -77,7 +77,7 @@ public class UserDatabase {
            }
        }
        return false;
-  }
+     }
     
     public void saveUsersToFile(String filePath){
        JSONArray jsonArray = new JSONArray();
