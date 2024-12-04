@@ -4,8 +4,10 @@
  */
 package Backend;
 
+import Backend.User.UserFactory;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,6 +15,9 @@ import java.security.MessageDigest;
 import org.json.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 /**
@@ -63,23 +68,9 @@ public class UserDatabase {
        return false;
     }
     
-    public String generateUserHashedPassword(String password) throws NoSuchAlgorithmException{
-       MessageDigest mssg = MessageDigest.getInstance("SHA-256");
-       byte [] hashedBytes = mssg.digest(password.getBytes());
-       StringBuilder hexadecimalString = new StringBuilder();
-       for(byte b:hashedBytes){
-           String hexadecimal = Integer.toHexString(0xff & b);
-           if(hexadecimal.length() == 1){
-               hexadecimalString.append('0');
-           }
-           hexadecimalString.append(hexadecimal);
-       }
-       return hexadecimalString.toString();
-   }
-    
      public boolean userLogin(String userId,String password) throws NoSuchAlgorithmException{  
        for(User user:this.users){
-           if(user.getUserId().equals(userId) && user.getUserPassword().equals(generateUserHashedPassword(password))){
+           if(user.getUserId().equals(userId) && user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))){
                user.setUserStatus("online");
                saveUsersToFile("UserDatabase.txt");
                return true;
@@ -95,11 +86,39 @@ public class UserDatabase {
        }
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(jsonArray.toString(4)); // Indented with 4 spaces
-            System.out.println("User data saved to " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
+    public void loadUsersFromFile(String filePath){
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+
+            JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String dateOfBirth = jsonObject.getString("DateOfBirth");
+                String status = jsonObject.getString("Status");
+                String email = jsonObject.getString("Email");
+                String username = jsonObject.getString("Username");
+                String userId = jsonObject.getString("UserId");
+                String password = jsonObject.getString("Password");
+                LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+                addUser(User.UserFactory.create(email, username, password, date));
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error parsing JSON: " + e.getMessage());
+        }
+        
+    }
+    
     }
     
     
