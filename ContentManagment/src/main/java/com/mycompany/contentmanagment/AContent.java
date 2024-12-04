@@ -50,5 +50,5 @@ public abstract class AContent {
         this.contentId = ContentDataBase.getInstance().getUniqueId();
     }
     
-    public abstract void uplode();
+    public abstract void Upload();
 }

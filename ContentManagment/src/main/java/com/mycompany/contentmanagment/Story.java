@@ -17,7 +17,7 @@ public class Story extends AContent {
     }
 
     @Override
-     public void uplode(){
+     public void Upload(){
         this.setTimeOfUpload();
         ContentDataBase.getInstance().addContent(this);
     }

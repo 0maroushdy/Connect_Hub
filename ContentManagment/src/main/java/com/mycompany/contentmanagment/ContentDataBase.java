@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 /*TODO
 1- sync this class
-2- id int or big int
 */
 /**
  *
