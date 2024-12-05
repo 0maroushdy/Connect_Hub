@@ -1,0 +1,24 @@
+[
+    {
+        "DateOfBirth": "2024-12-19",
+        "Email": "beego@gmail.com",
+        "Username": "beego",
+        "UserId": "beego-1",
+        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
+    },
+    {
+        "DateOfBirth": "2024-12-12",
+        "Status": "online",
+        "Email": "beego@gmail..com",
+        "Username": "beego",
+        "UserId": "beego-2",
+        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
+    },
+    {
+        "DateOfBirth": "2024-12-12",
+        "Email": "beego@gmail.com.ae",
+        "Username": "beego",
+        "UserId": "beego-3",
+        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
+    }
+]
