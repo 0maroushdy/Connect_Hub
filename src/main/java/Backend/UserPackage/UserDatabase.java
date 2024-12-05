@@ -81,6 +81,7 @@ public final class UserDatabase {
             if (user.getUserId().equals(userId) && user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
                 user.setUserStatus("online");
                 saveUsersToFile(USERFILE);
+                MainUser.setMainUser(user);
                 return true;
             }
         }

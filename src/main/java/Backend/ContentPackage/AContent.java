@@ -89,7 +89,5 @@ public abstract class AContent {
         return jsonObject;
     }
 
-
-
     public abstract void uplode();
 }
