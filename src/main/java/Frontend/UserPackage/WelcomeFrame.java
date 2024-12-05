@@ -23,6 +23,8 @@ public class WelcomeFrame extends javax.swing.JFrame {
     
     private void initCustomComponents(){
         setTitle("Connect Hub");
+        setLocationRelativeTo(null);
+        pack();
         signup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,10 +66,12 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        signup.setForeground(new java.awt.Color(0, 0, 0));
         signup.setText("Signup");
 
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
