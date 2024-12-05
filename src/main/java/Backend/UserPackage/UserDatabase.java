@@ -67,6 +67,14 @@ public final class UserDatabase {
 
         return false;
     }
+    
+    public User getUser(String userId){
+        for(User user:this.users){
+            if(user.getUserId().equals(userId)) return user;
+        }
+        return null;
+    }
+
 
     public boolean userLogin(String userId, String password) throws NoSuchAlgorithmException {
         for (User user : this.users) {
