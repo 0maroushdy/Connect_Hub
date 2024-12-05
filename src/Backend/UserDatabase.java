@@ -59,6 +59,13 @@ public class UserDatabase {
         return this.users;
     }
     
+    public User getUser(String userId){
+        for(User user:this.users){
+            if(user.getUserId().equals(userId)) return user;
+        }
+        return null;
+    }
+    
     public boolean addUser(User user) throws NoSuchAlgorithmException{
        if(user != null){
        this.users.add(user);

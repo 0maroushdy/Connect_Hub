@@ -55,6 +55,13 @@ public class FriendshipManagement {
         return suggestions;
     }
     
+    public static class FriendshipManagementFactory{
+        
+        public static FriendshipManagement create(){
+            return new FriendshipManagement();
+        }
+        
+    }
     
     
 }

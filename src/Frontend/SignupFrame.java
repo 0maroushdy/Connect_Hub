@@ -98,6 +98,8 @@ public class SignupFrame extends javax.swing.JFrame {
             if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, localDate)) {
                 JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
+                FriendsGui friendsGUI = new FriendsGui();
+                friendsGUI.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }
