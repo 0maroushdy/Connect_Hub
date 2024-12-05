@@ -123,6 +123,7 @@ public class User {
       jsonObject.put("Username",this.username);
       jsonObject.put("Email",this.email);
       jsonObject.put("Password",this.password);
+      jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
       jsonObject.put("Status",this.status);
       return jsonObject;

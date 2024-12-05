@@ -77,6 +77,22 @@ public class ContentDataBase implements AutoCloseable {
     protected ArrayList<Story> getStories() {
         return stories;
     }
+    
+    public ArrayList <Post> getFriendsPosts(User user){
+        ArrayList <Post> friendsPosts = new ArrayList<>();
+        for(Post post:this.posts){
+            if(user.getUserFriends().contains(post.getAuthor())) friendsPosts.add(post);
+        }
+        return friendsPosts;
+    }
+    
+    public ArrayList <Story> getFriendsStories(User user){
+        ArrayList <Story> friendsStories= new ArrayList<>();
+        for(Story story:this.stories){
+            if(user.getUserFriends().contains(story.getAuthor())) friendsStories.add(story);
+        }
+        return friendsStories;
+    }
 
     public ArrayList<Post> getFriendsPosts(User user) {
         ArrayList<Post> friendsPosts = new ArrayList<>();

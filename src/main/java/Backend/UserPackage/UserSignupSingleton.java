@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import static Files.FILEPATHS.USERFILE;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -22,6 +23,10 @@ public class UserSignupSingleton {
     
     public User getUser(){
         return this.user;
+    }
+    
+    public void setUser(User user){
+        this.user = user;
     }
      
      public static UserSignupSingleton getInstance() {
@@ -44,7 +49,7 @@ public class UserSignupSingleton {
    user = User.UserFactory.create(email, username, password, dateOfBirth);
    user.setUserStatus("online");
    UserDatabase.getInstance().addUser(user);
-   UserDatabase.getInstance().saveUsersToFile("UserDatabase.txt");
+   UserDatabase.getInstance().saveUsersToFile(USERFILE);
    return true;
    
   }

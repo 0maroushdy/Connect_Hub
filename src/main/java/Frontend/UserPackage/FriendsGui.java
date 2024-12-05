@@ -40,7 +40,8 @@ public class FriendsGui extends javax.swing.JFrame {
     
     private void initCustomComponents(){
         setTitle("Friend Management");
-        setSize(600, 400);
+        setLocationRelativeTo(null);
+        pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                /*  setting models for lists */
         friendRequests.setModel(friendRequestsModel);
@@ -49,24 +50,27 @@ public class FriendsGui extends javax.swing.JFrame {
         changeFriendStatus.setModel(changeFriendStatusModel);
                   /*  filling out the lists */
         for(FriendRequest request: currentUser.getUserReceivedFriendRequests()){
-            friendRequestsModel.addElement(request.getRequestSender().getUserId());
+            friendRequestsModel.addElement(request.getRequestSender().getUserId() + " " + request.getRequestSender().getUsername());
         }
         for(User friend:currentUser.getUserFriends()){
             friendListModel.addElement(friend.getUserId());
-            changeFriendStatusModel.addElement(friend.getUserId());
+            changeFriendStatusModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
         for(User friend:FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(currentUser)){
-            friendSuggestionsModel.addElement(friend.getUserId());
+            friendSuggestionsModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
               /* Button action Listeners */
         accept.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              String id = friendRequests.getSelectedValue();
-              User requestSender = UserDatabase.getInstance().getUser(id);
+              String line = friendRequests.getSelectedValue();
+              int ind = friendRequests.getSelectedIndex();
+              String [] data = line.split(" ");
+              User requestSender = UserDatabase.getInstance().getUser(data[0]);
               for(FriendRequest request:requestSender.getUserSentFriendRequests()){
                   if(request.getRequestReciever().getUserId().equals(currentUser.getUserId())){
                       currentUser.acceptFriendRequest(request);
+                      friendRequestsModel.removeElementAt(ind);
                   }
               }
             }
@@ -75,9 +79,54 @@ public class FriendsGui extends javax.swing.JFrame {
         decline.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+              String line = friendRequests.getSelectedValue();
+              int ind = friendRequests.getSelectedIndex();
+              String [] data = line.split(" ");
+              User requestSender = UserDatabase.getInstance().getUser(data[0]);
+              for(FriendRequest request:requestSender.getUserSentFriendRequests()){
+                  if(request.getRequestReciever().getUserId().equals(currentUser.getUserId())){
+                      currentUser.declineFriendRequest(request);
+                      friendRequestsModel.removeElementAt(ind);
+                  }
+              }
             }
             
+        });
+        
+        addFriend.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              String line = friendSuggestions.getSelectedValue();
+              int ind = friendSuggestions.getSelectedIndex();
+              String [] data = line.split(" ");
+              User suggestion = UserDatabase.getInstance().getUser(data[0]);
+              FriendshipManagement.FriendshipManagementFactory.create().sendFriendRequest(currentUser, suggestion);
+              friendSuggestionsModel.removeElementAt(ind);
+            }
+        });
+        
+        block.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              String line = changeFriendStatus.getSelectedValue();
+              int ind = changeFriendStatus.getSelectedIndex();
+              String [] data = line.split(" ");
+              User blocked = UserDatabase.getInstance().getUser(data[0]);
+              FriendshipManagement.FriendshipManagementFactory.create().blockUser(currentUser, blocked);
+              changeFriendStatusModel.removeElementAt(ind);
+            }
+        });
+        
+        remove.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              String line = changeFriendStatus.getSelectedValue();
+              int ind = changeFriendStatus.getSelectedIndex();
+              String [] data = line.split(" ");
+              User removed = UserDatabase.getInstance().getUser(data[0]);
+              FriendshipManagement.FriendshipManagementFactory.create().removeFriend(currentUser,removed);
+              changeFriendStatusModel.removeElementAt(ind);
+            } 
         });
         
         
