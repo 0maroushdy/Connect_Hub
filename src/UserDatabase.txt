@@ -1,8 +1,0 @@
-[{
-    "DateOfBirth": "2024-12-12",
-    "Status": "online",
-    "Email": "fbfb@gmail.com",
-    "Username": "ffb",
-    "UserId": "ffb-1",
-    "Password": "6788b80a3d3492ab58254a8b4891dc10af2198ff1ba18c255479d3567441c6ec"
-}]
