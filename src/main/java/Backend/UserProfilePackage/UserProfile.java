@@ -1,5 +1,5 @@
 
-package BackEnd;
+package Backend.UserProfilePackage;
 
 import java.util.ArrayList;
 
