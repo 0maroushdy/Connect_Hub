@@ -103,6 +103,7 @@ public final class UserDatabase {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String dateOfBirth = jsonObject.getString("DateOfBirth");
+                String status = jsonObject.getString("Status");
                 String email = jsonObject.getString("Email");
                 String username = jsonObject.getString("Username");
                 String userId = jsonObject.getString("UserId");

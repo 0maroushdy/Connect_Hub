@@ -35,17 +35,17 @@ public class ContentDataBase implements AutoCloseable{
     private final ArrayList<Post> posts = new ArrayList<>();
     private final ArrayList<Story> stories = new ArrayList<>();
     private static final ContentDataBase dataBase = new ContentDataBase();
-    private final ScheduledExecutorService scheduler;
+//    private final ScheduledExecutorService scheduler;
     
     private static int id = 0;
 
     private ContentDataBase() {
         this.load();
-        this.scheduler = Executors.newScheduledThreadPool(1);
-        this.scheduler.schedule(
-                () -> this.removeStory(),
-                1, TimeUnit.HOURS
-        );
+//        this.scheduler = Executors.newScheduledThreadPool(1);
+//        this.scheduler.schedule(
+//                () -> this.removeStory(),
+//                1, TimeUnit.HOURS
+//        );
     }
 
     public static ContentDataBase getInstance() {
@@ -131,7 +131,7 @@ public class ContentDataBase implements AutoCloseable{
     @Override
     public void close() {
 //        this.save();
-        this.scheduler.shutdown();
+//        this.scheduler.shutdown();
         System.out.println("Scheduler shutdown.");
     }
 }

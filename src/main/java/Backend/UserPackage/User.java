@@ -124,7 +124,6 @@ public class User {
       jsonObject.put("Email",this.email);
       jsonObject.put("Password",this.password);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
-      jsonObject.put("Status",this.status);
       return jsonObject;
   }
   
