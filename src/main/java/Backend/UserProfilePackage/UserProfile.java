@@ -2,6 +2,7 @@
 package Backend.UserProfilePackage;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
  *
@@ -67,6 +68,15 @@ public class UserProfile {
     // -----** Saving user with updated info 
     public boolean updateUser(){
         
+    }
+    
+        // JSON Serialization
+    public JSONObject toJSON() {
+        JSONObject profileData = new JSONObject();
+        profileData.put("profilePhoto", this.profilePhoto);
+        profileData.put("profileCover", this.profileCover);
+        profileData.put("profileBio", this.profileBio);
+        return profileData;
     }
     
     
