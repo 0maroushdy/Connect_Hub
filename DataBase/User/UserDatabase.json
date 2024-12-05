@@ -1,35 +1,8 @@
-<<<<<<< HEAD:DataBase/User/UserDatabase.json
-[
-    {
-        "DateOfBirth": "2024-12-19",
-        "Email": "beego@gmail.com",
-        "Username": "beego",
-        "UserId": "beego-1",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
-    },
-    {
-        "DateOfBirth": "2024-12-12",
-        "Status": "online",
-        "Email": "beego@gmail..com",
-        "Username": "beego",
-        "UserId": "beego-2",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
-    },
-    {
-        "DateOfBirth": "2024-12-12",
-        "Email": "beego@gmail.com.ae",
-        "Username": "beego",
-        "UserId": "beego-3",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
-    }
-]
-=======
 [{
-    "DateOfBirth": "2024-12-12",
     "Status": "online",
-    "Email": "fbfb@gmail.com",
-    "Username": "ffb",
-    "UserId": "ffb-1",
-    "Password": "6788b80a3d3492ab58254a8b4891dc10af2198ff1ba18c255479d3567441c6ec"
+    "DateOfBirth": "2024-12-12",
+    "Email": "bfbfb@gmail.com",
+    "Username": "fbfb",
+    "UserId": "fbfb-1",
+    "Password": "8a81cbc223f180fb56ed0eb4807ebf8257138e2406647d4d07174f09efe75f78"
 }]
->>>>>>> b672eb708b311f430b2cb030751aec7453c99563:src/UserDatabase.txt

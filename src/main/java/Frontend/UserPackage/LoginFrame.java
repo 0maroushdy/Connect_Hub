@@ -29,6 +29,8 @@ public class LoginFrame extends javax.swing.JFrame {
     
     private void initCustomComponents(){
         setTitle("User_login");
+        setLocationRelativeTo(null);
+        pack();
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,12 +69,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("UserId");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Password");
         jLabel2.setOpaque(true);
@@ -88,6 +92,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
