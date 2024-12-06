@@ -54,25 +54,36 @@ public final class UserDatabase {
 
         return false;
     }
-    
-    public User getUser(String userId){
-        for(User user:this.users){
-            if(user.getUserId().equals(userId)) return user;
+
+    public User getUser(String userId) {
+        for (User user : this.users) {
+            if (user.getUserId().equals(userId)) {
+                return user;
+            }
         }
         return null;
     }
 
-//refactor
     public boolean userLogin(String userId, String password) throws NoSuchAlgorithmException {
-        for (User user : this.users) {
-            if (user.getUserId().equals(userId) && user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
-                user.setUserStatus("online");
-                UserSignupSingleton.getInstance().setUser(user);
-                saveUsersToFile(USERFILE);
-                return true;
-            }
+        User user = UserDatabase.getInstance().getUser(userId);
+        if (user == null) {
+            return false;
         }
-        return false;
+
+        System.out.println(user.getUserPassword());
+        System.out.println(HashingUtil.generateUserHashedPassword(password));
+        System.out.println("569c7f0b41ce9649602a0218cd02ed0b0a3d93130329451cc782b7dfda79ce71");
+        
+        if (!user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
+            System.out.println("password incorrect");
+            return false;
+        }
+
+        user.setUserStatus("online");
+        UserSignupSingleton.getInstance().setUser(user);
+        saveUsersToFile(USERFILE);
+
+        return true;
     }
 
     public void saveUsersToFile(String filePath) {
@@ -105,7 +116,7 @@ public final class UserDatabase {
                 String userId = jsonObject.getString("UserId");
                 String password = jsonObject.getString("Password");
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-                addUser(User.UserFactory.create(email, username, password, date,status));
+                addUser(User.UserFactory.create(email, username, password, date, status,false));
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());

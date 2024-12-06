@@ -1,16 +1,1 @@
-[
-    {
-        "imagePath": null,
-        "contentId": 1,
-        "text": "hello",
-        "authorId": "fff-5",
-        "timestamp": "2024-12-06 19:02:44"
-    },
-    {
-        "imagePath": null,
-        "contentId": 2,
-        "text": "i am 2",
-        "authorId": "222-6",
-        "timestamp": "2024-12-06 19:07:23"
-    }
-]
+[]

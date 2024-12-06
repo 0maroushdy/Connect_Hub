@@ -4,6 +4,7 @@
  */
 package Frontend.UserPackage;
 
+import Backend.UserPackage.User;
 import Backend.UserPackage.UserSignupSingleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -13,25 +14,28 @@ import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-
 /**
  *
  * @author Abdelrahman
  */
 public class SignupFrame extends javax.swing.JFrame {
 
+    private WelcomeFrame welcomeFrame;
+
     /**
      * Creates new form SignupFrame
+     * @param welcomeFrame
      */
-    public SignupFrame() {
+    public SignupFrame(WelcomeFrame welcomeFrame) {
+        this.welcomeFrame = welcomeFrame;
         initComponents();
         initCustomComponents();
     }
-    
-     private void initCustomComponents(){
-         setTitle("User_signup");
-         setLocationRelativeTo(null);
-         pack();
+
+    private void initCustomComponents() {
+        setTitle("User_signup");
+        setLocationRelativeTo(null);
+        pack();
     }
 
     /**
@@ -54,6 +58,11 @@ public class SignupFrame extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -157,7 +166,7 @@ public class SignupFrame extends javax.swing.JFrame {
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
         // TODO add your handling code here:
         try {
-            
+
             // Collecting non-numeric fields (username, email, password)
             String Email = email.getText();
             String Password = new String(password.getPassword());
@@ -167,13 +176,16 @@ public class SignupFrame extends javax.swing.JFrame {
             // Proceed with the user signup process
             if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
                 JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
+                
+                this.dispose();
+                this.welcomeFrame.dispose();
+                
                 News news = new News();
-                news.setVisible(true);
+                news.setVisible(true);   
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }
-            
+
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -181,10 +193,14 @@ public class SignupFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_signupActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.welcomeFrame.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email;

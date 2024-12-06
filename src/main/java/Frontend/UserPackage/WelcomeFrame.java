@@ -96,13 +96,15 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
-        LoginFrame loginframe = new LoginFrame();
-                loginframe.setVisible(true);
+        this.setVisible(false);
+        LoginFrame loginframe = new LoginFrame(this);
+        loginframe.setVisible(true);
     }//GEN-LAST:event_loginActionPerformed
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
         // TODO add your handling code here:
-        SignupFrame signupframe = new SignupFrame();
+        this.setVisible(false);
+        SignupFrame signupframe = new SignupFrame(this);
         signupframe.setVisible(true);
     }//GEN-LAST:event_signupActionPerformed
 

@@ -4,7 +4,9 @@
  */
 package Frontend.UserPackage;
 
+import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
+import Backend.UserPackage.UserSignupSingleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -16,11 +18,12 @@ import javax.swing.JOptionPane;
  * @author Abdelrahman
  */
 public class LoginFrame extends javax.swing.JFrame {
-
+private WelcomeFrame welcomeFrame;
     /**
      * Creates new form LoginFrame
      */
-    public LoginFrame() {
+    public LoginFrame(WelcomeFrame welcomeFrame) {
+        this.welcomeFrame = welcomeFrame;
         initComponents();
         initCustomComponents();
     }
@@ -47,6 +50,11 @@ public class LoginFrame extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -117,9 +125,12 @@ public class LoginFrame extends javax.swing.JFrame {
         String passwordd = new String(password.getPassword());
 
         try {
-            if (UserDatabase.getInstance().userLogin(UserId, passwordd)) {
-                JOptionPane.showMessageDialog(null, "Succeeded to login user", "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
+            if (UserDatabase.getInstance().userLogin(UserId, passwordd)) {           
+                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                
+                this.dispose();
+                this.welcomeFrame.dispose();
+                
                 News news = new News();
                 news.setVisible(true);
             } else {
@@ -131,6 +142,11 @@ public class LoginFrame extends javax.swing.JFrame {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.welcomeFrame.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

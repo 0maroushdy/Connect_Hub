@@ -7,14 +7,9 @@ package Backend.UserPackage;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.json.*;
 
 /**
@@ -97,6 +92,13 @@ public class User {
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
    }
    
+   public void setUserPassword (String password, boolean wantToHash) throws NoSuchAlgorithmException{
+       if(wantToHash == true)
+            this.password = HashingUtil.generateUserHashedPassword(password);
+       else
+           this.password = password;
+   }
+   
              /* Setters */
    public void setUserDateOfBirth(LocalDate date){
        this.dateOfBirth = date.toString();
@@ -166,16 +168,25 @@ public class User {
         this.friends.remove(user);
     }
     
-//    public boolean isUserBlocked(User user) {
-//        return this.blockedUsers.contains(user);
-//    }
+    public boolean isUserBlocked(User user) {
+        return this.blockedUsers.contains(user);
+    }
   
   public static class UserFactory{
-      
-     public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
+      public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
-            return new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            return user;
+        }
+      
+     public static User create(String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
+            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
+            String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
+            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            user.setUserPassword(password,wanttohash);
+            
+            return user;
         }
   }
   
