@@ -5,6 +5,7 @@
 package Backend.UserPackage;
 
 import Backend.UserProfilePackage.UserProfile;
+import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,12 +36,13 @@ public class User {
    private Set <FriendRequest> receivedFriendRequests;
    
       /* Constructor */
-  private User(String userId, String email,String username,String password,LocalDate dateOfBirth){
+  private User(String userId, String email,String username,String password,LocalDate dateOfBirth,String status){
        this.userId = userId;
        this.email = email;
        this.username = username;
        this.password = password;
        this.dateOfBirth = dateOfBirth.toString();
+       this.status = status;
        this.friends = new HashSet<>();
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
@@ -116,7 +118,8 @@ public class User {
    }
    
   public void userLogout(){
-      this.status = "offline";
+     setUserStatus("offline");
+     UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   
   public JSONObject toJSON(){
@@ -127,7 +130,6 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
-      jsonObject.put("Status",this.status);
       return jsonObject;
   }
   
@@ -170,10 +172,10 @@ public class User {
   
   public static class UserFactory{
       
-     public static User create(String email, String username, String password, LocalDate dateOfBirth) throws NoSuchAlgorithmException {
+     public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
-            return new User(userId, email, username, hashedPassword, dateOfBirth);
+            return new User(userId, email, username, hashedPassword, dateOfBirth,status);
         }
   }
   

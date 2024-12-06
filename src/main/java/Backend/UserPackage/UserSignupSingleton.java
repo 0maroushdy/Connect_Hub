@@ -46,8 +46,7 @@ public class UserSignupSingleton {
    
    if(!ValidationUtil.validateUserEmail(email)) return false;
    
-   user = User.UserFactory.create(email, username, password, dateOfBirth);
-   user.setUserStatus("online");
+   user = User.UserFactory.create(email, username, password, dateOfBirth,"online");
    UserDatabase.getInstance().addUser(user);
    UserDatabase.getInstance().saveUsersToFile(USERFILE);
    return true;

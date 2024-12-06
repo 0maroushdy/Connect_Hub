@@ -7,7 +7,10 @@ import Backend.ContentPackage.Post;
 import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
+import Backend.UserPackage.UserDatabase;
+import Backend.UserProfilePackage.ProfileDatabase;
 import Files.FILEPATHS;
+import static Files.FILEPATHS.USERFILE;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,7 +34,7 @@ public class News extends javax.swing.JFrame {
         panel3 = new JPanel();
         panel4 = new JPanel();
         panel5 = new JPanel();
-
+        
         this.setTitle("Newsfeed");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -92,12 +95,12 @@ public class News extends javax.swing.JFrame {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Set horizontal and vertical gaps
 
         // Create and style the buttons
-        JButton button1 = createStyledButton("Button 1");
+        JButton button1 = createStyledButton("Logout");
         JButton refreshButton = createStyledButton("Refresh");
         JButton button3 = createStyledButton("Button 3");
 
         // Add action listeners to the buttons
-        button1.addActionListener(e -> JOptionPane.showMessageDialog(this, "Button 1 clicked!"));
+        button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> refreshContent());
         button3.addActionListener(e -> JOptionPane.showMessageDialog(this, "Button 3 clicked!"));
 
@@ -150,7 +153,7 @@ public class News extends javax.swing.JFrame {
         return panel;
     }
 
-    private JPanel sroryComp(Story story) {
+    private JPanel storyComp(Story story) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
@@ -217,30 +220,33 @@ public class News extends javax.swing.JFrame {
 
         return panel;
     }
-
+      /*  Move to backend */
     private void refreshContent() {
         panel1.removeAll();
         panel2.removeAll();
         panel3.removeAll();
         panel4.removeAll();
         panel5.removeAll();
+        //ContentDataBase.getInstance().save();
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        //ProfileDatabase.getInstance().loadProfilesFromFile(PROFILEFILE);
 
         for (Post post : ContentDataBase.getInstance().getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
             JPanel component = postComp(post);
             panel2.add(component);
         }
         for (Story story : ContentDataBase.getInstance().getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
-            JPanel component = sroryComp(story);
+            JPanel component = storyComp(story);
             panel5.add(component);
         }
-//        for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
-//            JPanel component = friendComp(friend);
-//            panel1.add(component);
-//        }
-//        for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
-//            JPanel component = friendComp(friend);
-//            panel3.add(component);
-//        }
+      // for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+       //    JPanel component = friendComp(friend);
+       //    panel1.add(component);
+    //   }
+     //  for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+       //    JPanel component = friendComp(friend);
+     //      panel3.add(component);
+    //   }
         panel4.add(new CreateContentP());
 
         panel1.revalidate();
@@ -264,8 +270,14 @@ public class News extends javax.swing.JFrame {
         button.setBorder(new EmptyBorder(10, 60, 10, 60)); // Add padding
         return button;
     }
-
-    public static void main(String[] args) throws IOException {
-        new News();
+    
+    private void systemLogout(){
+        UserSignupSingleton.getInstance().getUser().userLogout();
+        this.dispose();
     }
+
+    /*public static void main(String[] args) throws IOException {
+        new News();
+    }*/
+    
 }

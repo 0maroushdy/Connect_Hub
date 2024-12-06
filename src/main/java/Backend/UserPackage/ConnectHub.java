@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.WelcomeFrame;
 
 /**
@@ -17,6 +18,7 @@ public class ConnectHub {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         WelcomeFrame frame = new WelcomeFrame();
         frame.setVisible(true);
         

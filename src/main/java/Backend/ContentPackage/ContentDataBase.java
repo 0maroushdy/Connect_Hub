@@ -59,6 +59,7 @@ public class ContentDataBase {
 
     public synchronized void addContent(Post cont) {
         this.posts.add(cont);
+        this.save();
     }
 
     public synchronized void addContent(Story cont) {
