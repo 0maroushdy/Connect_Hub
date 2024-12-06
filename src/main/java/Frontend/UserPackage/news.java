@@ -239,14 +239,14 @@ public class News extends javax.swing.JFrame {
             JPanel component = storyComp(story);
             panel5.add(component);
         }
-//        for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
-//            JPanel component = friendComp(friend);
-//            panel1.add(component);
-//        }
-//        for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
-//            JPanel component = friendComp(friend);
-//            panel3.add(component);
-//        }
+      // for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+       //    JPanel component = friendComp(friend);
+       //    panel1.add(component);
+    //   }
+     //  for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+       //    JPanel component = friendComp(friend);
+     //      panel3.add(component);
+    //   }
         panel4.add(new CreateContentP());
 
         panel1.revalidate();
