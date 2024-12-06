@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class news extends javax.swing.JFrame {
+public class News extends javax.swing.JFrame {
 
     private JPanel panel1;
     private JPanel panel2;
@@ -25,7 +25,7 @@ public class news extends javax.swing.JFrame {
     private JPanel panel4;
     private JPanel panel5;
 
-    public news() throws IOException {
+    public News() throws IOException {
         panel1 = new JPanel();
         panel2 = new JPanel();
         panel3 = new JPanel();
@@ -266,6 +266,6 @@ public class news extends javax.swing.JFrame {
     }
 
     public static void main(String[] args) throws IOException {
-        new news();
+        new News();
     }
 }
