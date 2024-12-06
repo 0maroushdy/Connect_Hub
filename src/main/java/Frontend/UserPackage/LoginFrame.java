@@ -5,6 +5,7 @@
 package Frontend.UserPackage;
 
 import Backend.UserPackage.UserDatabase;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -119,12 +120,14 @@ public class LoginFrame extends javax.swing.JFrame {
             if (UserDatabase.getInstance().userLogin(UserId, passwordd)) {
                 JOptionPane.showMessageDialog(null, "Succeeded to login user", "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
-                FriendsGui friendsGUI = new FriendsGui();
-                friendsGUI.setVisible(true);
+                News news = new News();
+                news.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginActionPerformed

@@ -5,6 +5,7 @@
 package Frontend.UserPackage;
 
 import Backend.UserPackage.UserSignupSingleton;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -167,13 +168,15 @@ public class SignupFrame extends javax.swing.JFrame {
             if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
                 JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
-                FriendsGui friendsGUI = new FriendsGui();
-                friendsGUI.setVisible(true);
+                News news = new News();
+                news.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }
             
         } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_signupActionPerformed
