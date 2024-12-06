@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 public final class UserDatabase {
 
     private static UserDatabase user_database;
-    private final ArrayList<User> users;
+    private ArrayList<User> users;
     private static int uniqueCounter;
 
     private UserDatabase() {
@@ -69,10 +69,6 @@ public final class UserDatabase {
         if (user == null) {
             return false;
         }
-
-        System.out.println(user.getUserPassword());
-        System.out.println(HashingUtil.generateUserHashedPassword(password));
-        System.out.println("569c7f0b41ce9649602a0218cd02ed0b0a3d93130329451cc782b7dfda79ce71");
         
         if (!user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
             System.out.println("password incorrect");
@@ -118,6 +114,35 @@ public final class UserDatabase {
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
                 addUser(User.UserFactory.create(email, username, password, date, status,false));
             }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error parsing JSON: " + e.getMessage());
+        }
+    }
+    
+    public void reloadUsersFromFile(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+            ArrayList<User> temp = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String dateOfBirth = jsonObject.getString("DateOfBirth");
+                String status = jsonObject.getString("Status");
+                String email = jsonObject.getString("Email");
+                String username = jsonObject.getString("Username");
+                String userId = jsonObject.getString("UserId");
+                String password = jsonObject.getString("Password");
+                LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+                temp.add(User.UserFactory.create(email, username, password, date, status,false));
+            }
+            
+            this.users = temp;
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         } catch (Exception e) {
