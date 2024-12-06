@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import Backend.UserProfilePackage.UserProfile;
 import java.util.Set;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +30,7 @@ public class User {
    private String status;
    private Set <User> friends;
    private Set <User> blockedUsers; 
+   private UserProfile profile; // adding userProfile attribute --> making composition
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
    
