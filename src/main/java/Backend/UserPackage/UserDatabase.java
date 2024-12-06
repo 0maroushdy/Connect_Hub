@@ -4,21 +4,16 @@
  */
 package Backend.UserPackage;
 
-import Backend.UserPackage.User.UserFactory;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.MessageDigest;
 import org.json.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 /**
  *
@@ -27,7 +22,7 @@ import java.time.format.DateTimeParseException;
 public final class UserDatabase {
 
     private static UserDatabase user_database;
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
     private static int uniqueCounter;
 
     private UserDatabase() {
@@ -44,14 +39,6 @@ public final class UserDatabase {
             UserDatabase.uniqueCounter = 1;
         }
         return user_database;
-    }
-
-    public ArrayList<String> getUserIds() {
-        ArrayList<String> ids = new ArrayList<>();
-        for (User user : users) {
-            ids.add(user.getUserId());
-        }
-        return ids;
     }
 
     public ArrayList<User> getUsers() {
@@ -75,7 +62,7 @@ public final class UserDatabase {
         return null;
     }
 
-
+//refactor
     public boolean userLogin(String userId, String password) throws NoSuchAlgorithmException {
         for (User user : this.users) {
             if (user.getUserId().equals(userId) && user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
@@ -125,15 +112,5 @@ public final class UserDatabase {
         } catch (Exception e) {
             System.err.println("Error parsing JSON: " + e.getMessage());
         }
-
     }
-
-    public User getUserFromId(String userId) {
-        for(User u : this.users){
-            if(u.getUserId().equals(userId))
-                return u;
-        }
-        return null;
-    }
-
 }

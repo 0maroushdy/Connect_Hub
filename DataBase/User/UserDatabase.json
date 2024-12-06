@@ -5,7 +5,7 @@
         "Email": "omar@gmail.com",
         "Username": "omar",
         "UserId": "omar-1",
-        "Password": "7d327cb0fd7967e011c35f961d4d2fe456023b1fdcc0166043f4bfd165e7401b"
+        "Password": "7668dcb3ece8cc6b903066dfbd5882db1537cea289ef4b796ab685138db7776d"
     },
     {
         "Status": "offline",
@@ -13,7 +13,7 @@
         "Email": "abdo@email.com",
         "Username": "abdo",
         "UserId": "abdo-2",
-        "Password": "1a51911c59086e56dd6a9102bf4da6136dd259a58a19d1c9428697ceadaef378"
+        "Password": "a6fbbe2124161bc5cf989f9a5fb1ed0e22160265d966691a64753fc797e56220"
     },
     {
         "Status": "online",
@@ -21,6 +21,30 @@
         "Email": "beego@gmail.com",
         "Username": "beego",
         "UserId": "beego-3",
-        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+        "Password": "e260f1cdb8c2398cf769e51726cf10eeddc4561c6b43e7722391559a919c3ea4"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-06",
+        "Email": "ggg@ggg.ggg",
+        "Username": "ggg",
+        "UserId": "ggg-4",
+        "Password": "2bcf6ec5959f17346304f7024e5aa09c238f49b691cc5521f6d4552ff5a685a5"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-06",
+        "Email": "fff@fff.fff",
+        "Username": "fff",
+        "UserId": "fff-5",
+        "Password": "b77aebf07aef6623d396aa23b86238f9cee7f9ce31aa57f3f421a1cd43f25c33"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-06",
+        "Email": "111@gmail.com",
+        "Username": "111",
+        "UserId": "111-6",
+        "Password": "f6e0a1e2ac41945a9aa7ff8a8aaa0cebc12a3bcc981a929ad5cf810a090e11ae"
     }
 ]

@@ -27,7 +27,7 @@ public class Post extends AContent {
     }
 
     public static Post fromJSON(JSONObject jsonObject) {
-        User author = UserDatabase.getInstance().getUserFromId(jsonObject.getString("authorId"));
+        User author = UserDatabase.getInstance().getUser(jsonObject.getString("authorId"));
         Post post = new Post(author);
         post.setText(jsonObject.getString("text"));
         post.setImagePath(jsonObject.optString("imagePath", null));

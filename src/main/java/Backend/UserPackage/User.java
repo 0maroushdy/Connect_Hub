@@ -166,9 +166,9 @@ public class User {
         this.friends.remove(user);
     }
     
-    public boolean isUserBlocked(User user) {
-        return this.blockedUsers.contains(user);
-    }
+//    public boolean isUserBlocked(User user) {
+//        return this.blockedUsers.contains(user);
+//    }
   
   public static class UserFactory{
       
