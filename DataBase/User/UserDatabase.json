@@ -1,24 +1,18 @@
 [
     {
-        "DateOfBirth": "2024-12-19",
-        "Email": "beego@gmail.com",
-        "Username": "beego",
-        "UserId": "beego-1",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
-    },
-    {
-        "DateOfBirth": "2024-12-12",
         "Status": "online",
-        "Email": "beego@gmail..com",
-        "Username": "beego",
-        "UserId": "beego-2",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
+        "DateOfBirth": "2024-12-06",
+        "Email": "ffjfd@sdj.ksd",
+        "Username": "klj",
+        "UserId": "klj-1",
+        "Password": "6ee944b4cf55c892c61cca4ccf21befe25c5c2150c95860ac1033601a66361b7"
     },
     {
-        "DateOfBirth": "2024-12-12",
-        "Email": "beego@gmail.com.ae",
-        "Username": "beego",
-        "UserId": "beego-3",
-        "Password": "c16c34de32d871d18e6bcd1367693bb642e4507ffc6bcf6998eebb1e30e6b949"
+        "Status": "online",
+        "DateOfBirth": "2024-12-06",
+        "Email": "djkds@dlk.dksd",
+        "Username": "dsjk",
+        "UserId": "dsjk-2",
+        "Password": "8058208821b5a158ebcda07c8a7a23392888904f919f4178af74dd756f728c4a"
     }
 ]

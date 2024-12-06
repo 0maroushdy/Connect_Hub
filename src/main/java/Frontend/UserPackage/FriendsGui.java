@@ -9,10 +9,7 @@ import Backend.UserPackage.FriendshipManagement;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 
 /**
  *
