@@ -5,16 +5,12 @@
 package Frontend.UserPackage;
 
 import Backend.UserPackage.UserSignupSingleton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -35,32 +31,6 @@ public class SignupFrame extends javax.swing.JFrame {
          setTitle("User_signup");
          setLocationRelativeTo(null);
          pack();
-        signup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               try {
-            
-            // Collecting non-numeric fields (username, email, password)
-            String Email = email.getText();
-            String Password = new String(password.getPassword());
-            String Username = username.getText();
-            LocalDate date = jCalendar1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            // Proceed with the user signup process
-            if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
-                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                FriendsGui friendsGUI = new FriendsGui();
-                friendsGUI.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    });
     }
 
     /**
@@ -82,7 +52,7 @@ public class SignupFrame extends javax.swing.JFrame {
         jCalendar1 = new com.toedter.calendar.JCalendar();
         password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -115,6 +85,11 @@ public class SignupFrame extends javax.swing.JFrame {
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         signup.setText("Signup");
+        signup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,6 +152,31 @@ public class SignupFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
+        // TODO add your handling code here:
+        try {
+            
+            // Collecting non-numeric fields (username, email, password)
+            String Email = email.getText();
+            String Password = new String(password.getPassword());
+            String Username = username.getText();
+            LocalDate date = jCalendar1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Proceed with the user signup process
+            if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
+                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                FriendsGui friendsGUI = new FriendsGui();
+                friendsGUI.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_signupActionPerformed
 
     /**
      * @param args the command line arguments

@@ -19,117 +19,54 @@ import javax.swing.JFrame;
  * @author Abdelrahman
  */
 public class FriendsGui extends javax.swing.JFrame {
-     
-    private User currentUser;
+
+    private final User currentUser;
     private DefaultListModel<String> friendRequestsModel;
-    private DefaultListModel <String> friendListModel;
-    private DefaultListModel <String> friendSuggestionsModel;
-    private DefaultListModel <String> changeFriendStatusModel;
+    private DefaultListModel<String> friendListModel;
+    private DefaultListModel<String> friendSuggestionsModel;
+    private DefaultListModel<String> changeFriendStatusModel;
+
     /**
      * Creates new form FriendsGui
      */
     public FriendsGui() {
-        initComponents();
         currentUser = UserSignupSingleton.getInstance().getUser();
+
+        initComponents();
+        initCustomComponents();
+        
+        refresh();
+    }
+
+    private void initCustomComponents() {
+        setTitle("Friend Management");
+        setLocationRelativeTo(null);
+        
         this.friendRequestsModel = new DefaultListModel<>();
         this.friendListModel = new DefaultListModel<>();
         this.friendSuggestionsModel = new DefaultListModel<>();
         this.changeFriendStatusModel = new DefaultListModel<>();
-        initCustomComponents();
-    }
-    
-    private void initCustomComponents(){
-        setTitle("Friend Management");
-        setLocationRelativeTo(null);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               /*  setting models for lists */
+        
         friendRequests.setModel(friendRequestsModel);
         friendList.setModel(friendListModel);
         friendSuggestions.setModel(friendSuggestionsModel);
         changeFriendStatus.setModel(changeFriendStatusModel);
-                  /*  filling out the lists */
-        for(FriendRequest request: currentUser.getUserReceivedFriendRequests()){
+                
+        pack();
+    }
+
+    public final void refresh() {      
+        /*  filling out the lists */
+        for (FriendRequest request : currentUser.getUserReceivedFriendRequests()) {
             friendRequestsModel.addElement(request.getRequestSender().getUserId() + " " + request.getRequestSender().getUsername());
         }
-        for(User friend:currentUser.getUserFriends()){
+        for (User friend : currentUser.getUserFriends()) {
             friendListModel.addElement(friend.getUserId());
             changeFriendStatusModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
-        for(User friend:FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(currentUser)){
+        for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(currentUser)) {
             friendSuggestionsModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
-              /* Button action Listeners */
-        accept.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              String line = friendRequests.getSelectedValue();
-              int ind = friendRequests.getSelectedIndex();
-              String [] data = line.split(" ");
-              User requestSender = UserDatabase.getInstance().getUser(data[0]);
-              for(FriendRequest request:requestSender.getUserSentFriendRequests()){
-                  if(request.getRequestReciever().getUserId().equals(currentUser.getUserId())){
-                      currentUser.acceptFriendRequest(request);
-                      friendRequestsModel.removeElementAt(ind);
-                  }
-              }
-            }
-        });
-        
-        decline.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              String line = friendRequests.getSelectedValue();
-              int ind = friendRequests.getSelectedIndex();
-              String [] data = line.split(" ");
-              User requestSender = UserDatabase.getInstance().getUser(data[0]);
-              for(FriendRequest request:requestSender.getUserSentFriendRequests()){
-                  if(request.getRequestReciever().getUserId().equals(currentUser.getUserId())){
-                      currentUser.declineFriendRequest(request);
-                      friendRequestsModel.removeElementAt(ind);
-                  }
-              }
-            }
-            
-        });
-        
-        addFriend.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              String line = friendSuggestions.getSelectedValue();
-              int ind = friendSuggestions.getSelectedIndex();
-              String [] data = line.split(" ");
-              User suggestion = UserDatabase.getInstance().getUser(data[0]);
-              FriendshipManagement.FriendshipManagementFactory.create().sendFriendRequest(currentUser, suggestion);
-              friendSuggestionsModel.removeElementAt(ind);
-            }
-        });
-        
-        block.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              String line = changeFriendStatus.getSelectedValue();
-              int ind = changeFriendStatus.getSelectedIndex();
-              String [] data = line.split(" ");
-              User blocked = UserDatabase.getInstance().getUser(data[0]);
-              FriendshipManagement.FriendshipManagementFactory.create().blockUser(currentUser, blocked);
-              changeFriendStatusModel.removeElementAt(ind);
-            }
-        });
-        
-        remove.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              String line = changeFriendStatus.getSelectedValue();
-              int ind = changeFriendStatus.getSelectedIndex();
-              String [] data = line.split(" ");
-              User removed = UserDatabase.getInstance().getUser(data[0]);
-              FriendshipManagement.FriendshipManagementFactory.create().removeFriend(currentUser,removed);
-              changeFriendStatusModel.removeElementAt(ind);
-            } 
-        });
-        
-        
     }
 
     /**
@@ -161,7 +98,7 @@ public class FriendsGui extends javax.swing.JFrame {
         block = new javax.swing.JButton();
         remove = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(friendRequests);
 
@@ -169,7 +106,6 @@ public class FriendsGui extends javax.swing.JFrame {
 
         accept.setBackground(new java.awt.Color(153, 204, 255));
         accept.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        accept.setForeground(new java.awt.Color(0, 0, 0));
         accept.setText("Accept");
         accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,7 +115,6 @@ public class FriendsGui extends javax.swing.JFrame {
 
         decline.setBackground(new java.awt.Color(153, 204, 255));
         decline.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        decline.setForeground(new java.awt.Color(0, 0, 0));
         decline.setText("Decline");
         decline.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,8 +176,12 @@ public class FriendsGui extends javax.swing.JFrame {
 
         addFriend.setBackground(new java.awt.Color(153, 204, 255));
         addFriend.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        addFriend.setForeground(new java.awt.Color(0, 0, 0));
         addFriend.setText("Add Friend");
+        addFriend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFriendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -273,13 +212,21 @@ public class FriendsGui extends javax.swing.JFrame {
 
         block.setBackground(new java.awt.Color(153, 204, 255));
         block.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        block.setForeground(new java.awt.Color(0, 0, 0));
         block.setText("Block");
+        block.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockActionPerformed(evt);
+            }
+        });
 
         remove.setBackground(new java.awt.Color(153, 204, 255));
         remove.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        remove.setForeground(new java.awt.Color(0, 0, 0));
         remove.setText("Remove");
+        remove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -331,16 +278,65 @@ public class FriendsGui extends javax.swing.JFrame {
 
     private void acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptActionPerformed
         // TODO add your handling code here:
+        String line = friendRequests.getSelectedValue();
+        int ind = friendRequests.getSelectedIndex();
+        String[] data = line.split(" ");
+        User requestSender = UserDatabase.getInstance().getUser(data[0]);
+        for (FriendRequest request : requestSender.getUserSentFriendRequests()) {
+            if (request.getRequestReciever().getUserId().equals(currentUser.getUserId())) {
+                currentUser.acceptFriendRequest(request);
+                friendRequestsModel.removeElementAt(ind);
+            }
+        }
     }//GEN-LAST:event_acceptActionPerformed
 
     private void declineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineActionPerformed
         // TODO add your handling code here:
+        String line = friendRequests.getSelectedValue();
+        int ind = friendRequests.getSelectedIndex();
+        String[] data = line.split(" ");
+        User requestSender = UserDatabase.getInstance().getUser(data[0]);
+        for (FriendRequest request : requestSender.getUserSentFriendRequests()) {
+            if (request.getRequestReciever().getUserId().equals(currentUser.getUserId())) {
+                currentUser.declineFriendRequest(request);
+                friendRequestsModel.removeElementAt(ind);
+            }
+        }
     }//GEN-LAST:event_declineActionPerformed
+
+    private void addFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendActionPerformed
+        // TODO add your handling code here:
+        String line = friendSuggestions.getSelectedValue();
+        int ind = friendSuggestions.getSelectedIndex();
+        String[] data = line.split(" ");
+        User suggestion = UserDatabase.getInstance().getUser(data[0]);
+        FriendshipManagement.FriendshipManagementFactory.create().sendFriendRequest(currentUser, suggestion);
+        friendSuggestionsModel.removeElementAt(ind);
+    }//GEN-LAST:event_addFriendActionPerformed
+
+    private void blockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockActionPerformed
+        // TODO add your handling code here:
+        String line = changeFriendStatus.getSelectedValue();
+        int ind = changeFriendStatus.getSelectedIndex();
+        String[] data = line.split(" ");
+        User blocked = UserDatabase.getInstance().getUser(data[0]);
+        FriendshipManagement.FriendshipManagementFactory.create().blockUser(currentUser, blocked);
+        changeFriendStatusModel.removeElementAt(ind);
+    }//GEN-LAST:event_blockActionPerformed
+
+    private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
+        // TODO add your handling code here:
+        String line = changeFriendStatus.getSelectedValue();
+        int ind = changeFriendStatus.getSelectedIndex();
+        String[] data = line.split(" ");
+        User removed = UserDatabase.getInstance().getUser(data[0]);
+        FriendshipManagement.FriendshipManagementFactory.create().removeFriend(currentUser, removed);
+        changeFriendStatusModel.removeElementAt(ind);
+    }//GEN-LAST:event_removeActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept;

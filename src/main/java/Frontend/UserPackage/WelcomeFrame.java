@@ -20,27 +20,11 @@ public class WelcomeFrame extends javax.swing.JFrame {
         initComponents();
         initCustomComponents();
     }
-    
-    private void initCustomComponents(){
+
+    private void initCustomComponents() {
         setTitle("Connect Hub");
         setLocationRelativeTo(null);
         pack();
-        signup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SignupFrame signupframe = new SignupFrame();
-                signupframe.setVisible(true);
-            }
-        });
-        
-        login.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoginFrame loginframe = new LoginFrame();
-                loginframe.setVisible(true);
-            }
-            
-        });
     }
 
     /**
@@ -66,12 +50,15 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        signup.setForeground(new java.awt.Color(0, 0, 0));
         signup.setText("Signup");
+        signup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupActionPerformed(evt);
+            }
+        });
 
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,12 +99,19 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
+        LoginFrame loginframe = new LoginFrame();
+                loginframe.setVisible(true);
     }//GEN-LAST:event_loginActionPerformed
+
+    private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
+        // TODO add your handling code here:
+        SignupFrame signupframe = new SignupFrame();
+        signupframe.setVisible(true);
+    }//GEN-LAST:event_signupActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

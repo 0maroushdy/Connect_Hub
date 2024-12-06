@@ -26,28 +26,11 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         initCustomComponents();
     }
-    
-    private void initCustomComponents(){
+
+    private void initCustomComponents() {
         setTitle("User_login");
         setLocationRelativeTo(null);
         pack();
-        login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String UserId = userid.getText();
-                String passwordd = password.getText();
-                
-                try {
-                    if(UserDatabase.getInstance().userLogin(UserId, passwordd)){
-                        JOptionPane.showMessageDialog(null,"Succeeded to login user","Success",JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null,"Failed to login user","Fail",JOptionPane.INFORMATION_MESSAGE);
-                    } } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
     }
 
     /**
@@ -62,38 +45,33 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         userid = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
         login = new javax.swing.JButton();
+        password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("UserId");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Password");
         jLabel2.setOpaque(true);
 
         userid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        password.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
-            }
-        });
-
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
+        login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,11 +79,11 @@ public class LoginFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(password))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -122,33 +100,47 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userid, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
-                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(password))
+                .addGap(29, 29, 29)
                 .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
+        String UserId = userid.getText();
+        String passwordd = new String(password.getPassword());
+
+        try {
+            if (UserDatabase.getInstance().userLogin(UserId, passwordd)) {
+                JOptionPane.showMessageDialog(null, "Succeeded to login user", "Success", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                FriendsGui friendsGUI = new FriendsGui();
+                friendsGUI.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loginActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton login;
-    private javax.swing.JTextField password;
+    private javax.swing.JPasswordField password;
     private javax.swing.JTextField userid;
     // End of variables declaration//GEN-END:variables
 }
