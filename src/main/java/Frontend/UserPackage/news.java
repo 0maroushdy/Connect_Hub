@@ -102,7 +102,7 @@ public class News extends javax.swing.JFrame {
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
-        refreshButton.addActionListener(e -> refreshContent());
+        refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
         button3.addActionListener(e -> JOptionPane.showMessageDialog(this, "Button 3 clicked!"));
 
         // Add buttons to the panel
@@ -241,7 +241,8 @@ private JPanel friendComp(User friend) {
         panel5.removeAll();
         ContentDataBase.getInstance().save();
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-        //ProfileDatabase.getInstance().loadProfilesFromFile(PROFILEFILE);
+       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
         JPanel friendListPanel = new JPanel();
     friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
     
