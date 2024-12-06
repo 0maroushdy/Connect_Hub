@@ -4,9 +4,12 @@
  */
 package Backend.UserProfilePackage;
 
+import Backend.UserPackage.HashingUtil;
+import Backend.UserPackage.UserDatabase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
 import org.json.JSONException;
@@ -63,7 +66,7 @@ public final class ProfileDatabase {
                 return saveProfilesToFile("profiles.json");
             }
         }
-        return false; // Profile not found
+        return false; 
     }
 
     public boolean deleteProfile(String userId) {
@@ -112,4 +115,25 @@ public final class ProfileDatabase {
             System.err.println("Error loading profiles from file: " + e.getMessage());
         }
     }
+    
+    // ---------- ** password updaing & verificatoin ** --------------
+    public boolean verifyPassword(String userId, String hashedOldPassword) throws NoSuchAlgorithmException{
+        String OldPass = UserDatabase.getInstance().getUser(userId).getUserPassword();
+        String ComparablePass = HashingUtil.generateUserHashedPassword(hashedOldPassword);
+        if(OldPass == ComparablePass)
+            return true;
+        return false;
+    }
+    
+    public boolean updatePassword (String userId, String Password) throws NoSuchAlgorithmException{
+        UserDatabase.getInstance().getUser(userId).setUserPassword(Password);
+//        UserDatabase.getInstance().saveUsersToFile(userId); // must be a saving method !!-------- working on
+        return true;
+    }
+    
+    public boolean saveUser (String userId){
+        UserDatabase.getInstance().saveUsersToFile(userId); // must be a saving method !!-------- working on
+        return true;
+    }
+    
 }
