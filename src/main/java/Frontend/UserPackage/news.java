@@ -1,5 +1,6 @@
 package Frontend.UserPackage;
 
+import Frontend.ContentPackage.CreateContentP;
 import Backend.UserPackage.User;
 import Backend.UserPackage.FriendshipManagement;
 import Backend.ContentPackage.Post;
@@ -239,6 +240,7 @@ public class news extends javax.swing.JFrame {
 //            JPanel component = friendComp(friend);
 //            panel3.add(component);
 //        }
+        panel4.add(new CreateContentP());
 
         panel1.revalidate();
         panel2.revalidate();
