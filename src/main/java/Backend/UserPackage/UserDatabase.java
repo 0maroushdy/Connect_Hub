@@ -82,7 +82,6 @@ public final class UserDatabase {
                 user.setUserStatus("online");
                 UserSignupSingleton.getInstance().setUser(user);
                 saveUsersToFile(USERFILE);
-                MainUser.setMainUser(user);
                 return true;
             }
         }

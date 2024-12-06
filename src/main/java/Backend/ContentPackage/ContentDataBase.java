@@ -31,53 +31,65 @@ import org.json.JSONTokener;
  */
 public class ContentDataBase {
 
-    private final ArrayList<Post> posts = new ArrayList<>();
-    private final ArrayList<Story> stories = new ArrayList<>();
-    private static final ContentDataBase dataBase = new ContentDataBase();
+    private final ArrayList<Post> posts;
+    private final ArrayList<Story> stories;
+    private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
 
     private static int id = 0;
 
     private ContentDataBase() {
-        this.load();
+        this.posts = new ArrayList<>();
+        this.stories = new ArrayList<>();
+        
         this.scheduler = Executors.newScheduledThreadPool(1);
-        this.scheduler.schedule(
-                () -> this.removeStory(),
-                1, TimeUnit.HOURS
+        this.scheduler.scheduleAtFixedRate(
+                this::removeStory,
+                1, 1, TimeUnit.HOURS
         );
     }
 
-    public static ContentDataBase getInstance() {
+    public synchronized static ContentDataBase getInstance() {
+        if(ContentDataBase.dataBase == null){
+            ContentDataBase.dataBase = new ContentDataBase();
+            ContentDataBase.dataBase.load();
+        }
         return ContentDataBase.dataBase;
     }
 
-    public void addContent(Post cont) {
+    public synchronized void addContent(Post cont) {
         this.posts.add(cont);
     }
 
-    public void addContent(Story cont) {
+    public synchronized void addContent(Story cont) {
         this.stories.add(cont);
         this.save();
     }
 
-    private void removeStory() {
+    private synchronized void removeStory() {
+         System.out.println("Scheduled remove stories");
+
+        ArrayList<Story> storiesToRemove = new ArrayList<>();
         for (Story s : this.stories) {
             Duration duration = Duration.between(s.getTimeOfUpload(), LocalDateTime.now());
             if (duration.toHours() >= 24) {
-                this.stories.remove(s);
+                storiesToRemove.add(s);
             }
         }
+
+        this.stories.removeAll(storiesToRemove);
+        this.save();
     }
 
-    protected ArrayList<Post> getPosts() {
-        return posts;
+    public synchronized ArrayList<Post> getPosts() {
+        return new ArrayList<>(posts);
     }
 
-    protected ArrayList<Story> getStories() {
-        return stories;
+    public synchronized ArrayList<Story> getStories() {
+        return new ArrayList<>(stories);
     }
 
-    public ArrayList<Post> getFriendsPosts(User user) {
+    public synchronized ArrayList<Post> getFriendsPosts(User user) {
         ArrayList<Post> friendsPosts = new ArrayList<>();
         for (Post post : this.posts) {
             if (user.getUserFriends().contains(post.getAuthor())) {
@@ -87,7 +99,7 @@ public class ContentDataBase {
         return friendsPosts;
     }
 
-    public ArrayList<Story> getFriendsStories(User user) {
+    public synchronized ArrayList<Story> getFriendsStories(User user) {
         ArrayList<Story> friendsStories = new ArrayList<>();
         for (Story story : this.stories) {
             if (user.getUserFriends().contains(story.getAuthor())) {
@@ -102,7 +114,7 @@ public class ContentDataBase {
         return ContentDataBase.id;
     }
 
-    protected final void load() {
+    protected synchronized final void load() {
 
         try (BufferedReader storiesFile = new BufferedReader(new FileReader(STORYFILE)); BufferedReader postsFile = new BufferedReader(new FileReader(POSTFILE))) {
 
@@ -128,7 +140,7 @@ public class ContentDataBase {
         }
     }
 
-    public void save() {
+    public synchronized void save() {
 
         JSONArray storiesJSON = new JSONArray();
         this.stories.forEach(story -> storiesJSON.put(story.toJSON()));
@@ -145,11 +157,11 @@ public class ContentDataBase {
         }
     }
 
-    public void shutDown(){
+    public void shutDown() {
         System.out.println("Saving content database");
-            this.save();
-            
-            System.out.println("Shutting down scheduler...");
-            scheduler.shutdownNow();
+        this.save();
+
+        System.out.println("Shutting down scheduler...");
+        scheduler.shutdownNow();
     }
 }
