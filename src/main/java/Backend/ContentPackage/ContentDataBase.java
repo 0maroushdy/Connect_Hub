@@ -59,6 +59,7 @@ public class ContentDataBase implements AutoCloseable {
 
     public void addContent(Story cont) {
         this.stories.add(cont);
+        this.save();
     }
 
     private void removeStory() {
@@ -94,26 +95,6 @@ public class ContentDataBase implements AutoCloseable {
         return friendsStories;
     }
 
-    public ArrayList<Post> getFriendsPosts(User user) {
-        ArrayList<Post> friendsPosts = new ArrayList<>();
-        for (Post post : this.posts) {
-            if (user.getUserFriends().contains(post.getAuthor())) {
-                friendsPosts.add(post);
-            }
-        }
-        return friendsPosts;
-    }
-
-    public ArrayList<Story> getFriendsStories(User user) {
-        ArrayList<Story> friendsStories = new ArrayList<>();
-        for (Story story : this.stories) {
-            if (user.getUserFriends().contains(story.getAuthor())) {
-                friendsStories.add(story);
-            }
-        }
-        return friendsStories;
-    }
-
     public synchronized static int getUniqueId() {
         ContentDataBase.id += 1;
         return ContentDataBase.id;
@@ -139,7 +120,7 @@ public class ContentDataBase implements AutoCloseable {
 
             System.out.println("Data loaded successfully.");
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println("Either posts file or story file have invalid JSON syntax");
         } catch (IOException e) {
 
         }

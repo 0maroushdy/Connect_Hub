@@ -29,7 +29,7 @@ public class Story extends AContent {
     public static Story fromJSON(JSONObject jsonObject) {
         User author = UserDatabase.getInstance().getUserFromId(jsonObject.getString("authorId"));
         Story story = new Story(author);
-        story.setText(jsonObject.optString("text", null));
+        story.setText(jsonObject.getString("text"));
         story.setImagePath(jsonObject.optString("imagePath", null));
 
         String timeOfUploadStr = jsonObject.getString("timestamp");
