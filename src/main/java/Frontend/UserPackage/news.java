@@ -15,8 +15,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.border.Border;
 
-public class news extends javax.swing.JFrame {
+public class News extends javax.swing.JFrame {
 
     private JPanel panel1;
     private JPanel panel2;
@@ -24,7 +25,7 @@ public class news extends javax.swing.JFrame {
     private JPanel panel4;
     private JPanel panel5;
 
-    public news() throws IOException {
+    public News() throws IOException {
         panel1 = new JPanel();
         panel2 = new JPanel();
         panel3 = new JPanel();
@@ -35,7 +36,7 @@ public class news extends javax.swing.JFrame {
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -184,76 +185,113 @@ public class news extends javax.swing.JFrame {
         return panel;
     }
 
-    private JPanel friendComp(User friend) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+private JPanel friendComp(User friend) {
+    JPanel panel = new JPanel(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
 
-        // Load the user's image and scale it to 50x50 dimensions
-        JLabel imageLabel = new JLabel();
-        try {
-            BufferedImage image = ImageIO.read(new File("C:\\New folder\\news\\src\\main\\resources\\Main_bg.png"));
-            Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledImage));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // Create labels for the username and status
-        JLabel usernameLabel = new JLabel(""); // Assuming the User class has a getUsername() method
-        JLabel statusLabel = new JLabel(""); // Assuming the User class has a getStatus() method
+    // Load the user's image and scale it to 50x50 dimensions
+    JLabel imageLabel = new JLabel();
+    try {
+        BufferedImage image = ImageIO.read(new File("C:\\New folder\\New folder (9)\\Connect_Hub\\src\\main\\java\\Frontend\\download1.jpeg"));
+        Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(scaledImage));
+    } catch (IOException e) {
+        e.printStackTrace();
 
-        // Set the layout and add components
-        panel.setLayout(new BorderLayout());
-        panel.add(imageLabel, BorderLayout.WEST);
-
-        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        centerPanel.add(usernameLabel);
-        panel.add(centerPanel, BorderLayout.CENTER);
-
-        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        rightPanel.add(statusLabel);
-        panel.add(rightPanel, BorderLayout.EAST);
-
-        return panel;
     }
 
-    private void refreshContent() {
-        panel1.removeAll();
-        panel2.removeAll();
-        panel3.removeAll();
-        panel4.removeAll();
-        panel5.removeAll();
+    // Create labels for the username and status
+    JLabel usernameLabel = new JLabel(friend.getUsername()); 
+    JLabel statusLabel = new JLabel(friend.getUserStatus());
 
-        for (Post post : ContentDataBase.getInstance().getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
-            JPanel component = postComp(post);
-            panel2.add(component);
-        }
-        for (Story story : ContentDataBase.getInstance().getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
-            JPanel component = sroryComp(story);
-            panel5.add(component);
-        }
-//        for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
-//            JPanel component = friendComp(friend);
-//            panel1.add(component);
-//        }
-//        for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
-//            JPanel component = friendComp(friend);
-//            panel3.add(component);
-//        }
-        panel4.add(new CreateContentP());
+    // Set constraints and add the image to the panel
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.WEST;
+    gbc.insets = new Insets(0, 0, 0, 50); // Right padding for space between image and username
+    panel.add(imageLabel, gbc);
 
-        panel1.revalidate();
-        panel2.revalidate();
-        panel3.revalidate();
-        panel4.revalidate();
-        panel5.revalidate();
+    // Set constraints and add the username to the panel
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.insets = new Insets(0, 20, 0, 0); // Right padding for space between username and status
+    panel.add(usernameLabel, gbc);
 
-        panel1.repaint();
-        panel2.repaint();
-        panel3.repaint();
-        panel4.repaint();
-        panel5.repaint();
+    // Set constraints and add the status to the panel
+    gbc.gridx = 2;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.EAST;
+    gbc.insets = new Insets(0, 500, 0,0); // No additional padding
+    panel.add(statusLabel, gbc);
+
+    return panel;
+}
+
+
+private void refreshContent() {
+    panel1.removeAll();
+    panel2.removeAll();
+    panel3.removeAll();
+    panel4.removeAll();
+    panel5.removeAll();
+
+    JPanel friendListPanel = new JPanel();
+    friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
+    
+    JPanel postsPanel = new JPanel();
+    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
+    
+    JPanel storiesPanel = new JPanel();
+    storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
+    
+    JPanel suggestionsPanel = new JPanel();
+    suggestionsPanel.setLayout(new BoxLayout(suggestionsPanel, BoxLayout.Y_AXIS));
+
+    for (Post post : ContentDataBase.getInstance().getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
+        JPanel component = postComp(post);
+        postsPanel.add(component, 0); // Add to the top
     }
+    for (Story story : ContentDataBase.getInstance().getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
+        JPanel component = sroryComp(story);
+        storiesPanel.add(component, 0); // Add to the top
+    }
+    for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+        JPanel component = friendComp(friend);
+        component.setBackground(Color.white);
+        friendListPanel.add(component, 0); // Add to the top
+    }
+    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+        JPanel component = friendComp(friend);
+        component.setBackground(Color.white);
+        Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
+        Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
+        suggestionsPanel.add(component, 0); // Add to the top
+        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+        component.setBorder(lineBorder);
+    }
+
+    panel1.add(friendListPanel);
+    panel2.add(postsPanel);
+    panel3.add(suggestionsPanel);
+    panel4.add(new CreateContentP());
+    panel5.add(storiesPanel);
+
+    panel1.revalidate();
+    panel2.revalidate();
+    panel3.revalidate();
+    panel4.revalidate();
+    panel5.revalidate();
+
+    panel1.repaint();
+    panel2.repaint();
+    panel3.repaint();
+    panel4.repaint();
+    panel5.repaint();
+}
+
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
@@ -265,6 +303,6 @@ public class news extends javax.swing.JFrame {
     }
 
     public static void main(String[] args) throws IOException {
-        new news();
+        new News();
     }
 }
