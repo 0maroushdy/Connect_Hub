@@ -53,6 +53,7 @@ public class ContentDataBase {
 
     public void addContent(Post cont) {
         this.posts.add(cont);
+        this.save();
     }
 
     public void addContent(Story cont) {
@@ -102,7 +103,7 @@ public class ContentDataBase {
         return ContentDataBase.id;
     }
 
-    protected final void load() {
+    public final void load() {
 
         try (BufferedReader storiesFile = new BufferedReader(new FileReader(STORYFILE)); BufferedReader postsFile = new BufferedReader(new FileReader(POSTFILE))) {
 

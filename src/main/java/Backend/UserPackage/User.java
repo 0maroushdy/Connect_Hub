@@ -5,6 +5,7 @@
 package Backend.UserPackage;
 
 import Backend.UserProfilePackage.UserProfile;
+import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -116,7 +117,8 @@ public class User {
    }
    
   public void userLogout(){
-      this.status = "offline";
+     setUserStatus("offline");
+     UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   
   public JSONObject toJSON(){
@@ -127,7 +129,6 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
-      jsonObject.put("Status",this.status);
       return jsonObject;
   }
   
