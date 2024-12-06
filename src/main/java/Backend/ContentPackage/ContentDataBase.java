@@ -23,30 +23,28 @@ import org.json.JSONTokener;
 
 /*TODO
 1- sync this class
-2- Runtime.getRuntime().addShutdownHook(new Thread(() -> saveData(data)));
-or scheduler.schedule
 3- make id generator a diff class or use uuid
  */
 /**
  *
  * @author moustafa
  */
-public class ContentDataBase implements AutoCloseable {
+public class ContentDataBase {
 
     private final ArrayList<Post> posts = new ArrayList<>();
     private final ArrayList<Story> stories = new ArrayList<>();
     private static final ContentDataBase dataBase = new ContentDataBase();
-//    private final ScheduledExecutorService scheduler;
+    private final ScheduledExecutorService scheduler;
 
     private static int id = 0;
 
     private ContentDataBase() {
         this.load();
-//        this.scheduler = Executors.newScheduledThreadPool(1);
-//        this.scheduler.schedule(
-//                () -> this.removeStory(),
-//                1, TimeUnit.HOURS
-//        );
+        this.scheduler = Executors.newScheduledThreadPool(1);
+        this.scheduler.schedule(
+                () -> this.removeStory(),
+                1, TimeUnit.HOURS
+        );
     }
 
     public static ContentDataBase getInstance() {
@@ -78,19 +76,23 @@ public class ContentDataBase implements AutoCloseable {
     protected ArrayList<Story> getStories() {
         return stories;
     }
-    
-    public ArrayList <Post> getFriendsPosts(User user){
-        ArrayList <Post> friendsPosts = new ArrayList<>();
-        for(Post post:this.posts){
-            if(user.getUserFriends().contains(post.getAuthor())) friendsPosts.add(post);
+
+    public ArrayList<Post> getFriendsPosts(User user) {
+        ArrayList<Post> friendsPosts = new ArrayList<>();
+        for (Post post : this.posts) {
+            if (user.getUserFriends().contains(post.getAuthor())) {
+                friendsPosts.add(post);
+            }
         }
         return friendsPosts;
     }
-    
-    public ArrayList <Story> getFriendsStories(User user){
-        ArrayList <Story> friendsStories= new ArrayList<>();
-        for(Story story:this.stories){
-            if(user.getUserFriends().contains(story.getAuthor())) friendsStories.add(story);
+
+    public ArrayList<Story> getFriendsStories(User user) {
+        ArrayList<Story> friendsStories = new ArrayList<>();
+        for (Story story : this.stories) {
+            if (user.getUserFriends().contains(story.getAuthor())) {
+                friendsStories.add(story);
+            }
         }
         return friendsStories;
     }
@@ -143,10 +145,11 @@ public class ContentDataBase implements AutoCloseable {
         }
     }
 
-    @Override
-    public void close() {
-//        this.save();
-//        this.scheduler.shutdown();
-        System.out.println("Scheduler shutdown.");
+    public void shutDown(){
+        System.out.println("Saving content database");
+            this.save();
+            
+            System.out.println("Shutting down scheduler...");
+            scheduler.shutdownNow();
     }
 }

@@ -4,10 +4,7 @@
  */
 package Frontend.UserPackage;
 
-import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

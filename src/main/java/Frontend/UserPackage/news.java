@@ -7,6 +7,7 @@ import Backend.ContentPackage.Post;
 import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
+import Files.FILEPATHS;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -41,7 +42,7 @@ public class news extends javax.swing.JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Load the image as a BufferedImage
-        BufferedImage image = ImageIO.read(new File("C:\\New folder\\news\\src\\main\\resources\\Main_bg.png"));
+        BufferedImage image = ImageIO.read(new File(FILEPATHS.ROCKLY));
 
         // Create an ImageIcon from the BufferedImage
         ImageIcon icon = new ImageIcon(image.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -191,7 +192,7 @@ public class news extends javax.swing.JFrame {
         // Load the user's image and scale it to 50x50 dimensions
         JLabel imageLabel = new JLabel();
         try {
-            BufferedImage image = ImageIO.read(new File("C:\\New folder\\news\\src\\main\\resources\\Main_bg.png"));
+            BufferedImage image = ImageIO.read(new File(FILEPATHS.ROCKLY));
             Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(scaledImage));
         } catch (IOException e) {
