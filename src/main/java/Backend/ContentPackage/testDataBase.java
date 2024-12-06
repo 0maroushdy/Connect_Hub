@@ -16,7 +16,7 @@ public class testDataBase {
     public static void main(String[] args) throws NoSuchAlgorithmException {
         
         
-        User u = User.UserFactory.create("moustafa@gmail.com","moustafa","123",LocalDate.now());
+        User u = User.UserFactory.create("moustafa@gmail.com","moustafa","123",LocalDate.now(),"Online");
         (new Story(u)).uplode();
         
         System.out.println(ContentDataBase.getInstance().getStories());
