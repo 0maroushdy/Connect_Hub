@@ -8,12 +8,15 @@ package Frontend.ContentPackage;
  *
  * @author moustafa
  */
+import Backend.UserPackage.UserSignupSingleton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class testFrame extends JFrame {
 
     public testFrame() {
+        UserSignupSingleton.getInstance().setUser(new Backend.UserPackage.User());
+        
         setTitle("Content Frame");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

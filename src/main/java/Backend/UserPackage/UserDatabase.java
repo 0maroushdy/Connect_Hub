@@ -82,7 +82,6 @@ public final class UserDatabase {
                 user.setUserStatus("online");
                 UserSignupSingleton.getInstance().setUser(user);
                 saveUsersToFile(USERFILE);
-                MainUser.setMainUser(user);
                 return true;
             }
         }
@@ -119,7 +118,7 @@ public final class UserDatabase {
                 String userId = jsonObject.getString("UserId");
                 String password = jsonObject.getString("Password");
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-                addUser(User.UserFactory.create(email, username, password, date));
+                addUser(User.UserFactory.create(email, username, password, date,status));
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());

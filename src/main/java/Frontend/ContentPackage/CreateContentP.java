@@ -4,9 +4,10 @@
  */
 package Frontend.ContentPackage;
 
+import Backend.ContentPackage.ContentDataBase;
 import Backend.ContentPackage.Post;
 import Backend.ContentPackage.Story;
-import Backend.UserPackage.MainUser;
+import Backend.UserPackage.UserSignupSingleton;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -133,7 +134,7 @@ public class CreateContentP extends javax.swing.JPanel {
         }
 
         //Construct (builder)
-        Post post = new Post(MainUser.getMainUser());
+        Post post = new Post(UserSignupSingleton.getInstance().getUser());
 
         post.setText(jTextArea1.getText());
 
@@ -141,8 +142,9 @@ public class CreateContentP extends javax.swing.JPanel {
             post.setImagePath(this.selectedFile.getAbsolutePath());
         }
         //
-
+        System.out.println("uploading post...");
         post.uplode();
+        System.out.println(ContentDataBase.getInstance().getPosts());
     }//GEN-LAST:event_uploadPostEvent
 
     private void uploadStoryEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadStoryEvent
@@ -156,7 +158,7 @@ public class CreateContentP extends javax.swing.JPanel {
         }
 
         //Construct (builder)
-        Story story = new Story(MainUser.getMainUser());
+        Story story = new Story(UserSignupSingleton.getInstance().getUser());
 
         story.setText(jTextArea1.getText());
 
@@ -165,7 +167,10 @@ public class CreateContentP extends javax.swing.JPanel {
         }
         //
 
+        System.out.println("uploading story...");
         story.uplode();
+                System.out.println(ContentDataBase.getInstance().getStories());
+
     }//GEN-LAST:event_uploadStoryEvent
 
 

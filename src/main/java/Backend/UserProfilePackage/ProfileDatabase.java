@@ -13,18 +13,17 @@ import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
 import org.json.JSONException;
+
 /**
  *
  * @author Omar
  */
-
 public final class ProfileDatabase {
 
     private static ProfileDatabase userProfileDatabase;
     private ArrayList<UserProfile> profiles;
     private static int uniqueCounter;
-    
-    
+
     // --- Singleton Pattern Applying  ---------------
     private ProfileDatabase() {
         this.profiles = new ArrayList<>();
@@ -41,7 +40,7 @@ public final class ProfileDatabase {
     public ArrayList<UserProfile> getProfiles() {
         return this.profiles;
     }
-
+//
     public boolean saveProfile(String userId, JSONObject profileData) {
         UserProfile profile = new UserProfile(userId, profileData);
         this.profiles.add(profile);
@@ -54,29 +53,28 @@ public final class ProfileDatabase {
                 return profile.toJSON();
             }
         }
-        return null; 
+        return null;
     }
 
-    
     // -----------** Updaters **-----------
-    public boolean updateProfileField(String userId, String field, Object value) {
-        for (UserProfile profile : this.profiles) {
-            if (profile.getUserId().equals(userId)) {
-                profile.updateField(field, value);
-                return saveProfilesToFile("profiles.json");
-            }
+    public boolean updateProfileField(String userId, String field, String value) {
+        UserProfile profile = this.getUserProfile(userId);
+        if (profile == null) {
+            return false;
         }
-        return false; 
+        
+        profile.updateField(field, value);
+        return saveProfilesToFile("profiles.json");
     }
 
     public boolean deleteProfile(String userId) {
-        for (UserProfile profile : this.profiles) {
-            if (profile.getUserId().equals(userId)) {
-                this.profiles.remove(profile);
-                return saveProfilesToFile("profiles.json");
-            }
+        UserProfile profile = this.getUserProfile(userId);
+        if (profile == null) {
+            return false;
         }
-        return false; 
+
+        this.profiles.remove(profile);
+        return saveProfilesToFile("profiles.json");
     }
 
     // -----** Saving all profiles into a file ** -------
@@ -115,25 +113,32 @@ public final class ProfileDatabase {
             System.err.println("Error loading profiles from file: " + e.getMessage());
         }
     }
-    
+
     // ---------- ** password updaing & verificatoin ** --------------
-    public boolean verifyPassword(String userId, String hashedOldPassword) throws NoSuchAlgorithmException{
-        String OldPass = UserDatabase.getInstance().getUser(userId).getUserPassword();
-        String ComparablePass = HashingUtil.generateUserHashedPassword(hashedOldPassword);
-        if(OldPass == ComparablePass)
-            return true;
-        return false;
+    public boolean verifyPassword(String userId, String hashedQueryPassword) throws NoSuchAlgorithmException {
+        String Password = UserDatabase.getInstance().getUser(userId).getUserPassword();
+        String queryPass = HashingUtil.generateUserHashedPassword(hashedQueryPassword);
+        
+        return Password.equals(queryPass);
     }
-    
-    public boolean updatePassword (String userId, String Password) throws NoSuchAlgorithmException{
+
+    public boolean updatePassword(String userId, String Password) throws NoSuchAlgorithmException {
         UserDatabase.getInstance().getUser(userId).setUserPassword(Password);
-//        UserDatabase.getInstance().saveUsersToFile(userId); // must be a saving method !!-------- working on
+        this.saveUser(userId);
         return true;
     }
-    
-    public boolean saveUser (String userId){
+
+    public boolean saveUser(String userId) {
         UserDatabase.getInstance().saveUsersToFile(userId); // must be a saving method !!-------- working on
         return true;
     }
-    
+
+    private UserProfile getUserProfile(String userId) {
+        for (UserProfile profile : this.profiles) {
+            if (profile.getUserId().equals(userId)) {
+                return profile;
+            }
+        }
+        return null;
+    }
 }

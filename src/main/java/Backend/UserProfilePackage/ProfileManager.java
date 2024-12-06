@@ -34,8 +34,7 @@ public class ProfileManager implements IProfileUpdater {
     }
 
     @Override
-    public boolean updateBio(String userId, String bio) throws Exception {
-        if (bio.length() > 250) throw new Exception("Bio exceeds 250 characters");
+    public boolean updateBio(String userId, String bio){
         return database.updateProfileField(userId, "profileBio", bio);
     }
 
