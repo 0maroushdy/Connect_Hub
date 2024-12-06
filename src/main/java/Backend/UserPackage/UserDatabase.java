@@ -80,7 +80,9 @@ public final class UserDatabase {
         for (User user : this.users) {
             if (user.getUserId().equals(userId) && user.getUserPassword().equals(HashingUtil.generateUserHashedPassword(password))) {
                 user.setUserStatus("online");
+                UserSignupSingleton.getInstance().setUser(user);
                 saveUsersToFile(USERFILE);
+                MainUser.setMainUser(user);
                 return true;
             }
         }

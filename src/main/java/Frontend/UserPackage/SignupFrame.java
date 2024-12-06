@@ -4,21 +4,13 @@
  */
 package Frontend.UserPackage;
 
-import Backend.UserPackage.User;
-import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -37,77 +29,8 @@ public class SignupFrame extends javax.swing.JFrame {
     
      private void initCustomComponents(){
          setTitle("User_signup");
-         
-         
-        signup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               try {
-            
-            // Collecting non-numeric fields (username, email, password)
-            String Email = email.getText();
-            String Password = password.getText();
-            String Username = username.getText();
-
-            // Validate and parse day, month, and year
-            String stringdays = day.getText();
-            int days = 0;
-            try {
-                days = Integer.parseInt(stringdays);
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "Invalid day format. Please enter a valid number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (days < 1 || days > 31) {
-                JOptionPane.showMessageDialog(null, "Day must be between 1 and 31.", "Invalid Day", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String stringmonths = month.getText();
-            int months = 0;
-            try {
-                months = Integer.parseInt(stringmonths);
-            } catch (NumberFormatException nfe) {
-                JOptionPane.showMessageDialog(null, "Invalid month format. Please enter a valid number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (months < 1 || months > 12) {
-                JOptionPane.showMessageDialog(null, "Month must be between 1 and 12.", "Invalid Month", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String stringyear = year.getText();
-            if (stringyear.length() != 4) {
-                JOptionPane.showMessageDialog(null, "Year must be a 4-digit number.", "Invalid Year", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Ensure day and month have two digits
-            String formattedDay = String.format("%02d", days);  // Adds leading zero if necessary
-            String formattedMonth = String.format("%02d", months);  // Adds leading zero if necessary
-
-            // Combine and parse the date
-            String date = formattedDay + "-" + formattedMonth + "-" + stringyear;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate localDate = LocalDate.parse(date, formatter);
-
-            // Proceed with the user signup process
-            
-            
-            if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, localDate)) {
-                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                FriendsGui friendsGUI = new FriendsGui();
-                friendsGUI.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    });
+         setLocationRelativeTo(null);
+         pack();
     }
 
     /**
@@ -125,13 +48,11 @@ public class SignupFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
         signup = new javax.swing.JButton();
-        month = new javax.swing.JTextField();
-        day = new javax.swing.JTextField();
-        year = new javax.swing.JTextField();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
+        password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -161,20 +82,14 @@ public class SignupFrame extends javax.swing.JFrame {
 
         email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        password.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         signup.setText("Signup");
-
-        month.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        month.setText("mm");
-
-        day.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        day.setText("dd");
-
-        year.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        year.setText("yyyy");
+        signup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,38 +98,38 @@ public class SignupFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(signup, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(day, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                                        .addComponent(password)
+                                        .addGap(18, 18, 18))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(signup, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -223,22 +138,45 @@ public class SignupFrame extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(password))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(day)
-                    .addComponent(month)
-                    .addComponent(year))
-                .addGap(18, 18, 18)
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(signup, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
+        // TODO add your handling code here:
+        try {
+            
+            // Collecting non-numeric fields (username, email, password)
+            String Email = email.getText();
+            String Password = new String(password.getPassword());
+            String Username = username.getText();
+            LocalDate date = jCalendar1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Proceed with the user signup process
+            if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
+                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                FriendsGui friendsGUI = new FriendsGui();
+                friendsGUI.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_signupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,16 +184,14 @@ public class SignupFrame extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField day;
     private javax.swing.JTextField email;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField month;
-    private javax.swing.JTextField password;
+    private javax.swing.JPasswordField password;
     private javax.swing.JButton signup;
     private javax.swing.JTextField username;
-    private javax.swing.JTextField year;
     // End of variables declaration//GEN-END:variables
 }

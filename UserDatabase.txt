@@ -1,0 +1,8 @@
+[{
+    "DateOfBirth": "2004-01-10",
+    "Status": "online",
+    "Email": "moustafa@gmail.com",
+    "Username": "moustafa",
+    "UserId": "moustafa-1",
+    "Password": "3e0a3501a65b4a7bf889c6f180cc6e35747e5aaff931cc90b760671efa09aeac"
+}]

@@ -81,15 +81,13 @@ public abstract class AContent {
         jsonObject.put("contentId", this.contentId);
         jsonObject.put("authorId", this.author.getUserId());
 
-        jsonObject.put("text", this.text != null ? this.text : JSONObject.NULL);
+        jsonObject.put("text", this.text);
         jsonObject.put("imagePath", this.imagePath != null ? this.imagePath : JSONObject.NULL);        
         
         jsonObject.put("timestamp", this.getTimestamp());
 
         return jsonObject;
     }
-
-
 
     public abstract void uplode();
 }

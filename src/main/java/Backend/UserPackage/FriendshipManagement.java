@@ -50,7 +50,7 @@ public class FriendshipManagement {
     public Set <User> suggestFriends(User user){
         Set <User> suggestions = new HashSet<>();
         for(User differentUser:UserDatabase.getInstance().getUsers()){
-            if(!user.getUserFriends().contains(differentUser) && !user.getUserBlockedUsers().contains(differentUser)) suggestions.add(differentUser);
+            if(!user.getUserFriends().contains(differentUser) && !user.getUserBlockedUsers().contains(differentUser) && !user.equals(differentUser)) suggestions.add(differentUser);
         }
         return suggestions;
     }

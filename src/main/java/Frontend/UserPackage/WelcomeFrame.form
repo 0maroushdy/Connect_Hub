@@ -79,6 +79,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Signup"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signupActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="login">
       <Properties>

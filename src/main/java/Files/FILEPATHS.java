@@ -12,4 +12,5 @@ public interface FILEPATHS {
     String STORYFILE = "DataBase/Content/stories.json";
     String POSTFILE = "DataBase/Content/posts.json";
     String USERFILE = "DataBase/User/UserDatabase.json";
+    String ROCKLY = "resources/GLOBEG_Icon.png";
 }
