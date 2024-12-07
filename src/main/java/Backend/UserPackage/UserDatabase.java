@@ -22,26 +22,27 @@ import java.time.format.DateTimeFormatter;
 public final class UserDatabase {
 
     private static UserDatabase user_database;
-    private ArrayList<User> users;
-    private static int uniqueCounter;
+    private  ArrayList <User> users;
+    private int uniqueCounter;
 
     private UserDatabase() {
         this.users = new ArrayList<>();
+        uniqueCounter = 1;
     }
 
     public int getUniqueCounter() {
-        return UserDatabase.uniqueCounter;
+        return uniqueCounter;
     }
 
     public static synchronized UserDatabase getInstance() {
         if (user_database == null) {
             user_database = new UserDatabase();
-            UserDatabase.uniqueCounter = 1;
+            
         }
         return user_database;
     }
 
-    public ArrayList<User> getUsers() {
+    public ArrayList <User> getUsers() {
         return this.users;
     }
 
@@ -144,10 +145,10 @@ public final class UserDatabase {
                     System.err.println("Invalid UserId format: " + userId);
                 }
             }
-            addUser(User.UserFactory.create(email, username, password, date, status, false));
+            addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
         }
         // Update uniqueCounter to avoid duplicates
-          UserDatabase.uniqueCounter = maxCounter + 1;
+          uniqueCounter = maxCounter + 1;
         
     } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());
@@ -157,6 +158,7 @@ public final class UserDatabase {
 }
     
     public void reloadUsersFromFile(String filePath) {
+        this.users = new ArrayList <>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             StringBuilder jsonBuilder = new StringBuilder();
             String line;
@@ -174,14 +176,13 @@ public final class UserDatabase {
                 String userId = jsonObject.getString("UserId");
                 String password = jsonObject.getString("Password");
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-                temp.add(User.UserFactory.create(email, username, password, date, status,false));
+                temp.add(User.UserFactory.create(userId,email, username, password, date, status,false));
             }
-            
             this.users = temp;
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Error parsing JSON: " + e.getMessage());
         }
-    }
+    }  
 }

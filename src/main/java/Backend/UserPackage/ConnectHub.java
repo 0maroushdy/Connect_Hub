@@ -6,6 +6,7 @@ package Backend.UserPackage;
 
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.WelcomeFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,6 +20,10 @@ public class ConnectHub {
     public static void main(String[] args) {
         // TODO code application logic here
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        System.out.println(UserDatabase.getInstance().getUniqueCounter());
+        for(User user:UserDatabase.getInstance().getUsers()){
+            System.out.println(user.userToString());
+        }
         WelcomeFrame frame = new WelcomeFrame();
         frame.setVisible(true);
         

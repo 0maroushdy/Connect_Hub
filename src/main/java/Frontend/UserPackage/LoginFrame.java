@@ -130,19 +130,17 @@ private WelcomeFrame welcomeFrame;
         try {
             if (UserDatabase.getInstance().userLogin(email, passwordd)) {           
                 JOptionPane.showMessageDialog(null, "User has been logged in successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                
                 this.dispose();
                 this.welcomeFrame.dispose();
-                
-                News news = new News();
-                news.setVisible(true);
+               News news = new News();
+               news.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginActionPerformed
 

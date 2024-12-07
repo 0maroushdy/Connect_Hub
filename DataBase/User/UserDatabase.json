@@ -14,5 +14,21 @@
         "Username": "omar",
         "UserId": "omar-2",
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "mohamed@gmail.com",
+        "Username": "mohamed",
+        "UserId": "mohamed-3",
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "ali@gmail.com",
+        "Username": "ali",
+        "UserId": "ali-4",
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
     }
 ]

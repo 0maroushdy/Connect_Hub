@@ -57,6 +57,7 @@ public class FriendsGui extends javax.swing.JFrame {
         }
         
         for(User friend: currentUser.suggestFriends()){
+           // System.out.println(friend.getUserId());
             friendSuggestionsModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
         
