@@ -9,6 +9,7 @@ import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import org.json.*;
 
@@ -87,7 +88,7 @@ public class User {
    public Set <FriendRequest> getUserReceivedFriendRequests(){
        return this.receivedFriendRequests;
    }
-   
+             /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
    }
@@ -99,7 +100,6 @@ public class User {
            this.password = password;
    }
    
-             /* Setters */
    public void setUserDateOfBirth(LocalDate date){
        this.dateOfBirth = date.toString();
    }
@@ -120,7 +120,7 @@ public class User {
    }
    
   public void userLogout(){
-     setUserStatus("offline");
+     UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   
@@ -139,6 +139,7 @@ public class User {
         FriendRequest request = new FriendRequest(this, receiver, FriendRequest.Status.Pending);
         this.sentFriendRequests.add(request);
         receiver.receivedFriendRequests.add(request);
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   
   public boolean acceptFriendRequest(FriendRequest request) {
@@ -146,6 +147,7 @@ public class User {
             request.setRequestStatus(FriendRequest.Status.Accepted);
             this.friends.add(request.getRequestSender());
             request.getRequestSender().friends.add(this);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
         }
         return false;
@@ -154,6 +156,7 @@ public class User {
   public boolean declineFriendRequest(FriendRequest request) {
         if (this.receivedFriendRequests.contains(request)) {
             request.setRequestStatus(FriendRequest.Status.Declined);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
         }
         return false;
@@ -162,14 +165,24 @@ public class User {
    public void blockUser(User user) {
         this.friends.remove(user);
         this.blockedUsers.add(user);
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
     }
    
     public void removeFriend(User user) {
         this.friends.remove(user);
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
     }
     
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
+    }
+    
+     public ArrayList <User> suggestFriends(){
+        ArrayList <User> suggestions = new ArrayList<>();
+        for(User differentUser:UserDatabase.getInstance().getUsers()){
+            if(!this.getUserFriends().contains(differentUser) && !this.getUserBlockedUsers().contains(differentUser) && !this.getUserId().equals(differentUser.getUserId())) suggestions.add(differentUser);
+        }
+        return suggestions;
     }
   
   public static class UserFactory{

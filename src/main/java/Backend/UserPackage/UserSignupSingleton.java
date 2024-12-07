@@ -52,8 +52,8 @@ public class UserSignupSingleton {
         user = User.UserFactory.create(email, username, password, dateOfBirth, "online");
         UserDatabase.getInstance().addUser(user);
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-        
         this.setUser(user);
+       // System.out.println(UserDatabase.getInstance().getUniqueCounter());
         return true;
 
     }

@@ -45,7 +45,7 @@ private WelcomeFrame welcomeFrame;
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        userid = new javax.swing.JTextField();
+        userEmail = new javax.swing.JTextField();
         login = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
 
@@ -58,20 +58,23 @@ private WelcomeFrame welcomeFrame;
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("UserId");
+        jLabel1.setText("UserEmail");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Password");
         jLabel2.setOpaque(true);
 
-        userid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +96,7 @@ private WelcomeFrame welcomeFrame;
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(userEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -106,7 +109,7 @@ private WelcomeFrame welcomeFrame;
                 .addGap(91, 91, 91)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
@@ -121,12 +124,12 @@ private WelcomeFrame welcomeFrame;
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
-        String UserId = userid.getText();
+        String email = userEmail.getText();
         String passwordd = new String(password.getPassword());
 
         try {
-            if (UserDatabase.getInstance().userLogin(UserId, passwordd)) {           
-                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (UserDatabase.getInstance().userLogin(email, passwordd)) {           
+                JOptionPane.showMessageDialog(null, "User has been logged in successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                 
                 this.dispose();
                 this.welcomeFrame.dispose();
@@ -157,6 +160,6 @@ private WelcomeFrame welcomeFrame;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton login;
     private javax.swing.JPasswordField password;
-    private javax.swing.JTextField userid;
+    private javax.swing.JTextField userEmail;
     // End of variables declaration//GEN-END:variables
 }

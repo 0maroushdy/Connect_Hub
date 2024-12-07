@@ -1,6 +1,7 @@
 package Frontend.UserPackage;
 
 import Frontend.ContentPackage.CreateContentP;
+import Frontend.UserPackage.FriendsGui;
 import Backend.UserPackage.User;
 import Backend.UserPackage.FriendshipManagement;
 import Backend.ContentPackage.Post;
@@ -11,6 +12,7 @@ import Backend.UserPackage.UserDatabase;
 import Backend.UserProfilePackage.ProfileDatabase;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -98,17 +100,20 @@ public class News extends javax.swing.JFrame {
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
         JButton refreshButton = createStyledButton("Refresh");
-        JButton button3 = createStyledButton("Button 3");
+        JButton button3 = createStyledButton("Manage Friends");
+        JButton button4 = createStyledButton("Manage Profile");
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
-        button3.addActionListener(e -> JOptionPane.showMessageDialog(this, "Button 3 clicked!"));
+        button3.addActionListener(e -> friendsManage());
+        button4.addActionListener(e -> profileManage());
 
         // Add buttons to the panel
         buttonPanel.add(button1);
         buttonPanel.add(refreshButton);
         buttonPanel.add(button3);
+        buttonPanel.add(button4);
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
@@ -272,7 +277,7 @@ private JPanel friendComp(User friend) {
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
         component.setBorder(lineBorder);
     }
-    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+    for (User friend : UserSignupSingleton.getInstance().getUser().suggestFriends()) {
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
         Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
@@ -310,9 +315,19 @@ private JPanel friendComp(User friend) {
     }
     
     private void systemLogout(){
-        UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
+    }
+    
+    private void friendsManage(){
+        FriendsGui friendsGui = new FriendsGui();
+        friendsGui.setVisible(true);
+    }
+    
+    private void profileManage(){
+        ProfileManagmentForm profileForm = new ProfileManagmentForm();
+        profileForm.setVisible(true);
     }
 
     public static void main(String[] args) throws IOException {

@@ -41,7 +41,7 @@ public class FriendRequest {
         this.requestSender = requestSender;
     }
     
-    public void setrequestReciever(User requestReciever){
+    public void setRequestReciever(User requestReciever){
         this.requestReceiver = requestReciever;
     }
     

@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import static Files.FILEPATHS.USERFILE;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,10 @@ import java.util.Set;
  * @author Abdelrahman
  */
 public class FriendshipManagement {
+    
+    public FriendshipManagement(){
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+    }
     
     public boolean sendFriendRequest(User requestSender,User requestReceiver){
         if(!requestSender.isUserBlocked(requestReceiver)){
@@ -47,13 +52,13 @@ public class FriendshipManagement {
         user.removeFriend(friend);
     }
     
-    public Set <User> suggestFriends(User user){
+  /*  public Set <User> suggestFriends(User user){
         Set <User> suggestions = new HashSet<>();
         for(User differentUser:UserDatabase.getInstance().getUsers()){
-            if(!user.getUserFriends().contains(differentUser) && !user.getUserBlockedUsers().contains(differentUser) && !user.equals(differentUser)) suggestions.add(differentUser);
+            if(!user.getUserFriends().contains(differentUser) && !user.getUserBlockedUsers().contains(differentUser) && !user.getUserId().equals(differentUser.getUserId())) suggestions.add(differentUser);
         }
         return suggestions;
-    }
+    } */
     
     public static class FriendshipManagementFactory{
         

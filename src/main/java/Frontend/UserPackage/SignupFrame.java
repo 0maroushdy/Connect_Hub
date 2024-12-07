@@ -5,6 +5,7 @@
 package Frontend.UserPackage;
 
 import Backend.UserPackage.User;
+import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -66,24 +67,28 @@ public class SignupFrame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Username");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Email");
         jLabel2.setOpaque(true);
 
         jLabel3.setBackground(new java.awt.Color(204, 204, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Password");
         jLabel3.setOpaque(true);
 
         jLabel4.setBackground(new java.awt.Color(204, 204, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("DateOfBirth");
         jLabel4.setOpaque(true);
@@ -94,6 +99,7 @@ public class SignupFrame extends javax.swing.JFrame {
 
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        signup.setForeground(new java.awt.Color(0, 0, 0));
         signup.setText("Signup");
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,12 +182,11 @@ public class SignupFrame extends javax.swing.JFrame {
             // Proceed with the user signup process
             if (UserSignupSingleton.getInstance().userSignup(Email, Username, Password, date)) {
                 JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                
                 this.dispose();
                 this.welcomeFrame.dispose();
-                
                 News news = new News();
-                news.setVisible(true);   
+                news.setVisible(true);
+                System.out.println(UserDatabase.getInstance().getUniqueCounter());
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }

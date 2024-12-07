@@ -31,8 +31,8 @@ import org.json.JSONTokener;
  */
 public class ContentDataBase {
 
-    private final ArrayList<Post> posts;
-    private final ArrayList<Story> stories;
+    private  ArrayList<Post> posts;
+    private  ArrayList<Story> stories;
     private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
 
@@ -116,7 +116,8 @@ public class ContentDataBase {
     }
 
     protected synchronized final void load() {
-
+        this.posts = new ArrayList <>();
+        this.stories = new ArrayList<>();
         try (BufferedReader storiesFile = new BufferedReader(new FileReader(STORYFILE)); BufferedReader postsFile = new BufferedReader(new FileReader(POSTFILE))) {
 
             JSONArray storiesJSON = new JSONArray(new JSONTokener(storiesFile));
