@@ -249,8 +249,8 @@ private JPanel friendComp(User friend) {
         panel5.removeAll();
         ContentDataBase.getInstance().save();   
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-        UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+       // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
         
         JPanel friendListPanel = new JPanel();
     friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
@@ -319,7 +319,7 @@ private JPanel friendComp(User friend) {
     }
     
     private void systemLogout(){
-        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
     }

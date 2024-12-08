@@ -20,7 +20,10 @@ public class FriendshipManagement {
     
     public boolean sendFriendRequest(User requestSender,User requestReceiver){
         if(!requestSender.isUserBlocked(requestReceiver)){
+           // System.out.println(requestSender.getUserSentFriendRequests().size());
             requestSender.sendFriendRequest(requestReceiver);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
+           // System.out.println(requestSender.getUserSentFriendRequests().size());
             return true;
         }
         else{
@@ -29,7 +32,7 @@ public class FriendshipManagement {
     }
     
     public boolean acceptFriendRequest(User user,FriendRequest request) {
-        if (request.getRequestReciever().equals(user)) {
+        if (request.getRequestReceiverId().equals(user.getUserId())) {
             user.acceptFriendRequest(request);
             return true;
         }
@@ -37,7 +40,7 @@ public class FriendshipManagement {
     }
     
     public boolean declineFriendRequest(User user,FriendRequest request) {
-        if (request.getRequestReciever().equals(user)) {
+        if (request.getRequestSenderId().equals(user.getUserId())) {
             user.declineFriendRequest(request);
             return true;
         }
