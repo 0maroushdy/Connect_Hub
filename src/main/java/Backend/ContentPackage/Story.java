@@ -7,7 +7,6 @@ package Backend.ContentPackage;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import java.time.LocalDateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
