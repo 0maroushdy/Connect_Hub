@@ -1,5 +1,6 @@
 package Backend.UserProfilePackage;
 
+import static Files.FILEPATHS.PROFILEFILE;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
@@ -13,8 +14,8 @@ public class UserProfile {
     private String profilePhoto;
     private String profileCover;
     private String profileBio;
-
     private String userId;
+    
 //    private User user;
 
     // -----------** Constructor **-----------
@@ -22,6 +23,14 @@ public class UserProfile {
         profilePhoto = photo;
         profileCover = cover;
         profileBio = bio;
+        // must handeling the userId .......... !!
+    }
+
+    public UserProfile(String Id, String photo, String cover, String bio) {
+        profilePhoto = photo;
+        profileCover = cover;
+        profileBio = bio;
+        userId = Id;
     }
 
     public UserProfile(String userId, JSONObject profileData) {
@@ -97,5 +106,7 @@ public class UserProfile {
         json.put("bio", this.profileBio);
         return json;
     }
+    
+    
 
 }

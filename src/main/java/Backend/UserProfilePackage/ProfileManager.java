@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Backend.UserProfilePackage;
 
+import static Files.FILEPATHS.PROFILEFILE;
 import Backend.UserPackage.HashingUtil;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /**
  *
@@ -59,6 +57,9 @@ public class ProfileManager implements IProfileUpdater {
     public boolean saveProfile(String userId) {
         return database.saveUser(userId);
     }
+    
+
+    
 }
     
 
