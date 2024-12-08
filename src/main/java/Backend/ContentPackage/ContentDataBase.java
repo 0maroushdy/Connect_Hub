@@ -41,16 +41,20 @@ public class ContentDataBase {
     private ContentDataBase() {
         this.posts = new ArrayList<>();
         this.stories = new ArrayList<>();
-        
+
         this.scheduler = Executors.newScheduledThreadPool(1);
         this.scheduler.scheduleAtFixedRate(
                 this::removeStory,
                 1, 1, TimeUnit.HOURS
         );
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            this.shutDown();
+        }));
     }
 
     public synchronized static ContentDataBase getInstance() {
-        if(ContentDataBase.dataBase == null){
+        if (ContentDataBase.dataBase == null) {
             ContentDataBase.dataBase = new ContentDataBase();
             ContentDataBase.dataBase.load();
         }
@@ -68,7 +72,7 @@ public class ContentDataBase {
     }
 
     private synchronized void removeStory() {
-         System.out.println("Scheduled remove stories");
+        System.out.println("Scheduled remove stories");
 
         ArrayList<Story> storiesToRemove = new ArrayList<>();
         for (Story s : this.stories) {
@@ -159,10 +163,20 @@ public class ContentDataBase {
     }
 
     public void shutDown() {
-        System.out.println("Saving content database");
+        System.out.println("Shutting down ContentDataBase...");
+        System.out.println("\tSaving content database");
         this.save();
 
-        System.out.println("Shutting down scheduler...");
-        scheduler.shutdownNow();
+        if (this.scheduler != null && !scheduler.isShutdown()) {
+            System.out.println("\tShutting down scheduler...");
+            this.scheduler.shutdown();
+            try {
+                if (!this.scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                    this.scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduler.shutdownNow();
+            }
+        }
     }
 }
