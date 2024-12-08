@@ -30,5 +30,13 @@
         "Username": "ali",
         "UserId": "ali-4",
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "mego@gm.cm",
+        "Username": "mego",
+        "UserId": "mego-5",
+        "Password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
 ]

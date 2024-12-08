@@ -4,10 +4,15 @@
  */
 package Frontend.profilePackage;
 
+import Frontend.UserPackage.News;
 import java.awt.Image;
-import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -16,26 +21,43 @@ import javax.swing.JFileChooser;
 public class ProfileManagmentForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form ProfileManagmentForm
+     * Creates new form NewJFrame
      */
     public ProfileManagmentForm() {
         initComponents();
-        
-        setTitle("Profile_User");
+        setDefaultImages();
+        super.setVisible(true);
+        super.setTitle("Profile");
         setLocationRelativeTo(null);
-        pack();
-        
-        initComponents();
-        Jcover.setOpaque(true);
-        JFileChooser x = new JFileChooser();
-        x.showOpenDialog(this);
-        File f = x.getSelectedFile();
-        ImageIcon i = new ImageIcon(f.getAbsolutePath());
-        Image img = i.getImage();
-        Image scaledImg = img.getScaledInstance(530, 111, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-        Jcover.setIcon(scaledIcon);
+
+//        // Load and set the default cover photo
+//        ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
+//        Image defaultCoverScaled = defaultCoverIcon.getImage().getScaledInstance(
+//        lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+//        lblCoverPhoto.setIcon(new ImageIcon(defaultCoverScaled));
+//
+//        // Load and set the default profile photo
+//        ImageIcon defaultProfileIcon = new ImageIcon("resources/default_profile.jpg");
+//        Image defaultProfileScaled = defaultProfileIcon.getImage().getScaledInstance(
+//        lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
+//        lblProfilePhoto.setIcon(new ImageIcon(defaultProfileScaled));
+
     }
+    private void setDefaultImages() {
+    // Default Cover Photo
+    ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
+    Image scaledCover = defaultCoverIcon.getImage().getScaledInstance(
+        lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+    lblCoverPhoto.setIcon(new ImageIcon(scaledCover));
+
+    // Default Profile Photo
+    ImageIcon defaultProfileIcon = new ImageIcon("resources/default_profile.jpg");
+    Image scaledProfile = defaultProfileIcon.getImage().getScaledInstance(
+        lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
+    lblProfilePhoto.setIcon(new ImageIcon(scaledProfile));
+} 
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,64 +68,338 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Jcover = new javax.swing.JLabel();
+        lblCoverPhoto = new javax.swing.JLabel();
+        lblProfilePhoto = new javax.swing.JLabel();
+        btnEditCoverPhoto = new javax.swing.JButton();
+        lblName1 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        btnEditProfilePhoto = new javax.swing.JButton();
+        btnSaveChanges = new javax.swing.JButton();
+        btnUpdateBio = new javax.swing.JButton();
+        btnUpdatePassword = new javax.swing.JButton();
+        btnUpdateName = new javax.swing.JButton();
+        btnLogOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Jcover.setBackground(new java.awt.Color(102, 102, 102));
+        lblCoverPhoto.setBackground(new java.awt.Color(102, 102, 102));
+        lblCoverPhoto.setAutoscrolls(true);
+        lblCoverPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCoverPhotoMouseClicked(evt);
+            }
+        });
+
+        btnEditCoverPhoto.setBackground(new java.awt.Color(0, 153, 153));
+        btnEditCoverPhoto.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditCoverPhoto.setText("Change Cover");
+        btnEditCoverPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditCoverPhotoMouseClicked(evt);
+            }
+        });
+        btnEditCoverPhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCoverPhotoActionPerformed(evt);
+            }
+        });
+
+        lblName1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblName1.setText("Omar Mahmoud");
+
+        lblName.setText("this is a bio text, this is a bio text,  this is a bio text.    ");
+
+        btnEditProfilePhoto.setBackground(new java.awt.Color(0, 153, 153));
+        btnEditProfilePhoto.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditProfilePhoto.setText("Change Photo");
+        btnEditProfilePhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditProfilePhotoMouseClicked(evt);
+            }
+        });
+        btnEditProfilePhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditProfilePhotoActionPerformed(evt);
+            }
+        });
+
+        btnSaveChanges.setBackground(new java.awt.Color(0, 153, 153));
+        btnSaveChanges.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSaveChanges.setForeground(new java.awt.Color(255, 255, 255));
+        btnSaveChanges.setText("Save Changes ");
+        btnSaveChanges.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveChangesMouseClicked(evt);
+            }
+        });
+        btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesActionPerformed(evt);
+            }
+        });
+
+        btnUpdateBio.setText("Update Bio");
+        btnUpdateBio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateBioMouseClicked(evt);
+            }
+        });
+        btnUpdateBio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateBioActionPerformed(evt);
+            }
+        });
+
+        btnUpdatePassword.setText("Update Account Password");
+        btnUpdatePassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdatePasswordMouseClicked(evt);
+            }
+        });
+        btnUpdatePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdatePasswordActionPerformed(evt);
+            }
+        });
+
+        btnUpdateName.setText("Update Name");
+        btnUpdateName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateNameMouseClicked(evt);
+            }
+        });
+        btnUpdateName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateNameActionPerformed(evt);
+            }
+        });
+
+        btnLogOut.setBackground(new java.awt.Color(255, 102, 102));
+        btnLogOut.setText("Logout");
+        btnLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogOutMouseClicked(evt);
+            }
+        });
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Jcover, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEditProfilePhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblProfilePhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblName1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEditCoverPhoto)
+                        .addGap(17, 17, 17))))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lblCoverPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveChanges, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnUpdateBio, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdatePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdateName, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogOut)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(Jcover, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 259, Short.MAX_VALUE))
+                .addComponent(lblCoverPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProfilePhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnEditCoverPhoto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblName1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditProfilePhoto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdateBio)
+                    .addComponent(btnUpdatePassword)
+                    .addComponent(btnUpdateName)
+                    .addComponent(btnLogOut))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSaveChanges)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblCoverPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCoverPhotoMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            java.io.File file = fileChooser.getSelectedFile();
+
+            // Load the selected image
+            ImageIcon selectedImage = new ImageIcon(file.getAbsolutePath());
+
+            // Scale the image to fit the JLabel dimensions
+            Image scaledImage = selectedImage.getImage().getScaledInstance(
+                lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+
+            // Set the scaled image as the JLabel icon
+            lblCoverPhoto.setIcon(new ImageIcon(scaledImage));
+        }
+
+
+    }//GEN-LAST:event_lblCoverPhotoMouseClicked
+
+    private void btnEditCoverPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditCoverPhotoMouseClicked
+
+//        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+//        int result = fileChooser.showOpenDialog(this);
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            java.io.File file = fileChooser.getSelectedFile();
+//            lblCoverPhoto.setIcon(new ImageIcon(file.getAbsolutePath())); // Update the cover photo
+            
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            java.io.File file = fileChooser.getSelectedFile();
+
+            // Load the selected image
+            ImageIcon selectedImage = new ImageIcon(file.getAbsolutePath());
+
+            // Scale the image to fit the JLabel dimensions
+            Image scaledImage = selectedImage.getImage().getScaledInstance(
+                lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+
+            // Set the scaled image as the JLabel icon
+            lblCoverPhoto.setIcon(new ImageIcon(scaledImage));
+        }      
+        
+    }//GEN-LAST:event_btnEditCoverPhotoMouseClicked
+
+    private void btnEditCoverPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCoverPhotoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditCoverPhotoActionPerformed
+
+    private void btnEditProfilePhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProfilePhotoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnEditProfilePhotoActionPerformed
+
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
+
+    private void btnEditProfilePhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditProfilePhotoMouseClicked
+        // TODO add your handling code here:
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            java.io.File file = fileChooser.getSelectedFile();
+            lblProfilePhoto.setIcon(new ImageIcon(file.getAbsolutePath()) ); // Update the profile photo
+        }
+    }//GEN-LAST:event_btnEditProfilePhotoMouseClicked
+
+    private void btnSaveChangesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveChangesMouseClicked
+//        String name = txtName;   // Get the name text
+//        String bio = txtBio;     // Get the bio text
+//        lblName.setText(name);   // Update the name label
+        JOptionPane.showMessageDialog(this, "Profile updated successfully!"); // Confirmation message
+        
+    }//GEN-LAST:event_btnSaveChangesMouseClicked
+
+    private void btnUpdateBioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateBioMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateBioMouseClicked
+
+    private void btnUpdateBioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateBioActionPerformed
+
+    private void btnUpdatePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdatePasswordMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdatePasswordMouseClicked
+
+    private void btnUpdatePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdatePasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdatePasswordActionPerformed
+
+    private void btnUpdateNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateNameMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateNameMouseClicked
+
+    private void btnUpdateNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateNameActionPerformed
+
+    private void btnLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogOutMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        try {
+            new News().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnLogOutMouseClicked
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProfileManagmentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProfileManagmentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProfileManagmentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProfileManagmentForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ProfileManagmentForm().setVisible(true);
+                String Name;
+                String Bio;
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Jcover;
+    private javax.swing.JButton btnEditCoverPhoto;
+    private javax.swing.JButton btnEditProfilePhoto;
+    private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnSaveChanges;
+    private javax.swing.JButton btnUpdateBio;
+    private javax.swing.JButton btnUpdateName;
+    private javax.swing.JButton btnUpdatePassword;
+    private javax.swing.JLabel lblCoverPhoto;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblName1;
+    private javax.swing.JLabel lblProfilePhoto;
     // End of variables declaration//GEN-END:variables
 }
