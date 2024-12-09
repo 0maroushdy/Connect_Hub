@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Backend.UserPackage;
 
 import Backend.UserProfilePackage.UserProfile;
@@ -206,15 +202,22 @@ public class User {
       return jsonObject;
   }
   
+  
   public static User fromJson(JSONObject jsonObject){
     User user = new User();
     user.dateOfBirth = jsonObject.getString("DateOfBirth");
     user.status = jsonObject.getString("Status");
     user.email = jsonObject.getString("Email");
-     user.username = jsonObject.getString("Username");
-     user.userId = jsonObject.getString("UserId");
+    user.username = jsonObject.getString("Username");
+    user.userId = jsonObject.getString("UserId");
     user.password = jsonObject.getString("Password");
-   // user.date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+
+    // the new iti for the Profile ---- M.B. Err
+    JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
+    user.profile = new UserProfile( profileObj.getString("profilePhoto"),
+                              profileObj.getString("profileCover") 
+                             ,profileObj.getString("profileBio")) ;
+   
 
     // Deserialize the friends set
    // user.friends = new HashSet<>();
@@ -260,56 +263,9 @@ public class User {
     return user;
   }
   
-   /* public void sendFriendRequest(User receiver) {
-        FriendRequest request = new FriendRequest(this.userId, receiver.userId, FriendRequest.Status.Pending);
-        this.sentFriendRequests.add(request);
-        receiver.receivedFriendRequests.add(request);
-  } */
-  
- /* public boolean acceptFriendRequest(FriendRequest request) {
-        if (this.receivedFriendRequests.contains(request)) {
-            request.setRequestStatus(FriendRequest.Status.Accepted);
-            this.friends.add(UserDatabase.getInstance().getUser(request.getRequestSenderId()));
-            UserDatabase.getInstance().getUser(request.getRequestSenderId()).friends.add(this);
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
-            return true;
-        }
-        return false;
-    } */
-  
- /* public boolean declineFriendRequest(FriendRequest request) {
-        if (this.receivedFriendRequests.contains(request)) {
-            request.setRequestStatus(FriendRequest.Status.Declined);
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
-            return true;
-        }
-        return false;
-    } */
-  
-  /* public void blockUser(User user) {
-        this.friends.remove(user);
-        this.blockedUsers.add(user);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
-    } */
-   
-   /* public void removeFriend(User user) {
-        this.friends.remove(user);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
-    } */
-    
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
-    
-   /*  public ArrayList <User> suggestFriends(){
-        ArrayList <User> suggestions = new ArrayList<>();
-        for(User user:UserDatabase.getInstance().getUsers()){
-             System.out.println(user.userToString());
-            if(!this.getUserFriends().contains(user) && !this.getUserBlockedUsers().contains(user) && !this.getUserId().equals(user.getUserId())) suggestions.add(user);
-          //  System.out.println(differentUser.getUserId());
-        }
-        return suggestions;
-    } */
       
    public String userToString(){
        String ans ="";
@@ -328,20 +284,7 @@ public class User {
    }
   
   public static class UserFactory{
-     /* public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
-            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
-            String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
-            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
-            return user;
-        }*/
       
-   /*  public static User create(String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
-            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
-            String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
-            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
-            user.setUserPassword(password,wanttohash);
-            return user;
-        } */
      public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
