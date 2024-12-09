@@ -265,7 +265,7 @@ public class User {
   
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
-    }
+    }   
       
    public String userToString(){
        String ans ="";
