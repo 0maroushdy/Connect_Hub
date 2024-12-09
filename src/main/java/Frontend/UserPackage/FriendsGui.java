@@ -12,6 +12,7 @@ import Backend.UserPackage.UserSignupSingleton;
 import static Files.FILEPATHS.USERFILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -22,6 +23,7 @@ public class FriendsGui extends javax.swing.JFrame {
     
     private User currentUser;
     private FriendshipManagement friendship;
+    private ArrayList <User> users;
     /**
      * Creates new form FriendsGui
      */
@@ -29,6 +31,8 @@ public class FriendsGui extends javax.swing.JFrame {
         initComponents();
         this.currentUser = UserSignupSingleton.getInstance().getUser();
         this.friendship = FriendshipManagement.FriendshipManagementFactory.create();
+        this.users = new ArrayList <>();
+        this.users = UserDatabase.getInstance().getUsers();
         initCustomComponents();
     }
     
@@ -50,12 +54,13 @@ public class FriendsGui extends javax.swing.JFrame {
         
                        /* filling out data */
         for(FriendRequest friendRequest: currentUser.getUserReceivedFriendRequests()){
-            friendRequestsModel.addElement(friendRequest.getRequestSenderId()+ " " + UserDatabase.getInstance().getUser(friendRequest.getRequestSenderId()).getUsername());
+            friendRequestsModel.addElement(friendRequest.getRequestSenderId()+ " " + UserDatabase.getInstance().getUser(friendRequest.getRequestSenderId()).getUsername() + " " + friendRequest.getRequestStatus());
         }
         
-        for(User friend: currentUser.getUserFriends()){
+        for(User friend: UserDatabase.getInstance().getUsers()){
+            if(currentUser.getUserFriends().contains(friend.getUserId())){
             friendListModel.addElement(friend.getUserId() + " " + friend.getUsername() + " " + friend.getUserStatus());
-            changeFriendStatusModel.addElement(friend.getUserId() + " " + friend.getUsername() + " " + friend.getUserStatus());
+            changeFriendStatusModel.addElement(friend.getUserId() + " " + friend.getUsername() + " " + friend.getUserStatus());}
         }
         
         for(User friend: this.friendship.suggestFriends(currentUser)){
@@ -70,14 +75,15 @@ public class FriendsGui extends javax.swing.JFrame {
                String line = friendRequests.getSelectedValue();
                int ind = friendRequests.getSelectedIndex();
                String[] data = line.split(" ");
-               User requestSender = UserDatabase.getInstance().getUser(data[0]);
-               for (FriendRequest request : requestSender.getUserSentFriendRequests()) {
-                   System.out.println("hello world");
+               for(User user:users){
+                if(user.getUserId().equals(data[0])){
+               for (FriendRequest request : user.getUserSentFriendRequests()) {
                 if (request.getRequestReceiverId().equals(currentUser.getUserId())) {
-                   // System.out.println("hello");
                 friendship.acceptFriendRequest(currentUser, request);
                 friendRequestsModel.removeElementAt(ind);
                 }
+               }
+               }
                }
                UserDatabase.getInstance().saveUsersToFile(USERFILE);
             }

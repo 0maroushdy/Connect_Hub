@@ -112,6 +112,7 @@ public final class UserDatabase {
 
     public void saveUsersToFile(String filePath) {
         JSONArray jsonArray = new JSONArray();
+        
         for (User user : this.users) {
         JSONObject userJson = user.toJSON();
         jsonArray.put(userJson);

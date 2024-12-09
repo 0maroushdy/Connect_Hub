@@ -272,14 +272,15 @@ private JPanel friendComp(User friend) {
         JPanel component = storyComp(story);
         storiesPanel.add(component, 0); // Add to the top
     }
-    for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+    for (User friend : UserDatabase.getInstance().getUsers()) {
+        if(UserSignupSingleton.getInstance().getUser().getUserFriends().contains(friend.getUserId())){
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
          Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
         Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
         friendListPanel.add(component, 0); // Add to the top
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
-        component.setBorder(lineBorder);
+        component.setBorder(lineBorder);}
     }
     for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = friendComp(friend);
