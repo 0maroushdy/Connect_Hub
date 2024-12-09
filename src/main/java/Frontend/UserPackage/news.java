@@ -254,8 +254,10 @@ private JPanel friendComp(User friend) {
         panel5.removeAll();
         ContentDataBase.getInstance().save();
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-        UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+       // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+        
         JPanel friendListPanel = new JPanel();
     friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
     
@@ -276,27 +278,26 @@ private JPanel friendComp(User friend) {
         JPanel component = storyComp(story);
         storiesPanel.add(component, 0); // Add to the top
     }
-    for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+    for (User friend : UserDatabase.getInstance().getUsers()) {
+        if(UserSignupSingleton.getInstance().getUser().getUserFriends().contains(friend.getUserId())){
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
          Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
         Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
         friendListPanel.add(component, 0); // Add to the top
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+        component.setBorder(lineBorder);}
+    }
+
+    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+        JPanel component = friendComp(friend);
+        component.setBackground(Color.white);
+        Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
+        Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
+        suggestionsPanel.add(component, 0); // Add to the top
+        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
         component.setBorder(lineBorder);
     }
-    
-    /// Error ------------ !! 
-//    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
-//        JPanel component = friendComp(friend);
-//        component.setBackground(Color.white);
-//        Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
-//        Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
-//        suggestionsPanel.add(component, 0); // Add to the top
-//        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
-//        component.setBorder(lineBorder);
-//    }
-    
     panel1.add(friendListPanel);
     panel2.add(postsPanel);
     panel3.add(suggestionsPanel);
