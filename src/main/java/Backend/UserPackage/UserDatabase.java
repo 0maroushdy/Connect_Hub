@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Backend.UserPackage;
 
+import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -114,6 +112,8 @@ public final class UserDatabase {
         JSONArray jsonArray = new JSONArray();
         
         for (User user : this.users) {
+            System.out.println("3 .... user.getUserProfile().getProfileBio()\n");
+            jsonArray.put(user.toJSON());
         JSONObject userJson = user.toJSON();
         jsonArray.put(userJson);
         }
@@ -137,17 +137,20 @@ public final class UserDatabase {
         JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
         int maxCounter = 0; // Track the maximum unique ID counter value
         for (int i = 0; i < jsonArray.length(); i++) {
-           JSONObject jsonObject = jsonArray.getJSONObject(i);
-          // String dateOfBirth = jsonObject.getString("DateOfBirth");
-          // String status = jsonObject.getString("Status");
-         //  String email = jsonObject.getString("Email");
-         //  String username = jsonObject.getString("Username");
-         //   String userId = jsonObject.getString("UserId");
-         //  String password = jsonObject.getString("Password");
-        //   LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-           User user = User.fromJson(jsonObject);
-           addUser(user);
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String dateOfBirth = jsonObject.getString("DateOfBirth");
+            String status = jsonObject.getString("Status");
+            String email = jsonObject.getString("Email");
+            String username = jsonObject.getString("Username");
+            String userId = jsonObject.getString("UserId");
+            String password = jsonObject.getString("Password");
+            LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
             
+            JSONObject ProfileObj = (JSONObject) jsonObject.get("Profile"); // added for the profile 
+            UserProfile Profile = new UserProfile(ProfileObj); // using the constructor recving JSONobj
+
+            User user = User.fromJson(jsonObject);
+            addUser(user);
             // Extract numeric part of userId to determine uniqueCounter
             String[] parts = user.getUserId().split("-");
             if (parts.length == 2) {
@@ -158,6 +161,8 @@ public final class UserDatabase {
                     System.err.println("Invalid UserId format: " + user.getUserId());
                 }
             }
+          
+            addUser(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
         //  addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
         }
         // Update uniqueCounter to avoid duplicates
@@ -189,7 +194,13 @@ public final class UserDatabase {
                 String userId = jsonObject.getString("UserId");
                 String password = jsonObject.getString("Password");
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-                temp.add(User.UserFactory.create(userId,email, username, password, date, status,false));
+                
+                JSONObject ProfileObj = (JSONObject) jsonObject.get("Profile"); // added for the profile 
+                UserProfile Profile = new UserProfile(ProfileObj); // using the constructor recving JSONobj
+                
+System.out.println("test 1 ------"+Profile.getProfileBio());
+                temp.add(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
+System.out.println("test 2 ------"+Profile.getProfileBio());
             }
             this.users = temp;
         } catch (IOException e) {

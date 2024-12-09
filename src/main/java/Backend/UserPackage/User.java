@@ -44,6 +44,21 @@ public class User {
        this.friends = new HashSet<>();
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
+       this.receivedFriendRequests = new HashSet<>();
+       this.profile = new UserProfile();
+   }
+  private User(String userId, String email,String username,String password,LocalDate dateOfBirth,String status, UserProfile profile){
+       this.userId = userId;
+       this.email = email;
+       this.username = username;
+       this.password = password;
+       this.dateOfBirth = dateOfBirth.toString();
+       this.status = status;
+       this.friends = new HashSet<>();
+       this.blockedUsers = new HashSet<>();
+       this.sentFriendRequests = new HashSet<>();
+       this.receivedFriendRequests = new HashSet<>();
+       this.profile = profile;
        this.receivedFriendRequests = new HashSet<>(); 
    }
 
@@ -93,6 +108,10 @@ public class User {
    
    public Set <FriendRequest> getUserReceivedFriendRequests(){
        return this.receivedFriendRequests;
+   }
+   
+   public UserProfile getUserProfile(){
+       return this.profile;
    }
    
              /* Setters */
@@ -157,6 +176,7 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
+      jsonObject.put("Profile",this.profile.toJSON());
       JSONArray friendsArray = new JSONArray();
         for (String friend : this.friends) {
             friendsArray.put(friend); 
@@ -325,6 +345,13 @@ public class User {
      public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            user.setUserPassword(password,wanttohash);
+            return user;
+        }
+     
+     public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status,UserProfile profile , boolean wanttohash) throws NoSuchAlgorithmException {
+            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
+            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status, profile);
             user.setUserPassword(password,wanttohash);
             return user;
         }
