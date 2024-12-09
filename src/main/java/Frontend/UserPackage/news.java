@@ -1,7 +1,6 @@
 package Frontend.UserPackage;
 
 import Frontend.ContentPackage.CreateContentP;
-import Frontend.UserPackage.FriendsGui;
 import Backend.UserPackage.User;
 import Backend.UserPackage.FriendshipManagement;
 import Backend.ContentPackage.Post;
@@ -9,7 +8,7 @@ import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
 import Backend.UserPackage.UserDatabase;
-import Backend.UserProfilePackage.ProfileDatabase;
+import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.profilePackage.ProfileManagmentForm;
@@ -21,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.Border;
 
 public class News extends javax.swing.JFrame {
@@ -38,12 +39,11 @@ public class News extends javax.swing.JFrame {
         panel4 = new JPanel();
         panel5 = new JPanel();
         
-        
         this.setTitle("Newsfeed");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -66,11 +66,9 @@ public class News extends javax.swing.JFrame {
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
         panel5.setLayout(new BoxLayout(panel5, BoxLayout.Y_AXIS));
-        
-       
+
         // Load content
         refreshContent();
-        
 
         // Wrap panels with JScrollPane to make them scrollable
         JScrollPane scrollPane1 = new JScrollPane(panel1);
@@ -103,20 +101,27 @@ public class News extends javax.swing.JFrame {
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
         JButton refreshButton = createStyledButton("Refresh");
-        JButton button3 = createStyledButton("Manage Friends");
-        JButton button4 = createStyledButton("Manage Profile");
+        JButton button3 = createStyledButton("Friends");
+        JButton profileBtn = createStyledButton("profile"); // ------------------- 1
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
-        button3.addActionListener(e -> friendsManage());
-        button4.addActionListener(e -> profileManage());
+        button3.addActionListener(e -> openFriendsgui());
+        profileBtn.addActionListener(e -> {
+            try {
+                profileBtnAction();
+            } catch (overSizeInputException ex) {
+                Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         // Add buttons to the panel
         buttonPanel.add(button1);
         buttonPanel.add(refreshButton);
         buttonPanel.add(button3);
-        buttonPanel.add(button4);
+        // Porfile btn ----------------------- 1
+        buttonPanel.add(profileBtn);
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
@@ -126,7 +131,7 @@ public class News extends javax.swing.JFrame {
         this.setVisible(true);
 
     }
-
+    
     private JPanel postComp(Post post) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
@@ -247,8 +252,9 @@ private JPanel friendComp(User friend) {
         panel3.removeAll();
         panel4.removeAll();
         panel5.removeAll();
-        ContentDataBase.getInstance().save();   
+        ContentDataBase.getInstance().save();
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
+
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
        // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
         
@@ -282,6 +288,7 @@ private JPanel friendComp(User friend) {
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
         component.setBorder(lineBorder);}
     }
+
     for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
@@ -320,23 +327,26 @@ private JPanel friendComp(User friend) {
     }
     
     private void systemLogout(){
-       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
     }
-    
-    private void friendsManage(){
-        FriendsGui friendsGui = new FriendsGui();
-        friendsGui.setVisible(true);
-    }
-    
-    private void profileManage(){
-        ProfileManagmentForm profileForm = new ProfileManagmentForm();
-        profileForm.setVisible(true);
-    }
+    private void openFriendsgui() { 
+        this.dispose();
+        new FriendsGui().setVisible(true);
+
+    } 
+    private void profileBtnAction() throws overSizeInputException { 
+        this.dispose();
+        new ProfileManagmentForm().setVisible(true);
+
+    } 
 
     public static void main(String[] args) throws IOException {
         new News();
     }
     
 }
+
+
+

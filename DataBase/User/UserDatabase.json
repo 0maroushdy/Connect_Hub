@@ -5,6 +5,10 @@
         "Email": "beego@gmail.com",
         "Username": "beego",
         "UserId": "beego-1",
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": ""
         "Friends": ["omar-2"],
         "SentFriendRequests": [],
         "ReceivedFriendRequests": [{
@@ -21,6 +25,37 @@
         "Email": "omar@gmail.com",
         "Username": "omar",
         "UserId": "omar-2",
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": ""
+        },
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "mohamed@gmail.com",
+        "Username": "mohamed",
+        "UserId": "mohamed-3",
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": ""
+        },
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "ali@gmail.com",
+        "Username": "ali",
+        "UserId": "ali-4",
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": ""
+        },
         "Friends": ["beego-1"],
         "SentFriendRequests": [{
             "SenderUserId": "omar-2",
@@ -30,5 +65,31 @@
         "ReceivedFriendRequests": [],
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "1",
+        "Username": "Maged Elmasry",
+        "UserId": "mego-5",
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": ""
+        },
+        "Password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-09",
+        "Email": "111",
+        "Username": "dgf",
+        "UserId": "dgf-6",
+        "Profile": {
+            "profilePhoto": "C:\\Users\\Omar\\Documents\\resources\\default_profile.jpg",
+            "profileCover": "C:\\Users\\Omar\\Documents\\resources\\cover 3.jpg",
+            "bio": "sd333333333333333333333"
+        },
+        "Password": "f6e0a1e2ac41945a9aa7ff8a8aaa0cebc12a3bcc981a929ad5cf810a090e11ae"
     }
 ]

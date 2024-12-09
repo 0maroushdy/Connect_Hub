@@ -160,10 +160,22 @@ public class ContentDataBase {
     }
 
     public void shutDown() {
-        System.out.println("Saving content database");
+        System.out.println("Shutting down ContentDataBase...");
+        System.out.println("\tSaving content database");
         this.save();
 
-        System.out.println("Shutting down scheduler...");
-        scheduler.shutdownNow();
+        if (this.scheduler != null && !scheduler.isShutdown()) {
+            System.out.println("\tShutting down scheduler...");
+            this.scheduler.shutdown();
+            try {
+                if (!this.scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                    this.scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduler.shutdownNow();
+            }
+        }
     }
+    
+    
 }
