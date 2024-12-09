@@ -1,51 +1,33 @@
 [
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-08",
+        "DateOfBirth": "2024-12-09",
         "Email": "beego@gmail.com",
         "Username": "beego",
         "UserId": "beego-1",
-        "Friends": [],
+        "Friends": ["omar-2"],
         "SentFriendRequests": [],
         "ReceivedFriendRequests": [{
             "SenderUserId": "omar-2",
             "ReceiverUserId": "beego-1",
-            "RequestStatus": "Pending"
+            "RequestStatus": "Accepted"
         }],
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
     },
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-07",
+        "DateOfBirth": "2024-12-09",
         "Email": "omar@gmail.com",
         "Username": "omar",
         "UserId": "omar-2",
-        "Friends": [],
-        "SentFriendRequests": [],
-        "ReceivedFriendRequests": [
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "omar-2",
-                "RequestStatus": "Pending"
-            }],
-        "BlockedUsers": [],
-        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
-    },
-    {
-        "Status": "online",
-        "DateOfBirth": "2024-12-09",
-        "Email": "mohamed@gmail.com",
-        "Username": "mohamed",
-        "UserId": "mohamed-3",
-        "Friends": [],
-        "SentFriendRequests": [],
-        "ReceivedFriendRequests": [
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "mohamed-3",
-                "RequestStatus": "Pending"
-            }],
+        "Friends": ["beego-1"],
+        "SentFriendRequests": [{
+            "SenderUserId": "omar-2",
+            "ReceiverUserId": "beego-1",
+            "RequestStatus": "Accepted"
+        }],
+        "ReceivedFriendRequests": [],
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
     }

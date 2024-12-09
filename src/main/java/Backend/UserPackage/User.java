@@ -26,8 +26,8 @@ public class User {
    private String password;
    private String dateOfBirth;
    private String status;
-   private Set <User> friends;
-   private Set <User> blockedUsers; 
+   private Set <String> friends;
+   private Set <String> blockedUsers; 
    private UserProfile profile; // adding userProfile attribute --> making composition
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
@@ -79,11 +79,11 @@ public class User {
        return this.password;
    }
    
-   public Set <User> getUserFriends(){
+   public Set <String> getUserFriends(){
        return this.friends;
    }
    
-   public Set <User> getUserBlockedUsers(){
+   public Set <String> getUserBlockedUsers(){
        return this.blockedUsers;
    }
    
@@ -95,7 +95,6 @@ public class User {
        return this.receivedFriendRequests;
    }
    
-  
              /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
@@ -127,6 +126,24 @@ public class User {
        return true;
    }
    
+   public void setStatusAcceptedFriendRequest(FriendRequest request){
+       for(FriendRequest requestt:this.sentFriendRequests){
+           if(requestt.getRequestSenderId().equals(request.getRequestSenderId()) && requestt.getRequestReceiverId().equals(request.getRequestReceiverId())){
+               requestt.setRequestStatus(FriendRequest.Status.Accepted);
+           }
+           
+       }
+   }
+   
+   public void setStatusDeclinedFriendRequest(FriendRequest request){
+       for(FriendRequest requestt:this.sentFriendRequests){
+           if(requestt.getRequestSenderId().equals(request.getRequestSenderId()) && requestt.getRequestReceiverId().equals(request.getRequestReceiverId())){
+               requestt.setRequestStatus(FriendRequest.Status.Declined);
+           }
+           
+       }
+   }
+   
   public void userLogout(){
      UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
@@ -141,15 +158,15 @@ public class User {
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
       JSONArray friendsArray = new JSONArray();
-        for (User friend : this.friends) {
-            friendsArray.put(friend.getUserId()); 
+        for (String friend : this.friends) {
+            friendsArray.put(friend); 
         }
         jsonObject.put("Friends", friendsArray);
 
         // Serialize blocked users
         JSONArray blockedUsersArray = new JSONArray();
-        for (User blockedUser : this.blockedUsers) {
-            blockedUsersArray.put(blockedUser.getUserId()); 
+        for (String blockedUser : this.blockedUsers) {
+            blockedUsersArray.put(blockedUser); 
         }
         jsonObject.put("BlockedUsers", blockedUsersArray);
 
@@ -184,7 +201,7 @@ public class User {
     JSONArray friendsArray = jsonObject.getJSONArray("Friends");
     for (int i = 0; i < friendsArray.length(); i++) {
         String friendId = friendsArray.getString(i);
-        user.friends.add(UserDatabase.getInstance().getUser(friendId));
+        user.friends.add(friendId);
     }
 
     // Deserialize the blocked users set
@@ -192,7 +209,7 @@ public class User {
     JSONArray blockedUsersArray = jsonObject.getJSONArray("BlockedUsers");
     for (int i = 0; i < blockedUsersArray.length(); i++) {
         String blockedUserId = blockedUsersArray.getString(i);
-        user.blockedUsers.add(UserDatabase.getInstance().getUser(blockedUserId));
+        user.blockedUsers.add(blockedUserId);
     }
 
     // Deserialize sent friend requests
