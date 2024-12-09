@@ -281,7 +281,7 @@ private JPanel friendComp(User friend) {
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
         component.setBorder(lineBorder);
     }
-    for (User friend : UserSignupSingleton.getInstance().getUser().suggestFriends()) {
+    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
         Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);

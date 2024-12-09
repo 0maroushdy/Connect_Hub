@@ -20,8 +20,9 @@ public class FriendshipManagement {
     
     public boolean sendFriendRequest(User requestSender,User requestReceiver){
         if(!requestSender.isUserBlocked(requestReceiver)){
-           // System.out.println(requestSender.getUserSentFriendRequests().size());
-            requestSender.sendFriendRequest(requestReceiver);
+            FriendRequest request = new FriendRequest(requestSender.getUserId(),requestReceiver.getUserId(), FriendRequest.Status.Pending);
+            requestSender.getUserSentFriendRequests().add(request);
+            requestReceiver.getUserReceivedFriendRequests().add(request);  
             UserDatabase.getInstance().saveUsersToFile(USERFILE);
            // System.out.println(requestSender.getUserSentFriendRequests().size());
             return true;
@@ -33,35 +34,46 @@ public class FriendshipManagement {
     
     public boolean acceptFriendRequest(User user,FriendRequest request) {
         if (request.getRequestReceiverId().equals(user.getUserId())) {
-            user.acceptFriendRequest(request);
+            if (user.getUserReceivedFriendRequests().contains(request)) {
+            request.setRequestStatus(FriendRequest.Status.Accepted);
+            user.getUserFriends().add(UserDatabase.getInstance().getUser(request.getRequestSenderId()));
+            UserDatabase.getInstance().getUser(request.getRequestSenderId()).getUserFriends().add(user);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
+        }
         }
         return false;
     }
     
     public boolean declineFriendRequest(User user,FriendRequest request) {
         if (request.getRequestSenderId().equals(user.getUserId())) {
-            user.declineFriendRequest(request);
+            if (user.getUserReceivedFriendRequests().contains(request)) {
+            request.setRequestStatus(FriendRequest.Status.Declined);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
+        }
         }
         return false;
     }
     
     public void blockUser(User blocker,User blocked) {
-        blocker.blockUser(blocked);
+        blocker.getUserFriends().remove(blocked);
+        blocker.getUserBlockedUsers().add(blocked);
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
     }
 
     public void removeFriend(User user,User friend) {
-        user.removeFriend(friend);
+        user.getUserFriends().remove(friend);
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
     }
     
-  /*  public Set <User> suggestFriends(User user){
+    public Set <User> suggestFriends(User user){
         Set <User> suggestions = new HashSet<>();
         for(User differentUser:UserDatabase.getInstance().getUsers()){
             if(!user.getUserFriends().contains(differentUser) && !user.getUserBlockedUsers().contains(differentUser) && !user.getUserId().equals(differentUser.getUserId())) suggestions.add(differentUser);
         }
         return suggestions;
-    } */
+    } 
     
     public static class FriendshipManagementFactory{
         

@@ -46,6 +46,14 @@ public final class UserDatabase {
     public ArrayList <User> getUsers() {
         return this.users;
     }
+    
+    public ArrayList <User> getUsersByUsername(String username){
+        ArrayList <User> ans = new ArrayList<>();
+        for(User user:this.users){
+            if(user.getUsername().equals(username)) ans.add(user);
+        }
+        return ans;
+    }
 
    public boolean addUser(User user) throws NoSuchAlgorithmException {
     if (user != null) {

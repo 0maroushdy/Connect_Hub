@@ -44,8 +44,7 @@ public class User {
        this.friends = new HashSet<>();
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
-       this.receivedFriendRequests = new HashSet<>();
-      
+       this.receivedFriendRequests = new HashSet<>(); 
    }
 
    public User() {
@@ -224,17 +223,13 @@ public class User {
     return user;
   }
   
-  public void sendFriendRequest(User receiver) {
+   /* public void sendFriendRequest(User receiver) {
         FriendRequest request = new FriendRequest(this.userId, receiver.userId, FriendRequest.Status.Pending);
-        System.out.println("1 " + this.sentFriendRequests.size());
         this.sentFriendRequests.add(request);
-        System.out.println( "2 " + this.sentFriendRequests.size());
         receiver.receivedFriendRequests.add(request);
-       System.out.println("3 " + receiver.receivedFriendRequests.size());
-      //  UserDatabase.getInstance().saveUsersToFile(USERFILE);
-  }
+  } */
   
-  public boolean acceptFriendRequest(FriendRequest request) {
+ /* public boolean acceptFriendRequest(FriendRequest request) {
         if (this.receivedFriendRequests.contains(request)) {
             request.setRequestStatus(FriendRequest.Status.Accepted);
             this.friends.add(UserDatabase.getInstance().getUser(request.getRequestSenderId()));
@@ -243,33 +238,33 @@ public class User {
             return true;
         }
         return false;
-    }
+    } */
   
-  public boolean declineFriendRequest(FriendRequest request) {
+ /* public boolean declineFriendRequest(FriendRequest request) {
         if (this.receivedFriendRequests.contains(request)) {
             request.setRequestStatus(FriendRequest.Status.Declined);
             UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
         }
         return false;
-    }
+    } */
   
-   public void blockUser(User user) {
+  /* public void blockUser(User user) {
         this.friends.remove(user);
         this.blockedUsers.add(user);
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-    }
+    } */
    
-    public void removeFriend(User user) {
+   /* public void removeFriend(User user) {
         this.friends.remove(user);
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-    }
+    } */
     
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
     
-     public ArrayList <User> suggestFriends(){
+   /*  public ArrayList <User> suggestFriends(){
         ArrayList <User> suggestions = new ArrayList<>();
         for(User user:UserDatabase.getInstance().getUsers()){
              System.out.println(user.userToString());
@@ -277,8 +272,8 @@ public class User {
           //  System.out.println(differentUser.getUserId());
         }
         return suggestions;
-    }
-     
+    } */
+      
    public String userToString(){
        String ans ="";
        ans += this.userId;

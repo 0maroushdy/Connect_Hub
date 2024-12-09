@@ -58,7 +58,7 @@ public class FriendsGui extends javax.swing.JFrame {
             changeFriendStatusModel.addElement(friend.getUserId() + " " + friend.getUsername() + " " + friend.getUserStatus());
         }
         
-        for(User friend: currentUser.suggestFriends()){
+        for(User friend: this.friendship.suggestFriends(currentUser)){
            // System.out.println(friend.getUserId());
             friendSuggestionsModel.addElement(friend.getUserId() + " " + friend.getUsername());
         }
@@ -75,7 +75,7 @@ public class FriendsGui extends javax.swing.JFrame {
                    System.out.println("hello world");
                 if (request.getRequestReceiverId().equals(currentUser.getUserId())) {
                    // System.out.println("hello");
-                currentUser.acceptFriendRequest(request);
+                friendship.acceptFriendRequest(currentUser, request);
                 friendRequestsModel.removeElementAt(ind);
                 }
                }
@@ -92,7 +92,7 @@ public class FriendsGui extends javax.swing.JFrame {
                 User requestSender = UserDatabase.getInstance().getUser(data[0]);
                 for (FriendRequest request : requestSender.getUserSentFriendRequests()) {
                 if (request.getRequestReceiverId().equals(currentUser.getUserId())) {
-                currentUser.declineFriendRequest(request);
+                friendship.declineFriendRequest(currentUser, request);
                 friendRequestsModel.removeElementAt(ind);
               }
            }
@@ -133,7 +133,7 @@ public class FriendsGui extends javax.swing.JFrame {
         int ind = friendSuggestions.getSelectedIndex();
         String[] data = line.split(" ");
         User suggestion = UserDatabase.getInstance().getUser(data[0]);
-        friendship.sendFriendRequest(currentUser, suggestion);
+        friendship.sendFriendRequest(currentUser,suggestion);
       //  System.out.println(currentUser.getUserSentFriendRequests().size());
         friendSuggestionsModel.removeElementAt(ind);
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
