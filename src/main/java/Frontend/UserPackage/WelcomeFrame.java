@@ -110,7 +110,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         this.setVisible(false);
         SignupFrame signupframe = new SignupFrame(this);
         signupframe.setVisible(true);
-        System.out.println(UserDatabase.getInstance().getUniqueCounter());
+       // System.out.println(UserDatabase.getInstance().getUniqueCounter());
     }//GEN-LAST:event_signupActionPerformed
 
     /**

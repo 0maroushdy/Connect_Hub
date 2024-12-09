@@ -4,49 +4,91 @@
  */
 package Backend.UserPackage;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author Abdelrahman
  */
 public class FriendRequest {
-    
-    private User requestSender;
-    private User requestReceiver;
+    private String requestSenderId;
+    private String requestReceiverId;
     private Status requestStatus;
     public enum Status{
         Accepted, Declined, Pending
     }
     
-     public FriendRequest(User requestsender, User requestReceiver, Status requestStatus) {
-        this.requestSender = requestsender;
-        this.requestReceiver = requestReceiver;
+     public FriendRequest(String requestsenderId,String requestReceiverId, Status requestStatus) {
+        this.requestSenderId = requestsenderId;
+        this.requestReceiverId = requestReceiverId;
         this.requestStatus = requestStatus;
     }
      
+     public FriendRequest(){
+         
+     }
+     
            /* Getters */
-    public User getRequestSender(){
-        return this.requestSender;
-    }
-    
-    public User getRequestReciever(){
-        return this.requestReceiver;
-    }
     
     public Status getRequestStatus(){
         return this.requestStatus;
     }
     
-               /* Setters */
-    public void setRequestSender(User requestSender){
-        this.requestSender = requestSender;
+    public String getRequestSenderId(){
+        return this.requestSenderId;
     }
     
-    public void setRequestReciever(User requestReciever){
-        this.requestReceiver = requestReciever;
+    public String getRequestReceiverId(){
+        return this.requestReceiverId;
     }
+    
+               /* Setters */
     
     public void setRequestStatus(Status requestStatus){
         this.requestStatus = requestStatus;
+    }
+    
+    public void setRequestSenderId(String requestSenderId){
+        this.requestSenderId = requestSenderId;
+    }
+    
+    public void setRequestReceiverId(String requesrReceieverId){
+        this.requestReceiverId = requestReceiverId;
+    }
+    
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("SenderUserId", this.requestSenderId);
+        jsonObject.put("ReceiverUserId", this.requestReceiverId);
+        jsonObject.put("RequestStatus", this.requestStatus.toString());
+        
+        return jsonObject;
+    }
+    
+    public static FriendRequest fromJson(JSONObject jsonObject){
+       FriendRequest request = new FriendRequest();
+       String senderId = jsonObject.getString("SenderUserId");
+      //  System.out.println(senderId);
+        String receiverId = jsonObject.getString("ReceiverUserId");
+       // System.out.println(receiverId);
+       request.requestSenderId = senderId;
+       request.requestReceiverId = receiverId;
+      //  User sender = UserDatabase.getInstance().getUser(senderId);
+        
+      //  User receiver = UserDatabase.getInstance().getUser(receiverId);
+        
+        // Set the request sender and receiver
+      //  request.requestSender = sender;
+       // request.requestReceiver = receiver;
+        
+      //  System.out.println(request.requestSender.userToString());
+     //   System.out.println(request.requestReceiver.userToString());
+
+        // Deserialize the request status
+        String statusString = jsonObject.getString("RequestStatus");
+        request.requestStatus = Status.valueOf(statusString);
+
+        return request;
     }
     
     

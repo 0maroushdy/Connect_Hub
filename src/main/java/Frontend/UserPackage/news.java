@@ -38,6 +38,7 @@ public class News extends javax.swing.JFrame {
         panel4 = new JPanel();
         panel5 = new JPanel();
         
+        
         this.setTitle("Newsfeed");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -65,9 +66,11 @@ public class News extends javax.swing.JFrame {
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
         panel5.setLayout(new BoxLayout(panel5, BoxLayout.Y_AXIS));
-
+        
+       
         // Load content
         refreshContent();
+        
 
         // Wrap panels with JScrollPane to make them scrollable
         JScrollPane scrollPane1 = new JScrollPane(panel1);
@@ -244,10 +247,11 @@ private JPanel friendComp(User friend) {
         panel3.removeAll();
         panel4.removeAll();
         panel5.removeAll();
-        ContentDataBase.getInstance().save();
+        ContentDataBase.getInstance().save();   
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-        UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+       // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+        
         JPanel friendListPanel = new JPanel();
     friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
     
@@ -277,7 +281,7 @@ private JPanel friendComp(User friend) {
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
         component.setBorder(lineBorder);
     }
-    for (User friend : UserSignupSingleton.getInstance().getUser().suggestFriends()) {
+    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = friendComp(friend);
         component.setBackground(Color.white);
         Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
@@ -315,7 +319,7 @@ private JPanel friendComp(User friend) {
     }
     
     private void systemLogout(){
-        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
     }
