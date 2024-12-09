@@ -32,7 +32,7 @@ public class UserProfile {
     public UserProfile(JSONObject profileData) { 
         this.profilePhoto = profileData.optString("profilePhoto", "");
         this.profileCover = profileData.optString("profileCover", "");
-        this.profileBio = profileData.optString("profileBio", "");
+        this.profileBio = profileData.optString("bio", "");
     }
 
     

@@ -45,6 +45,19 @@ public class User {
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
    }
+  private User(String userId, String email,String username,String password,LocalDate dateOfBirth,String status, UserProfile profile){
+       this.userId = userId;
+       this.email = email;
+       this.username = username;
+       this.password = password;
+       this.dateOfBirth = dateOfBirth.toString();
+       this.status = status;
+       this.friends = new HashSet<>();
+       this.blockedUsers = new HashSet<>();
+       this.sentFriendRequests = new HashSet<>();
+       this.receivedFriendRequests = new HashSet<>();
+       this.profile = profile;
+   }
 
    public User() {
         
@@ -228,6 +241,13 @@ public class User {
      public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            user.setUserPassword(password,wanttohash);
+            return user;
+        }
+     
+     public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status,UserProfile profile , boolean wanttohash) throws NoSuchAlgorithmException {
+            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
+            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status, profile);
             user.setUserPassword(password,wanttohash);
             return user;
         }

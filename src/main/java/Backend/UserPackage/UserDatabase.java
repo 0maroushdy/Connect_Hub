@@ -103,6 +103,7 @@ public final class UserDatabase {
     public void saveUsersToFile(String filePath) {
         JSONArray jsonArray = new JSONArray();
         for (User user : this.users) {
+            System.out.println("3 .... user.getUserProfile().getProfileBio()\n");
             jsonArray.put(user.toJSON());
         }
         try (FileWriter file = new FileWriter(filePath)) {
@@ -146,7 +147,7 @@ public final class UserDatabase {
                     System.err.println("Invalid UserId format: " + userId);
                 }
             }
-            addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
+            addUser(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
         }
         // Update uniqueCounter to avoid duplicates
           uniqueCounter = maxCounter + 1;
@@ -177,7 +178,13 @@ public final class UserDatabase {
                 String userId = jsonObject.getString("UserId");
                 String password = jsonObject.getString("Password");
                 LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-                temp.add(User.UserFactory.create(userId,email, username, password, date, status,false));
+                
+                JSONObject ProfileObj = (JSONObject) jsonObject.get("Profile"); // added for the profile 
+                UserProfile Profile = new UserProfile(ProfileObj); // using the constructor recving JSONobj
+                
+System.out.println("test 1 ------"+Profile.getProfileBio());
+                temp.add(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
+System.out.println("test 2 ------"+Profile.getProfileBio());
             }
             this.users = temp;
         } catch (IOException e) {
