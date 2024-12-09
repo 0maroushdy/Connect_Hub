@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Backend.UserPackage;
 
+import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -134,6 +132,9 @@ public final class UserDatabase {
             String userId = jsonObject.getString("UserId");
             String password = jsonObject.getString("Password");
             LocalDate date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+            
+            JSONObject ProfileObj = (JSONObject) jsonObject.get("Profile"); // added for the profile 
+            UserProfile Profile = new UserProfile(ProfileObj); // using the constructor recving JSONobj
 
             // Extract numeric part of userId to determine uniqueCounter
             String[] parts = userId.split("-");

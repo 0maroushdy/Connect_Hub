@@ -8,7 +8,7 @@ import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
 import Backend.UserPackage.UserDatabase;
-import Backend.UserProfilePackage.ProfileDatabase;
+import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.profilePackage.ProfileManagmentForm;
@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.Border;
 
 public class News extends javax.swing.JFrame {
@@ -106,7 +108,13 @@ public class News extends javax.swing.JFrame {
         button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
         button3.addActionListener(e -> openFriendsgui());
-        profileBtn.addActionListener(e -> profileBtnAction());
+        profileBtn.addActionListener(e -> {
+            try {
+                profileBtnAction();
+            } catch (overSizeInputException ex) {
+                Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         // Add buttons to the panel
         buttonPanel.add(button1);
@@ -327,7 +335,7 @@ private JPanel friendComp(User friend) {
         new FriendsGui().setVisible(true);
 
     } 
-    private void profileBtnAction() { 
+    private void profileBtnAction() throws overSizeInputException { 
         this.dispose();
         new ProfileManagmentForm().setVisible(true);
 

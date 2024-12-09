@@ -14,11 +14,8 @@ public class UserProfile {
     private String profilePhoto;
     private String profileCover;
     private String profileBio;
-    private String userId;
     
-//    private User user;
-
-    // -----------** Constructor **-----------
+    // -----------** Constructors **-----------
     public UserProfile(String photo, String cover, String bio) {
         profilePhoto = photo;
         profileCover = cover;
@@ -26,20 +23,19 @@ public class UserProfile {
         // must handeling the userId .......... !!
     }
 
-    public UserProfile(String Id, String photo, String cover, String bio) {
-        profilePhoto = photo;
-        profileCover = cover;
-        profileBio = bio;
-        userId = Id;
+    public UserProfile( ) {
+        profilePhoto = "";
+        profileCover = "";
+        profileBio   = "<< add Bio Txt >>";
     }
 
-    public UserProfile(String userId, JSONObject profileData) {
-        this.userId = userId;
+    public UserProfile(JSONObject profileData) { 
         this.profilePhoto = profileData.optString("profilePhoto", "");
         this.profileCover = profileData.optString("profileCover", "");
         this.profileBio = profileData.optString("profileBio", "");
     }
 
+    
     // -----------** Getters **-----------
     public String getProfilePhoto() {
         return profilePhoto;
@@ -53,9 +49,6 @@ public class UserProfile {
         return profileBio;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
     // -----------** Some Setters **-----------
     public void setProfilePhoto(String profilePhoto) {
@@ -76,36 +69,44 @@ public class UserProfile {
     //--------* Update a specific field of the profile --- by the profile DB *--------
     public void updateField(String field, String value) {
         switch (field) {
-            case "profilePhoto" -> {
+            // it's better to make some validation on img format latter -- !
+            case "profilePhoto":
                 this.setProfilePhoto(value);
-            }
+                break;
 
-            case "profileCover" -> {
+            case "profileCover" :
                 this.setProfileCover(value);
-            }
+                break;
 
-            case "profileBio" -> {
+            case "profileBio" :
                 try {
                     this.setProfileBio(value);
                 } catch (overSizeInputException ex) {
                     Logger.getLogger(UserProfile.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-
-            default ->
+            
+            default :
                 throw new IllegalArgumentException("Unknown field erroer: " + field);
+        
         }
     }
 
-    // Convert the profile to a JSON object
+    // Convert the profile to a JSON object 
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
-        json.put("userId", this.userId);
         json.put("profilePhoto", this.profilePhoto);
         json.put("profileCover", this.profileCover);
         json.put("bio", this.profileBio);
         return json;
     }
+    
+    public UserProfile fromJSON(JSONObject json) {
+        UserProfile profile = new UserProfile( json.getString(profilePhoto),
+                              json.getString(profileCover) 
+                             ,json.getString(profileBio));
+        return profile;
+    }
+    
     
     
 

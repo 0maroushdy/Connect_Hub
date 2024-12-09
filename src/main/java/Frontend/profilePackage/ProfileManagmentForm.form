@@ -34,7 +34,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblName1" alignment="0" min="-2" pref="297" max="-2" attributes="0"/>
-                          <Component id="lblName" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                          <Component id="lblBio" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -79,7 +79,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblName1" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="lblName" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="lblBio" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -135,7 +135,7 @@
         <Property name="text" type="java.lang.String" value="Omar Mahmoud"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblName">
+    <Component class="javax.swing.JLabel" name="lblBio">
       <Properties>
         <Property name="text" type="java.lang.String" value="this is a bio text, this is a bio text,  this is a bio text.    "/>
       </Properties>

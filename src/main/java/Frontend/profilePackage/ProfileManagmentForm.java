@@ -4,6 +4,8 @@
  */
 package Frontend.profilePackage;
 
+import Backend.UserPackage.User;
+import Backend.UserPackage.UserSignupSingleton;
 import Frontend.UserPackage.News;
 import java.awt.Image;
 import java.io.IOException;
@@ -29,7 +31,17 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         super.setVisible(true);
         super.setTitle("Profile");
         setLocationRelativeTo(null);
-
+        
+        // identifing the current main User
+        User currentUser = UserSignupSingleton.getInstance().getUser();
+        
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+        
 //        // Load and set the default cover photo
 //        ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
 //        Image defaultCoverScaled = defaultCoverIcon.getImage().getScaledInstance(
@@ -72,7 +84,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         lblProfilePhoto = new javax.swing.JLabel();
         btnEditCoverPhoto = new javax.swing.JButton();
         lblName1 = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
+        lblBio = new javax.swing.JLabel();
         btnEditProfilePhoto = new javax.swing.JButton();
         btnSaveChanges = new javax.swing.JButton();
         btnUpdateBio = new javax.swing.JButton();
@@ -107,7 +119,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         lblName1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblName1.setText("Omar Mahmoud");
 
-        lblName.setText("this is a bio text, this is a bio text,  this is a bio text.    ");
+        lblBio.setText("this is a bio text, this is a bio text,  this is a bio text.    ");
 
         btnEditProfilePhoto.setBackground(new java.awt.Color(0, 153, 153));
         btnEditProfilePhoto.setForeground(new java.awt.Color(255, 255, 255));
@@ -201,7 +213,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblName1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblBio, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -236,7 +248,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblName1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblBio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditProfilePhoto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
@@ -397,8 +409,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdateBio;
     private javax.swing.JButton btnUpdateName;
     private javax.swing.JButton btnUpdatePassword;
+    private javax.swing.JLabel lblBio;
     private javax.swing.JLabel lblCoverPhoto;
-    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblProfilePhoto;
     // End of variables declaration//GEN-END:variables

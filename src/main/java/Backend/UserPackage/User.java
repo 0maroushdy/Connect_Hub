@@ -43,6 +43,7 @@ public class User {
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
+       this.profile = new UserProfile();
    }
 
    public User() {
@@ -88,6 +89,11 @@ public class User {
    public Set <FriendRequest> getUserReceivedFriendRequests(){
        return this.receivedFriendRequests;
    }
+   
+   public UserProfile getUserProfile(){
+       return this.profile;
+   }
+   
              /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
@@ -132,6 +138,7 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
+      jsonObject.put("Profile",this.profile.toJSON());
       return jsonObject;
   }
   
