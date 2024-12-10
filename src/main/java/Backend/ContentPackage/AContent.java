@@ -9,10 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.json.JSONObject;
 
-/*
-TODO
-1- add factory
- */
 /**
  *
  * @author moustafa

@@ -20,8 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*TODO
- */
 /**
  *
  * @author moustafa
@@ -189,7 +187,7 @@ public class ContentDataBase {
         }
     }
 
-    public void shutDown() {
+    private void shutDown() {
         System.out.println("Shutting down ContentDataBase...");
         System.out.println("\tSaving content database");
 

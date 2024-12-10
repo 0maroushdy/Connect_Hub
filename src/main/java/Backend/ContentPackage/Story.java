@@ -29,9 +29,6 @@ public class Story extends AContent {
     }
 
     public static Story fromJSON(JSONObject jsonObject) {
-        //debug
-//            System.out.println(UserDatabase.getInstance().getUsers());
-        //
         String userId = jsonObject.getString("authorId");
         String text = jsonObject.getString("text");
         String imagePath = jsonObject.optString("imagePath", null);
@@ -60,10 +57,6 @@ public class Story extends AContent {
 
         public Builder(String authorId, String text) {
             if (authorId == null || text == null || text.isEmpty()) {
-                //debug
-//                    System.out.println(author);
-//                    System.out.println(text);
-                //
                 throw new IllegalArgumentException("Author and text cannot be null or empty.");
             }
             this.authorId = authorId;
