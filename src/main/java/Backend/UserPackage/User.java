@@ -44,7 +44,8 @@ public class User {
        this.friends = new HashSet<>();
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
-       this.receivedFriendRequests = new HashSet<>(); 
+       this.receivedFriendRequests = new HashSet<>();
+       this.profile = new UserProfile();
    }
 
    public User() {
@@ -52,7 +53,7 @@ public class User {
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
-     
+       this.profile = new UserProfile();
     }
          /* Getters */
     public String getUserId(){
@@ -157,6 +158,7 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
+      jsonObject.put("Profile",this.profile.toJSON());
       JSONArray friendsArray = new JSONArray();
         for (String friend : this.friends) {
             friendsArray.put(friend); 
@@ -195,7 +197,10 @@ public class User {
      user.userId = jsonObject.getString("UserId");
     user.password = jsonObject.getString("Password");
    // user.date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-
+     JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
+    user.profile = new UserProfile( profileObj.getString("profilePhoto"),
+                              profileObj.getString("profileCover") 
+                             ,profileObj.getString("bio")) ;
     // Deserialize the friends set
    // user.friends = new HashSet<>();
     JSONArray friendsArray = jsonObject.getJSONArray("Friends");

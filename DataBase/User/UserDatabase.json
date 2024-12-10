@@ -1,7 +1,7 @@
 [
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-09",
+        "DateOfBirth": "2024-12-10",
         "Email": "beego@gmail.com",
         "Username": "beego",
         "UserId": "beego-1",
@@ -12,12 +12,17 @@
             "ReceiverUserId": "beego-1",
             "RequestStatus": "Accepted"
         }],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
     },
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-09",
+        "DateOfBirth": "2024-12-07",
         "Email": "omar@gmail.com",
         "Username": "omar",
         "UserId": "omar-2",
@@ -28,6 +33,11 @@
             "RequestStatus": "Accepted"
         }],
         "ReceivedFriendRequests": [],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
     }

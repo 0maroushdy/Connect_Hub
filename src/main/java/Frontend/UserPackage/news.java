@@ -9,7 +9,7 @@ import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
 import Backend.UserPackage.UserDatabase;
-import Backend.UserProfilePackage.ProfileDatabase;
+import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.profilePackage.ProfileManagmentForm;
@@ -21,6 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.Border;
 
 public class News extends javax.swing.JFrame {
@@ -43,7 +45,7 @@ public class News extends javax.swing.JFrame {
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -104,19 +106,25 @@ public class News extends javax.swing.JFrame {
         JButton button1 = createStyledButton("Logout");
         JButton refreshButton = createStyledButton("Refresh");
         JButton button3 = createStyledButton("Manage Friends");
-        JButton button4 = createStyledButton("Manage Profile");
+        JButton profileBtn = createStyledButton("profile");
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
         button3.addActionListener(e -> friendsManage());
-        button4.addActionListener(e -> profileManage());
+        profileBtn.addActionListener(e -> {
+            try {
+                profileBtnAction();
+            } catch (overSizeInputException ex) {
+                Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         // Add buttons to the panel
         buttonPanel.add(button1);
         buttonPanel.add(refreshButton);
         buttonPanel.add(button3);
-        buttonPanel.add(button4);
+        buttonPanel.add(profileBtn);
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
@@ -334,6 +342,12 @@ private JPanel friendComp(User friend) {
         ProfileManagmentForm profileForm = new ProfileManagmentForm();
         profileForm.setVisible(true);
     }
+    
+      private void profileBtnAction() throws overSizeInputException { 
+        this.dispose();
+        new ProfileManagmentForm().setVisible(true);
+
+    } 
 
     public static void main(String[] args) throws IOException {
         new News();
