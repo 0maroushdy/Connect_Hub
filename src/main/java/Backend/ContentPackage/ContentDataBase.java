@@ -214,7 +214,7 @@ public class ContentDataBase {
         public static synchronized ArrayList<Post> getFriendsPosts(User user) {
             ArrayList<Post> friendsPosts = new ArrayList<>();
             for (Post post : ContentDataBase.getInstance().getPosts()) {
-                if (user.getUserFriends().contains(post.getAuthor())) {
+                if (user.getUserFriends().contains(post.getAuthorId())) {
                     friendsPosts.add(post);
                 }
             }
@@ -224,7 +224,7 @@ public class ContentDataBase {
         public static synchronized ArrayList<Story> getFriendsStories(User user) {
             ArrayList<Story> friendsStories = new ArrayList<>();
             for (Story story : ContentDataBase.getInstance().getStories()) {
-                if (user.getUserFriends().contains(story.getAuthor())) {
+                if (user.getUserFriends().contains(story.getAuthorId())) {
                     friendsStories.add(story);
                 }
             }

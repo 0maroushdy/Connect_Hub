@@ -4,8 +4,6 @@
  */
 package Backend.ContentPackage;
 
-import Backend.UserPackage.User;
-import Backend.UserPackage.UserDatabase;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -17,7 +15,7 @@ import org.json.JSONObject;
 public class Post extends AContent {
 
     public Post(Post.Builder postBuilder) {
-        super(postBuilder.author,
+        super(postBuilder.authorId,
                 postBuilder.text, 
                 postBuilder.imagePath,
                 postBuilder.timeOfUpload,
@@ -33,7 +31,6 @@ public class Post extends AContent {
     public static Post fromJSON(JSONObject jsonObject) {
         
         String userId = jsonObject.getString("authorId");
-        User user = UserDatabase.getInstance().getUser(userId);
         String text = jsonObject.getString("text");
         String imagePath = jsonObject.optString("imagePath", null);
         String timeStamp = jsonObject.getString("timeStamp");
@@ -41,7 +38,7 @@ public class Post extends AContent {
         LocalDateTime timeOfUpload = LocalDateTime.parse(timeStamp,AContent.getTimeStampFormat());
         
         Post.Builder postBuilder = new Post.Builder(
-                user,
+                userId,
                 text
         )
                 .setImagePath(imagePath)
@@ -54,20 +51,20 @@ public class Post extends AContent {
     public static class Builder {
 
         private final String text;
-        private final User author;
+        private final String authorId;
         private String imagePath;
         private LocalDateTime timeOfUpload;
         private UUID contentId;
 
-        public Builder(User author, String text) {
-            if (author == null || text == null || text.isEmpty()) {
+        public Builder(String authorId, String text) {
+            if (authorId == null || text == null || text.isEmpty()) {
                 //debug
-                    System.out.println(author);
-                    System.out.println(text);
+//                    System.out.println(authorId);
+//                    System.out.println(text);
                 //
                 throw new IllegalArgumentException("Author and text cannot be null or empty.");
             }
-            this.author = author;
+            this.authorId = authorId;
             this.text = text;
             this.imagePath = null;
             this.timeOfUpload = null;

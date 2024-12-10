@@ -137,7 +137,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(post.getAuthor().getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(post.getAuthorId()).getUsername());
         //  System.out.println(post.getAuthor().getUsername());
         JLabel timestampLabel = new JLabel(post.getTimestamp());
 
@@ -173,7 +173,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(story.getAuthor().getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(story.getAuthorId()).getUsername());
         JLabel timestampLabel = new JLabel(story.getTimestamp());
 
         // Create a panel for the top section to hold the author name and timestamp

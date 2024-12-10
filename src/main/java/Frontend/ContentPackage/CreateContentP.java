@@ -136,7 +136,7 @@ public class CreateContentP extends javax.swing.JPanel {
         String filePath = this.selectedFile == null? null : this.selectedFile.getAbsolutePath();
 
         Post post = new Post.Builder(
-                UserSignupSingleton.getInstance().getUser(),
+                UserSignupSingleton.getInstance().getUser().getUserId(),
                 jTextArea1.getText()
         )
                 .setImagePath(filePath)
@@ -161,7 +161,7 @@ public class CreateContentP extends javax.swing.JPanel {
         String filePath = this.selectedFile == null? null : this.selectedFile.getAbsolutePath();
 
         Story story = new Story.Builder(
-                UserSignupSingleton.getInstance().getUser(),
+                UserSignupSingleton.getInstance().getUser().getUserId(),
                 jTextArea1.getText()
         )
                 .setImagePath(filePath)

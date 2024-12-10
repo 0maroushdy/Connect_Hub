@@ -4,7 +4,6 @@
  */
 package Backend.ContentPackage;
 
-import Backend.UserPackage.User;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -21,7 +20,7 @@ TODO
 public abstract class AContent implements Comparable<AContent> {
 
     private final UUID contentId;
-    private final User author;
+    private final String authorId;
 
     private String text;
     private String imagePath;
@@ -36,13 +35,13 @@ timeStamp is String representation of timeOfUpload
 
     private static final DateTimeFormatter timeStampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    protected AContent(User author, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId) {
+    protected AContent(String authorId, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId) {
         //if condition not needed because the check is in the post and story builder 
-        if (author == null || text == null || text.isEmpty()) {
+        if (authorId == null || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Author and text cannot be null or empty.");
         }
         //
-        this.author = author;
+        this.authorId = authorId;
         this.text = text;
         this.timeOfUpload = timeOfUpload;
         this.imagePath = imagePath;
@@ -69,8 +68,8 @@ timeStamp is String representation of timeOfUpload
         return contentId;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public static DateTimeFormatter getTimeStampFormat() {
@@ -88,7 +87,7 @@ timeStamp is String representation of timeOfUpload
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("contentId", this.contentId);
-        jsonObject.put("authorId", this.author.getUserId());
+        jsonObject.put("authorId", this.authorId);
 
         jsonObject.put("text", this.text);
         jsonObject.put("imagePath", this.imagePath != null ? this.imagePath : JSONObject.NULL);

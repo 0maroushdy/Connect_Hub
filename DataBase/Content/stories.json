@@ -1,44 +1,16 @@
 [
     {
-        "timeStamp": "2024-12-10 04:13:37",
+        "timeStamp": "2024-12-10 04:44:23",
         "imagePath": null,
-        "contentId": "350fe068-515b-48b6-ac05-257dafaf5fed",
-        "text": "story 1",
-        "authorId": "m-1"
-    },
-    {
-        "timeStamp": "2024-12-10 04:07:43",
-        "imagePath": null,
-        "contentId": "37588c89-3c31-4120-a13e-3fc3965e670b",
+        "contentId": "4b18f932-516a-4562-924a-6b00c3c1c2ae",
         "text": "story 2",
         "authorId": "m-1"
     },
     {
-        "timeStamp": "2024-12-10 04:13:42",
+        "timeStamp": "2024-12-10 04:44:18",
         "imagePath": null,
-        "contentId": "3e0f55e5-a4f6-4410-b5a4-69a690d3b3a1",
-        "text": "story 2",
-        "authorId": "m-1"
-    },
-    {
-        "timeStamp": "2024-12-10 04:07:11",
-        "imagePath": null,
-        "contentId": "83458977-7a6f-42d1-a4b7-a258acd43e97",
+        "contentId": "8488d8eb-6d4d-4542-a037-b160f3d1c2f7",
         "text": "story 1",
-        "authorId": "m-1"
-    },
-    {
-        "timeStamp": "2024-12-10 04:13:11",
-        "imagePath": null,
-        "contentId": "a3c2bcfb-62d3-4210-8410-a0fffdd858f5",
-        "text": "story 1",
-        "authorId": "m-1"
-    },
-    {
-        "timeStamp": "2024-12-10 04:13:17",
-        "imagePath": null,
-        "contentId": "c059f2dd-bf0f-42d3-82c6-81daa2630cb9",
-        "text": "story 2",
         "authorId": "m-1"
     }
 ]
