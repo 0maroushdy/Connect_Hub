@@ -21,7 +21,7 @@ public class testDataBase {
 
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         //this is the problem
-        User u = User.UserFactory.create("ggg@ggg.ggg", "moustafa", "123", LocalDate.now(), "Online");
+        User u = User.UserFactory.create("m-1","ggg@ggg.ggg", "moustafa", "123", LocalDate.now(), "Online", true);
         UserDatabase.getInstance().addUser(u);
         UserSignupSingleton.getInstance().setUser(u);
 

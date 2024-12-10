@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.TreeSet;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +30,7 @@ public class ContentDataBase {
 
     private final TreeSet<Post> posts;
     private final TreeSet<Story> stories;
+
     private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
 
@@ -170,6 +170,7 @@ public class ContentDataBase {
     }
 
     private synchronized void save() {
+
         JSONArray storiesJSON = new JSONArray();
         for (Story story : this.stories) {
             storiesJSON.put(story.toJSON());
@@ -191,6 +192,7 @@ public class ContentDataBase {
     public void shutDown() {
         System.out.println("Shutting down ContentDataBase...");
         System.out.println("\tSaving content database");
+
         this.update();
 
         if (this.scheduler != null && !scheduler.isShutdown()) {
@@ -204,6 +206,7 @@ public class ContentDataBase {
                 scheduler.shutdownNow();
             }
         }
+
     }
 
     public static class Query {
@@ -228,4 +231,5 @@ public class ContentDataBase {
             return friendsStories;
         }
     }
+
 }

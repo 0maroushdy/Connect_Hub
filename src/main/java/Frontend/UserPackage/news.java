@@ -8,9 +8,10 @@ import Backend.ContentPackage.Story;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.ContentPackage.ContentDataBase;
 import Backend.UserPackage.UserDatabase;
-import Backend.UserProfilePackage.ProfileDatabase;
+import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.Border;
 
 public class News extends javax.swing.JFrame {
@@ -98,17 +101,27 @@ public class News extends javax.swing.JFrame {
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
         JButton refreshButton = createStyledButton("Refresh");
-        JButton button3 = createStyledButton("Button 3");
+        JButton button3 = createStyledButton("Friends");
+        JButton profileBtn = createStyledButton("profile"); // ------------------- 1
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
         refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
-        button3.addActionListener(e -> JOptionPane.showMessageDialog(this, "Button 3 clicked!"));
+        button3.addActionListener(e -> openFriendsgui());
+        profileBtn.addActionListener(e -> {
+            try {
+                profileBtnAction();
+            } catch (overSizeInputException ex) {
+                Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         // Add buttons to the panel
         buttonPanel.add(button1);
         buttonPanel.add(refreshButton);
         buttonPanel.add(button3);
+        // Porfile btn ----------------------- 1
+        buttonPanel.add(profileBtn);
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
@@ -242,8 +255,10 @@ public class News extends javax.swing.JFrame {
         panel5.removeAll();
         ContentDataBase.getInstance().update();
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-        // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-        UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
+
         JPanel friendListPanel = new JPanel();
         friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
 
@@ -264,17 +279,21 @@ public class News extends javax.swing.JFrame {
             JPanel component = storyComp(story);
             storiesPanel.add(component, 0); // Add to the top
         }
-        for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
-            JPanel component = friendComp(friend);
-            component.setBackground(Color.white);
-            Dimension minimumSize = new Dimension(800, 50);
-            component.setMinimumSize(minimumSize);
-            Dimension maximumSize = new Dimension(800, 50);
-            component.setMaximumSize(maximumSize);
-            friendListPanel.add(component, 0); // Add to the top
-            Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
-            component.setBorder(lineBorder);
+
+        for (User friend : UserDatabase.getInstance().getUsers()) {
+            if (UserSignupSingleton.getInstance().getUser().getUserFriends().contains(friend.getUserId())) {
+                JPanel component = friendComp(friend);
+                component.setBackground(Color.white);
+                Dimension minimumSize = new Dimension(800, 50);
+                component.setMinimumSize(minimumSize);
+                Dimension maximumSize = new Dimension(800, 50);
+                component.setMaximumSize(maximumSize);
+                friendListPanel.add(component, 0); // Add to the top
+                Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+                component.setBorder(lineBorder);
+            }
         }
+
         for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
             JPanel component = friendComp(friend);
             component.setBackground(Color.white);
@@ -318,6 +337,18 @@ public class News extends javax.swing.JFrame {
         UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
+    }
+
+    private void openFriendsgui() {
+        this.dispose();
+        new FriendsGui().setVisible(true);
+
+    }
+
+    private void profileBtnAction() throws overSizeInputException {
+        this.dispose();
+        new ProfileManagmentForm().setVisible(true);
+
     }
 
     public static void main(String[] args) throws IOException {

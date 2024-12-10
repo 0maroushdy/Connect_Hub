@@ -33,7 +33,7 @@ public class Story extends AContent {
 
     public static Story fromJSON(JSONObject jsonObject) {
         //debug
-            System.out.println(UserDatabase.getInstance().getUsers());
+//            System.out.println(UserDatabase.getInstance().getUsers());
         //
         String userId = jsonObject.getString("authorId");
         User u = UserDatabase.getInstance().getUser(userId);
