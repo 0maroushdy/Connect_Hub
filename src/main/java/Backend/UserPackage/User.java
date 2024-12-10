@@ -96,6 +96,10 @@ public class User {
        return this.receivedFriendRequests;
    }
    
+   public UserProfile getUserProfile(){
+       return this.profile;
+   }
+   
              /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);

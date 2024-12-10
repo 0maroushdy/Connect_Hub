@@ -107,6 +107,7 @@ public class News extends javax.swing.JFrame {
         JButton refreshButton = createStyledButton("Refresh");
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
+      
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
@@ -121,10 +122,12 @@ public class News extends javax.swing.JFrame {
         });
 
         // Add buttons to the panel
-        buttonPanel.add(button1);
+     //  buttonPanel.add(button1);
+       buttonPanel.add(profileBtn);
         buttonPanel.add(refreshButton);
         buttonPanel.add(button3);
-        buttonPanel.add(profileBtn);
+       // buttonPanel.add(profileBtn);
+       
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
