@@ -6,7 +6,18 @@
         "Username": "beego",
         "UserId": "beego-1",
         "Friends": ["omar-2"],
-        "SentFriendRequests": [],
+        "SentFriendRequests": [
+            {
+                "SenderUserId": "beego-1",
+                "ReceiverUserId": "beego-3",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "beego-1",
+                "ReceiverUserId": "beego-3",
+                "RequestStatus": "Pending"
+            }
+        ],
         "ReceivedFriendRequests": [{
             "SenderUserId": "omar-2",
             "ReceiverUserId": "beego-1",
@@ -15,10 +26,11 @@
         "Profile": {
             "profilePhoto": "",
             "profileCover": "",
-            "bio": "I am good"
+            "bio": "<< add Bio Txt >>"
         },
         "BlockedUsers": [],
-        "Password": "2ef570ec98183bfe23fe6469466627b656144688c737efbc95abf4c345d14506"
+        "Password": "2ef570ec98183bfe23fe6469466627b656144688c737efbc95abf4c345d14506",
+        "userJoinedGroups": []
     },
     {
         "Status": "online",
@@ -39,6 +51,36 @@
             "bio": "<< add Bio Txt >>"
         },
         "BlockedUsers": [],
-        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413"
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
+        "userJoinedGroups": []
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-08",
+        "Email": "beego@yahoo.com",
+        "Username": "beego",
+        "UserId": "beego-3",
+        "Friends": [],
+        "SentFriendRequests": [],
+        "ReceivedFriendRequests": [
+            {
+                "SenderUserId": "beego-1",
+                "ReceiverUserId": "beego-3",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "beego-1",
+                "ReceiverUserId": "beego-3",
+                "RequestStatus": "Pending"
+            }
+        ],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
+        "userJoinedGroups": []
     }
 ]

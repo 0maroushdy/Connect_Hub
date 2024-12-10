@@ -89,6 +89,13 @@ public class ContentDataBase {
     public synchronized ArrayList<Story> getStories() {
         return new ArrayList<>(stories);
     }
+    
+    private Post getPostById(int contentId){
+        for(Post post:this.posts){
+            if(post.getContentId() == contentId) return post;
+        }
+        return null;
+    }
 
     public synchronized ArrayList<Post> getFriendsPosts(User user) {
         ArrayList<Post> friendsPosts = new ArrayList<>();

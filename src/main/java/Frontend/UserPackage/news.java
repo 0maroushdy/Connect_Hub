@@ -12,6 +12,7 @@ import Backend.UserPackage.UserDatabase;
 import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -104,14 +105,15 @@ public class News extends javax.swing.JFrame {
 
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
-        JButton refreshButton = createStyledButton("Refresh");
+        JButton searchButton = createStyledButton("SearchEngine");
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
       
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
-        refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
+       // searchButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
+       searchButton.addActionListener(e -> searchMethod());
         button3.addActionListener(e -> friendsManage());
         profileBtn.addActionListener(e -> {
             try {
@@ -124,7 +126,7 @@ public class News extends javax.swing.JFrame {
         // Add buttons to the panel
      //  buttonPanel.add(button1);
        buttonPanel.add(profileBtn);
-        buttonPanel.add(refreshButton);
+        buttonPanel.add(searchButton);
         buttonPanel.add(button3);
        // buttonPanel.add(profileBtn);
        
@@ -351,6 +353,11 @@ private JPanel friendComp(User friend) {
         new ProfileManagmentForm().setVisible(true);
 
     } 
+      
+    private void searchMethod(){
+        SearchFrame searchFrame = new SearchFrame();
+        searchFrame.setVisible(true);
+    }
 
     public static void main(String[] args) throws IOException {
         new News();

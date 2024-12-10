@@ -4,6 +4,8 @@
  */
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
@@ -31,6 +33,7 @@ public class User {
    private UserProfile profile; // adding userProfile attribute --> making composition
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
+   private Set <Group> userJoinedGroups;
    
    
       /* Constructor */
@@ -46,6 +49,7 @@ public class User {
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
+       this.userJoinedGroups = new HashSet <>();
    }
 
    public User() {
@@ -54,6 +58,7 @@ public class User {
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
+       this.userJoinedGroups = new HashSet <>();
     }
          /* Getters */
     public String getUserId(){
@@ -98,6 +103,10 @@ public class User {
    
    public UserProfile getUserProfile(){
        return this.profile;
+   }
+   
+   public Set <Group> getUserJoinedGroups(){
+       return this.userJoinedGroups;
    }
    
              /* Setters */
@@ -189,6 +198,12 @@ public class User {
             receivedRequestsArray.put(request.toJSON()); 
         }
         jsonObject.put("ReceivedFriendRequests", receivedRequestsArray);
+        
+         JSONArray groupsArray = new JSONArray();
+        for (Group group : this.userJoinedGroups) {
+            groupsArray.put(group.toJSON());
+        }
+        jsonObject.put("userJoinedGroups", groupsArray);
       return jsonObject;
   }
   
@@ -246,6 +261,17 @@ public class User {
         System.err.println("Warning: Failed to deserialize received friend request at index " + i);
     }
     }
+    
+    JSONArray groupsArray = jsonObject.getJSONArray("userJoinedGroups");
+    for (int i = 0; i < groupsArray.length(); i++) {
+        JSONObject groupJson = groupsArray.getJSONObject(i);
+        Group group = Group.fromJSON(groupJson);
+        if (group != null) { // Ensure the deserialization didn't fail
+        user.userJoinedGroups.add(group);
+    } else {
+        System.err.println("Warning: Failed to deserialize received friend request at index " + i);
+    }
+    }
     return user;
   }
   
@@ -289,6 +315,7 @@ public class User {
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
+    
     
    /*  public ArrayList <User> suggestFriends(){
         ArrayList <User> suggestions = new ArrayList<>();
