@@ -35,7 +35,7 @@ public class News extends javax.swing.JFrame {
         panel3 = new JPanel();
         panel4 = new JPanel();
         panel5 = new JPanel();
-        
+
         this.setTitle("Newsfeed");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -125,7 +125,7 @@ public class News extends javax.swing.JFrame {
 
         // Create labels for the author name and timestamp
         JLabel authorLabel = new JLabel(post.getAuthor().getUsername());
-      //  System.out.println(post.getAuthor().getUsername());
+        //  System.out.println(post.getAuthor().getUsername());
         JLabel timestampLabel = new JLabel(post.getTimestamp());
 
         // Create a panel for the top section to hold the author name and timestamp
@@ -190,102 +190,107 @@ public class News extends javax.swing.JFrame {
         return panel;
     }
 
-private JPanel friendComp(User friend) {
-    JPanel panel = new JPanel(new GridBagLayout());
-    GridBagConstraints gbc = new GridBagConstraints();
-    panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+    private JPanel friendComp(User friend) {
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
 
-    // Load the user's image and scale it to 50x50 dimensions
-    JLabel imageLabel = new JLabel();
-    try {
-        BufferedImage image = ImageIO.read(new File(FILEPATHS.ROCKLY));
-        Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        imageLabel.setIcon(new ImageIcon(scaledImage));
-    } catch (IOException e) {
-        e.printStackTrace();
+        // Load the user's image and scale it to 50x50 dimensions
+        JLabel imageLabel = new JLabel();
+        try {
+            BufferedImage image = ImageIO.read(new File(FILEPATHS.ROCKLY));
+            Image scaledImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledImage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Create labels for the username and status
+        JLabel usernameLabel = new JLabel(friend.getUsername());
+        JLabel statusLabel = new JLabel(friend.getUserStatus());
+
+        // Set constraints and add the image to the panel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 0, 50); // Right padding for space between image and username
+        panel.add(imageLabel, gbc);
+
+        // Set constraints and add the username to the panel
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 20, 0, 0); // Right padding for space between username and status
+        panel.add(usernameLabel, gbc);
+
+        // Set constraints and add the status to the panel
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 500, 0, 0); // No additional padding
+        panel.add(statusLabel, gbc);
+
+        return panel;
     }
 
-    // Create labels for the username and status
-    JLabel usernameLabel = new JLabel(friend.getUsername()); 
-    JLabel statusLabel = new JLabel(friend.getUserStatus());
-
-    // Set constraints and add the image to the panel
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.anchor = GridBagConstraints.WEST;
-    gbc.insets = new Insets(0, 0, 0, 50); // Right padding for space between image and username
-    panel.add(imageLabel, gbc);
-
-    // Set constraints and add the username to the panel
-    gbc.gridx = 1;
-    gbc.gridy = 0;
-    gbc.anchor = GridBagConstraints.CENTER;
-    gbc.insets = new Insets(0, 20, 0, 0); // Right padding for space between username and status
-    panel.add(usernameLabel, gbc);
-
-    // Set constraints and add the status to the panel
-    gbc.gridx = 2;
-    gbc.gridy = 0;
-    gbc.anchor = GridBagConstraints.EAST;
-    gbc.insets = new Insets(0, 500, 0,0); // No additional padding
-    panel.add(statusLabel, gbc);
-
-    return panel;
-}
-      /*  Move to backend */
+    /*  Move to backend */
     private void refreshContent() {
         panel1.removeAll();
         panel2.removeAll();
         panel3.removeAll();
         panel4.removeAll();
         panel5.removeAll();
-        ContentDataBase.getInstance().save();
+        ContentDataBase.getInstance().update();
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
-       // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
         JPanel friendListPanel = new JPanel();
-    friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
-    
-    JPanel postsPanel = new JPanel();
-    postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
-    
-    JPanel storiesPanel = new JPanel();
-    storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
-    
-    JPanel suggestionsPanel = new JPanel();
-    suggestionsPanel.setLayout(new BoxLayout(suggestionsPanel, BoxLayout.Y_AXIS));
+        friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
 
-    for (Post post : ContentDataBase.getInstance().getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
-        JPanel component = postComp(post);
-        postsPanel.add(component, 0); // Add to the top
-    }
-    for (Story story : ContentDataBase.getInstance().getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
-        JPanel component = storyComp(story);
-        storiesPanel.add(component, 0); // Add to the top
-    }
-    for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
-        JPanel component = friendComp(friend);
-        component.setBackground(Color.white);
-         Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
-        Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
-        friendListPanel.add(component, 0); // Add to the top
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
-        component.setBorder(lineBorder);
-    }
-    for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
-        JPanel component = friendComp(friend);
-        component.setBackground(Color.white);
-        Dimension minimumSize = new Dimension(800, 50); component.setMinimumSize(minimumSize);
-        Dimension maximumSize = new Dimension(800, 50); component.setMaximumSize(maximumSize);
-        suggestionsPanel.add(component, 0); // Add to the top
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
-        component.setBorder(lineBorder);
-    }
-    panel1.add(friendListPanel);
-    panel2.add(postsPanel);
-    panel3.add(suggestionsPanel);
-    panel4.add(new CreateContentP());
-    panel5.add(storiesPanel);
+        JPanel postsPanel = new JPanel();
+        postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
+
+        JPanel storiesPanel = new JPanel();
+        storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
+
+        JPanel suggestionsPanel = new JPanel();
+        suggestionsPanel.setLayout(new BoxLayout(suggestionsPanel, BoxLayout.Y_AXIS));
+
+        for (Post post : ContentDataBase.Query.getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
+            JPanel component = postComp(post);
+            postsPanel.add(component, 0); // Add to the top
+        }
+        for (Story story : ContentDataBase.Query.getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
+            JPanel component = storyComp(story);
+            storiesPanel.add(component, 0); // Add to the top
+        }
+        for (User friend : UserSignupSingleton.getInstance().getUser().getUserFriends()) {
+            JPanel component = friendComp(friend);
+            component.setBackground(Color.white);
+            Dimension minimumSize = new Dimension(800, 50);
+            component.setMinimumSize(minimumSize);
+            Dimension maximumSize = new Dimension(800, 50);
+            component.setMaximumSize(maximumSize);
+            friendListPanel.add(component, 0); // Add to the top
+            Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+            component.setBorder(lineBorder);
+        }
+        for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
+            JPanel component = friendComp(friend);
+            component.setBackground(Color.white);
+            Dimension minimumSize = new Dimension(800, 50);
+            component.setMinimumSize(minimumSize);
+            Dimension maximumSize = new Dimension(800, 50);
+            component.setMaximumSize(maximumSize);
+            suggestionsPanel.add(component, 0); // Add to the top
+            Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+            component.setBorder(lineBorder);
+        }
+        panel1.add(friendListPanel);
+        panel2.add(postsPanel);
+        panel3.add(suggestionsPanel);
+        panel4.add(new CreateContentP());
+        panel5.add(storiesPanel);
 
         panel1.revalidate();
         panel2.revalidate();
@@ -308,8 +313,8 @@ private JPanel friendComp(User friend) {
         button.setBorder(new EmptyBorder(10, 60, 10, 60)); // Add padding
         return button;
     }
-    
-    private void systemLogout(){
+
+    private void systemLogout() {
         UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
@@ -318,5 +323,5 @@ private JPanel friendComp(User friend) {
     public static void main(String[] args) throws IOException {
         new News();
     }
-    
+
 }

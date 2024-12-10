@@ -6,24 +6,22 @@ package Backend.ContentPackage;
 
 import Backend.UserPackage.User;
 import static Files.FILEPATHS.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 /*TODO
-1- sync this class
-3- make id generator a diff class or use uuid
  */
 /**
  *
@@ -31,21 +29,19 @@ import org.json.JSONTokener;
  */
 public class ContentDataBase {
 
-    private final ArrayList<Post> posts;
-    private final ArrayList<Story> stories;
+    private final TreeSet<Post> posts;
+    private final TreeSet<Story> stories;
     private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
 
-    private static int id = 0;
-
     private ContentDataBase() {
-        this.posts = new ArrayList<>();
-        this.stories = new ArrayList<>();
+        this.posts = new TreeSet<>();
+        this.stories = new TreeSet<>();
 
         this.scheduler = Executors.newScheduledThreadPool(1);
         this.scheduler.scheduleAtFixedRate(
                 this::removeStory,
-                1, 1, TimeUnit.HOURS
+                0, 1, TimeUnit.SECONDS
         );
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -53,110 +49,140 @@ public class ContentDataBase {
         }));
     }
 
-    public synchronized static ContentDataBase getInstance() {
+    public static ContentDataBase getInstance() {
         if (ContentDataBase.dataBase == null) {
-            ContentDataBase.dataBase = new ContentDataBase();
-            ContentDataBase.dataBase.load();
+            synchronized (ContentDataBase.class) {
+                ContentDataBase.dataBase = new ContentDataBase();
+                ContentDataBase.dataBase.load();
+            }
         }
         return ContentDataBase.dataBase;
     }
 
     public synchronized void addContent(Post cont) {
         this.posts.add(cont);
-        this.save();
+        this.update();
     }
 
     public synchronized void addContent(Story cont) {
         this.stories.add(cont);
-        this.save();
+        this.update();
     }
 
     private synchronized void removeStory() {
-        System.out.println("Scheduled remove stories");
+        //debug
+//            System.out.println("Scheduled remove stories");
+        //
 
-        ArrayList<Story> storiesToRemove = new ArrayList<>();
+        ArrayList<Story> storiesToRemove = new ArrayList<>() {
+            @Override
+            public boolean contains(Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null) {
+                    return false;
+                }
+                if (o instanceof Story storyToCheck) {
+                    for (Story story : this) {
+                        if (story.getContentId().equals(storyToCheck.getContentId())) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        };
+
+        long targetSeconds = 23 * 3600 + 59 * 60 + 50;
+        //debug
+//            targetSeconds = 5;
+        //
         for (Story s : this.stories) {
             Duration duration = Duration.between(s.getTimeOfUpload(), LocalDateTime.now());
-            if (duration.toHours() >= 24) {
+
+            if (duration.getSeconds() >= targetSeconds) {
                 storiesToRemove.add(s);
             }
         }
 
         this.stories.removeAll(storiesToRemove);
+
+        try {
+            JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
+            for (int i = 0; i < storiesJSON.length(); i++) {
+                JSONObject storyJSON = storiesJSON.getJSONObject(i);
+                Story s = Story.fromJSON(storyJSON);
+                if (!storiesToRemove.contains(s)) {
+                    this.stories.add(s);
+                }
+            }
+
+            storiesJSON = new JSONArray();
+            for (Story story : this.stories) {
+                storiesJSON.put(story.toJSON());
+            }
+
+            JSONUtils.writeToFile(STORYFILE, storiesJSON);
+        } catch (IOException ex) {
+            Logger.getLogger(ContentDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public TreeSet<Post> getPosts() {
+        return new TreeSet<>(posts);
+    }
+
+    public TreeSet<Story> getStories() {
+        return new TreeSet<>(stories);
+    }
+
+    private synchronized final void load() {
+        try {
+            JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
+            for (int i = 0; i < storiesJSON.length(); i++) {
+                try {
+                    JSONObject storyJSON = storiesJSON.getJSONObject(i);
+                    Story s = Story.fromJSON(storyJSON);
+                    this.stories.add(s);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            }
+
+            JSONArray postsJSON = JSONUtils.readFromFile(POSTFILE);
+            for (int i = 0; i < postsJSON.length(); i++) {
+                JSONObject postJSON = postsJSON.getJSONObject(i);
+                this.posts.add(Post.fromJSON(postJSON));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error loading files: " + e.getMessage());
+        } catch (JSONException e) {
+            System.err.println("Invalid JSON format: " + e.getMessage());
+        }
+    }
+
+    public synchronized void update() {
+        this.load();
         this.save();
     }
 
-    public synchronized ArrayList<Post> getPosts() {
-        return new ArrayList<>(posts);
-    }
-
-    public synchronized ArrayList<Story> getStories() {
-        return new ArrayList<>(stories);
-    }
-
-    public synchronized ArrayList<Post> getFriendsPosts(User user) {
-        ArrayList<Post> friendsPosts = new ArrayList<>();
-        for (Post post : this.posts) {
-            if (user.getUserFriends().contains(post.getAuthor())) {
-                friendsPosts.add(post);
-            }
-        }
-        return friendsPosts;
-    }
-
-    public synchronized ArrayList<Story> getFriendsStories(User user) {
-        ArrayList<Story> friendsStories = new ArrayList<>();
-        for (Story story : this.stories) {
-            if (user.getUserFriends().contains(story.getAuthor())) {
-                friendsStories.add(story);
-            }
-        }
-        return friendsStories;
-    }
-
-    public synchronized static int getUniqueId() {
-        ContentDataBase.id += 1;
-        return ContentDataBase.id;
-    }
-
-    protected synchronized final void load() {
-
-        try (BufferedReader storiesFile = new BufferedReader(new FileReader(STORYFILE)); BufferedReader postsFile = new BufferedReader(new FileReader(POSTFILE))) {
-
-            JSONArray storiesJSON = new JSONArray(new JSONTokener(storiesFile));
-            for (int i = 0; i < storiesJSON.length(); i++) {
-                JSONObject storyJSON = storiesJSON.getJSONObject(i);
-                Story story = Story.fromJSON(storyJSON);
-                this.stories.add(story);
-            }
-
-            JSONArray postsJSON = new JSONArray(new JSONTokener(postsFile));
-            for (int i = 0; i < postsJSON.length(); i++) {
-                JSONObject postJSON = postsJSON.getJSONObject(i);
-                Post post = Post.fromJSON(postJSON);
-                this.posts.add(post);
-            }
-
-            System.out.println("Data loaded successfully.");
-        } catch (JSONException e) {
-            System.out.println("Either posts file or story file have invalid JSON syntax");
-        } catch (IOException e) {
-
-        }
-    }
-
-    public synchronized void save() {
-
+    private synchronized void save() {
         JSONArray storiesJSON = new JSONArray();
-        this.stories.forEach(story -> storiesJSON.put(story.toJSON()));
+        for (Story story : this.stories) {
+            storiesJSON.put(story.toJSON());
+        }
 
         JSONArray postsJSON = new JSONArray();
-        this.posts.forEach(post -> postsJSON.put(post.toJSON()));
+        for (Post post : this.posts) {
+            postsJSON.put(post.toJSON());
+        }
 
-        try (FileWriter storiesFile = new FileWriter(STORYFILE); FileWriter postsFile = new FileWriter(POSTFILE)) {
-            storiesFile.write(storiesJSON.toString(4));
-            postsFile.write(postsJSON.toString(4));
-
+        try {
+            JSONUtils.writeToFile(STORYFILE, storiesJSON);
+            JSONUtils.writeToFile(POSTFILE, postsJSON);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +191,7 @@ public class ContentDataBase {
     public void shutDown() {
         System.out.println("Shutting down ContentDataBase...");
         System.out.println("\tSaving content database");
-        this.save();
+        this.update();
 
         if (this.scheduler != null && !scheduler.isShutdown()) {
             System.out.println("\tShutting down scheduler...");
@@ -177,6 +203,29 @@ public class ContentDataBase {
             } catch (InterruptedException e) {
                 scheduler.shutdownNow();
             }
+        }
+    }
+
+    public static class Query {
+
+        public static synchronized ArrayList<Post> getFriendsPosts(User user) {
+            ArrayList<Post> friendsPosts = new ArrayList<>();
+            for (Post post : ContentDataBase.getInstance().getPosts()) {
+                if (user.getUserFriends().contains(post.getAuthor())) {
+                    friendsPosts.add(post);
+                }
+            }
+            return friendsPosts;
+        }
+
+        public static synchronized ArrayList<Story> getFriendsStories(User user) {
+            ArrayList<Story> friendsStories = new ArrayList<>();
+            for (Story story : ContentDataBase.getInstance().getStories()) {
+                if (user.getUserFriends().contains(story.getAuthor())) {
+                    friendsStories.add(story);
+                }
+            }
+            return friendsStories;
         }
     }
 }

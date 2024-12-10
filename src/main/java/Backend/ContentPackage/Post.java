@@ -7,7 +7,7 @@ package Backend.ContentPackage;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import java.time.LocalDateTime;
-import org.json.JSONException;
+import java.util.UUID;
 import org.json.JSONObject;
 
 /**
@@ -16,8 +16,12 @@ import org.json.JSONObject;
  */
 public class Post extends AContent {
 
-    public Post(User authorId) {
-        super(authorId);
+    public Post(Post.Builder postBuilder) {
+        super(postBuilder.author,
+                postBuilder.text, 
+                postBuilder.imagePath,
+                postBuilder.timeOfUpload,
+                postBuilder.contentId);
     }
 
     @Override
@@ -27,13 +31,65 @@ public class Post extends AContent {
     }
 
     public static Post fromJSON(JSONObject jsonObject) {
-        User author = UserDatabase.getInstance().getUser(jsonObject.getString("authorId"));
-        Post post = new Post(author);
-        post.setText(jsonObject.getString("text"));
-        post.setImagePath(jsonObject.optString("imagePath", null));
+        
+        String userId = jsonObject.getString("authorId");
+        User user = UserDatabase.getInstance().getUser(userId);
+        String text = jsonObject.getString("text");
+        String imagePath = jsonObject.optString("imagePath", null);
+        String timeStamp = jsonObject.getString("timeStamp");
+        UUID contentId = UUID.fromString(jsonObject.getString("contentId"));
+        LocalDateTime timeOfUpload = LocalDateTime.parse(timeStamp,AContent.getTimeStampFormat());
+        
+        Post.Builder postBuilder = new Post.Builder(
+                user,
+                text
+        )
+                .setImagePath(imagePath)
+                .setTimeOfUpload(timeOfUpload)
+                .setContentId(contentId);
 
-        String timeOfUploadStr = jsonObject.getString("timestamp");
-        post.setTimeOfUpload(LocalDateTime.parse(timeOfUploadStr, AContent.getTimeStampFormat()));
-        return post;
+        return postBuilder.build();
+    }
+
+    public static class Builder {
+
+        private final String text;
+        private final User author;
+        private String imagePath;
+        private LocalDateTime timeOfUpload;
+        private UUID contentId;
+
+        public Builder(User author, String text) {
+            if (author == null || text == null || text.isEmpty()) {
+                //debug
+                    System.out.println(author);
+                    System.out.println(text);
+                //
+                throw new IllegalArgumentException("Author and text cannot be null or empty.");
+            }
+            this.author = author;
+            this.text = text;
+            this.imagePath = null;
+            this.timeOfUpload = null;
+        }
+
+        public Builder setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+            return this;
+        }
+        
+        public Builder setTimeOfUpload(LocalDateTime timeOfUpload) {
+            this.timeOfUpload = timeOfUpload;
+            return this;
+        }
+        
+        public Builder setContentId(UUID id){
+            this.contentId = id;
+            return this;
+        }
+
+        public Post build() {
+            return new Post(this);
+        }
     }
 }

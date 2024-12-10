@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "timeStamp": "2024-12-10 03:13:16",
+        "imagePath": null,
+        "contentId": "d567d9a4-489e-493f-844d-dfa8428230ad",
+        "text": "story 2",
+        "authorId": "moustafa-1"
+    },
+    {
+        "timeStamp": "2024-12-10 03:13:11",
+        "imagePath": null,
+        "contentId": "d96cb2c8-6c69-42bd-ac67-dac984abc3e5",
+        "text": "story 1",
+        "authorId": "moustafa-1"
+    }
+]

@@ -5,6 +5,9 @@
 package Backend.ContentPackage;
 
 import Backend.UserPackage.User;
+import Backend.UserPackage.UserDatabase;
+import Backend.UserPackage.UserSignupSingleton;
+import static Files.FILEPATHS.USERFILE;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
@@ -13,16 +16,31 @@ import java.time.LocalDate;
  * @author moustafa
  */
 public class testDataBase {
+
     public static void main(String[] args) throws NoSuchAlgorithmException {
+
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        //this is the problem
+        User u = User.UserFactory.create("ggg@ggg.ggg", "moustafa", "123", LocalDate.now(), "Online");
+        UserDatabase.getInstance().addUser(u);
+        UserSignupSingleton.getInstance().setUser(u);
+
+        new Story.Builder(u, "story 1")
+                .build()
+                .uplode();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
-        
-        User u = User.UserFactory.create("moustafa@gmail.com","moustafa","123",LocalDate.now(),"Online");
-        (new Story(u)).uplode();
-        
-        System.out.println(ContentDataBase.getInstance().getStories());
-        
-        
-        
-        ContentDataBase.getInstance().shutDown();
+        new Story.Builder(u, "story 2")
+                .build()
+                .uplode();
+
+        new Post.Builder(u, "post 1")
+                .build()
+                .uplode();
     }
 }
