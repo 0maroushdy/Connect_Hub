@@ -53,7 +53,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     
         public ProfileManagmentForm(User user) {
         this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
-JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------");
+//JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------"); // testign
         initComponents();
         setDefaultImages();
         super.setVisible(true);
@@ -122,7 +122,7 @@ JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------");
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblCoverPhoto.setBackground(new java.awt.Color(102, 102, 102));
         lblCoverPhoto.setAutoscrolls(true);

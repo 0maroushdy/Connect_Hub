@@ -103,7 +103,7 @@ public class PublicProfileManagmentForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblCoverPhoto.setBackground(new java.awt.Color(102, 102, 102));
         lblCoverPhoto.setAutoscrolls(true);

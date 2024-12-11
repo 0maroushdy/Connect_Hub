@@ -352,7 +352,7 @@ private JPanel friendComp(User friend) {
       private void profileBtnAction() throws overSizeInputException { 
         this.dispose();
         new ProfileManagmentForm().setVisible(true);
-        new ProfileManagmentForm(UserDatabase.getInstance().getUser("oamr-1")).setVisible(true);
+//        new ProfileManagmentForm(UserDatabase.getInstance().getUser("oamr-1")).setVisible(true); // testing 
 
     } 
       
