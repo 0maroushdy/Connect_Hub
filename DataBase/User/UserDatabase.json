@@ -1,49 +1,70 @@
 [
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-10",
-        "Email": "beego@gmail.com",
-        "Username": "beego",
-        "UserId": "beego-1",
-        "Friends": ["omar-2"],
-        "SentFriendRequests": [
+        "DateOfBirth": "2024-12-11",
+        "Email": "mfal@llk.dsf",
+        "Username": "oamr",
+        "UserId": "oamr-1",
+        "Friends": ["gg-3"],
+        "SentFriendRequests": [],
+        "ReceivedFriendRequests": [
             {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oamr-1",
+                "RequestStatus": "Declined"
             },
             {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oamr-1",
+                "RequestStatus": "Declined"
             }
         ],
-        "ReceivedFriendRequests": [{
-            "SenderUserId": "omar-2",
-            "ReceiverUserId": "beego-1",
-            "RequestStatus": "Accepted"
-        }],
         "Profile": {
             "profilePhoto": "",
             "profileCover": "",
-            "bio": "<< add Bio Txt >>"
+            "bio": "<< mooooooooooooooooooooooooooooo >>"
         },
         "BlockedUsers": [],
-        "Password": "2ef570ec98183bfe23fe6469466627b656144688c737efbc95abf4c345d14506",
+        "Password": "cbd3cfb9b9f51bbbfbf08759e243f5b3519cbf6ecc219ee95fe7c667e32c0a8d",
         "userJoinedGroups": []
     },
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-07",
-        "Email": "omar@gmail.com",
-        "Username": "omar",
-        "UserId": "omar-2",
-        "Friends": ["beego-1"],
-        "SentFriendRequests": [{
-            "SenderUserId": "omar-2",
-            "ReceiverUserId": "beego-1",
-            "RequestStatus": "Accepted"
-        }],
+        "DateOfBirth": "2024-12-11",
+        "Email": "1",
+        "Username": "mogo",
+        "UserId": "mogo-2",
+        "Friends": [],
+        "SentFriendRequests": [],
+        "ReceivedFriendRequests": [],
+        "Profile": {
+            "profilePhoto": "C:\\Users\\Omar\\Documents\\resources\\GLOBEG_Icon.png",
+            "profileCover": "",
+            "bio": "heyy"
+        },
+        "BlockedUsers": [],
+        "Password": "f6e0a1e2ac41945a9aa7ff8a8aaa0cebc12a3bcc981a929ad5cf810a090e11ae",
+        "userJoinedGroups": []
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-12",
+        "Email": "gg@gg.gg",
+        "Username": "gg",
+        "UserId": "gg-3",
+        "Friends": ["oamr-1"],
+        "SentFriendRequests": [
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oamr-1",
+                "RequestStatus": "Declined"
+            },
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oamr-1",
+                "RequestStatus": "Declined"
+            }
+        ],
         "ReceivedFriendRequests": [],
         "Profile": {
             "profilePhoto": "",
@@ -51,36 +72,7 @@
             "bio": "<< add Bio Txt >>"
         },
         "BlockedUsers": [],
-        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
-        "userJoinedGroups": []
-    },
-    {
-        "Status": "online",
-        "DateOfBirth": "2024-12-08",
-        "Email": "beego@yahoo.com",
-        "Username": "beego",
-        "UserId": "beego-3",
-        "Friends": [],
-        "SentFriendRequests": [],
-        "ReceivedFriendRequests": [
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            },
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            }
-        ],
-        "Profile": {
-            "profilePhoto": "",
-            "profileCover": "",
-            "bio": "<< add Bio Txt >>"
-        },
-        "BlockedUsers": [],
-        "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
+        "Password": "cbd3cfb9b9f51bbbfbf08759e243f5b3519cbf6ecc219ee95fe7c667e32c0a8d",
         "userJoinedGroups": []
     }
 ]

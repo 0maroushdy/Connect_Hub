@@ -1,5 +1,5 @@
 package Frontend.profilePackage;
-
+import java.lang.*;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
@@ -24,7 +24,9 @@ import javax.swing.JOptionPane;
 public class ProfileManagmentForm extends javax.swing.JFrame {
     
     // identifing the current main User
-    User currentUser;
+//    String currentUserID;
+//    User currentUser = UserDatabase.getInstance().getUser(currentUserID);
+    User currentUser = new User();
     
     String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
     String newProfileCover = currentUser.getUserProfile().getProfileCover();
@@ -34,6 +36,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
         this.currentUser = UserSignupSingleton.getInstance().getUser();
+//        this.currentUserID = UserSignupSingleton.getInstance().getUser().getUserId();
         initComponents();
         setDefaultImages();
         super.setVisible(true);
@@ -50,6 +53,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     
         public ProfileManagmentForm(User user) {
         this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
+JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------");
         initComponents();
         setDefaultImages();
         super.setVisible(true);
