@@ -4,6 +4,8 @@
  */
 package Frontend.UserPackage;
 
+import Backend.UserPackage.UserDatabase;
+
 /**
  *
  * @author Abdelrahman
@@ -47,6 +49,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         signup.setBackground(new java.awt.Color(153, 204, 255));
         signup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        signup.setForeground(new java.awt.Color(0, 0, 0));
         signup.setText("Signup");
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +59,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         login.setBackground(new java.awt.Color(153, 204, 255));
         login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login.setForeground(new java.awt.Color(0, 0, 0));
         login.setText("Login");
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,6 +110,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         this.setVisible(false);
         SignupFrame signupframe = new SignupFrame(this);
         signupframe.setVisible(true);
+       // System.out.println(UserDatabase.getInstance().getUniqueCounter());
     }//GEN-LAST:event_signupActionPerformed
 
     /**

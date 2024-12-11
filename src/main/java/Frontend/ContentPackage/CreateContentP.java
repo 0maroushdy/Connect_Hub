@@ -132,19 +132,20 @@ public class CreateContentP extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        String filePath = this.selectedFile == null? null : this.selectedFile.getAbsolutePath();
 
-        //Construct (builder)
-        Post post = new Post(UserSignupSingleton.getInstance().getUser());
-
-        post.setText(jTextArea1.getText());
-
-        if (this.selectedFile != null) {
-            post.setImagePath(this.selectedFile.getAbsolutePath());
-        }
-        //
+        Post post = new Post.Builder(
+                UserSignupSingleton.getInstance().getUser().getUserId(),
+                jTextArea1.getText()
+        )
+                .setImagePath(filePath)
+                .build();
+        
+        System.out.println("post image path " + post.getImagePath());
         System.out.println("uploading post...");
         post.uplode();
-        System.out.println(ContentDataBase.getInstance().getPosts());
+        System.out.println(ContentDataBase.getInstance().getStories());
     }//GEN-LAST:event_uploadPostEvent
 
     private void uploadStoryEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadStoryEvent
@@ -156,21 +157,19 @@ public class CreateContentP extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        String filePath = this.selectedFile == null? null : this.selectedFile.getAbsolutePath();
 
-        //Construct (builder)
-        Story story = new Story(UserSignupSingleton.getInstance().getUser());
-
-        story.setText(jTextArea1.getText());
-
-        if (this.selectedFile != null) {
-            story.setImagePath(this.selectedFile.getAbsolutePath());
-        }
-        //
-
+        Story story = new Story.Builder(
+                UserSignupSingleton.getInstance().getUser().getUserId(),
+                jTextArea1.getText()
+        )
+                .setImagePath(filePath)
+                .build();
+        System.out.println("story image path " + story.getImagePath());
         System.out.println("uploading story...");
         story.uplode();
-                System.out.println(ContentDataBase.getInstance().getStories());
-
+        System.out.println(ContentDataBase.getInstance().getStories());
     }//GEN-LAST:event_uploadStoryEvent
 
 
