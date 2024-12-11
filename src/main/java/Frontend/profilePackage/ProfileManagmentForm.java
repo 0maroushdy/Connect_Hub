@@ -24,21 +24,21 @@ import javax.swing.JOptionPane;
 public class ProfileManagmentForm extends javax.swing.JFrame {
     
     // identifing the current main User
-    User currentUser = UserSignupSingleton.getInstance().getUser();
+    User currentUser;
     
     String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
     String newProfileCover = currentUser.getUserProfile().getProfileCover();
     String newProfileBio   = currentUser.getUserProfile().getProfileBio();
     
 
-    
+    // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
+        this.currentUser = UserSignupSingleton.getInstance().getUser();
         initComponents();
         setDefaultImages();
         super.setVisible(true);
         super.setTitle("Profile");
         setLocationRelativeTo(null);
-        
         
         // setting the user name of the profile page
         lblName1.setText(currentUser.getUsername());
@@ -46,8 +46,22 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         // setting the Bio of the profile page
         String bioTxt = currentUser.getUserProfile().getProfileBio();
         lblBio.setText(bioTxt);
+    }
+    
+        public ProfileManagmentForm(User user) {
+        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
+        initComponents();
+        setDefaultImages();
+        super.setVisible(true);
+        super.setTitle("Profile");
+        setLocationRelativeTo(null);
         
-
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
     }
     
     
