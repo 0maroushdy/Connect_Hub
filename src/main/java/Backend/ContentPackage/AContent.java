@@ -9,10 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.json.JSONObject;
 
-/*
-TODO
-1- add factory
- */
 /**
  *
  * @author moustafa
@@ -101,7 +97,7 @@ timeStamp is String representation of timeOfUpload
 
     @Override
     public int compareTo(AContent o) {
-        return this.contentId.toString().compareTo(o.contentId.toString());
+        return this.timeOfUpload.compareTo(o.timeOfUpload);
     }
 
 }

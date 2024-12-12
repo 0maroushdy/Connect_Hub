@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.ArrayList;
 
@@ -23,6 +24,9 @@ public class UserSearch {
     }
     
     public ArrayList <User> getSearchUsers(){
+        for(User user:this.searchUsers){
+            if(user.getUserId().equals(UserSignupSingleton.getInstance().getUser().getUserId())) this.searchUsers.remove(user);
+        }
         return this.searchUsers;
     }
     
@@ -38,7 +42,12 @@ public class UserSearch {
         this.friendship.blockUser(blocker, blocked);
     }
      
-    
+    public UserProfile getUserProfile(User user){
+        for(User userr:this.searchUsers){
+            if(userr.getUserId().equals(user.getUserId())) userr.getUserProfile();
+        }
+        return null;
+    }
     
     
     

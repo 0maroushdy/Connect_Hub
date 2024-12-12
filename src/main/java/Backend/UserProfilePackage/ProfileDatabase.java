@@ -1,15 +1,28 @@
+//<<<<<<< HEAD
 //package Backend.UserProfilePackage;
 //
 //import static Files.FILEPATHS.PROFILEFILE;
 //import Backend.UserPackage.HashingUtil;
 //import Backend.UserPackage.User;
+//=======
+///*
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+// */
+//package Backend.UserProfilePackage;
+//
+//import Backend.UserPackage.HashingUtil;
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //import Backend.UserPackage.UserDatabase;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 //import java.io.*;
 //import java.security.NoSuchAlgorithmException;
+//<<<<<<< HEAD
 //import java.time.LocalDate;
 //import java.time.format.DateTimeFormatter;
+//=======
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //
 //import java.util.ArrayList;
 //import org.json.JSONException;
@@ -21,10 +34,16 @@
 //public final class ProfileDatabase {
 //
 //    private static ProfileDatabase userProfileDatabase;
+//<<<<<<< HEAD
 //    private ArrayList<UserProfile> profiles;
 //    private static int uniqueCounter;
 //
 //    
+//=======
+//    private ArrayList <UserProfile> profiles;
+//    private static int uniqueCounter;
+//
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //    // --- Singleton Pattern Applying  ---------------
 //    private ProfileDatabase() {
 //        this.profiles = new ArrayList<>();
@@ -33,6 +52,10 @@
 //    public static synchronized ProfileDatabase getInstance() {
 //        if (userProfileDatabase == null) {
 //            userProfileDatabase = new ProfileDatabase();
+//<<<<<<< HEAD
+//=======
+//            uniqueCounter = 1;  // Set starting point for unique counter
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //        }
 //        return userProfileDatabase;
 //    }
@@ -40,6 +63,7 @@
 //    public ArrayList<UserProfile> getProfiles() {
 //        return this.profiles;
 //    }
+//<<<<<<< HEAD
 //  
 //    
 //    // ------ Save to file and Load from it ---------------
@@ -89,13 +113,20 @@
 //        return false;
 //     }
 //    
+//=======
+////
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //    public boolean saveProfile(String userId, JSONObject profileData) {
 //        UserProfile profile = new UserProfile(userId, profileData);
 //        this.profiles.add(profile);
 //        return saveProfilesToFile("profiles.json");
 //    }
 //
+//<<<<<<< HEAD
 //    public JSONObject getUserProfileJSON(String userId) {
+//=======
+//    public JSONObject loadProfile(String userId) {
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //        for (UserProfile profile : this.profiles) {
 //            if (profile.getUserId().equals(userId)) {
 //                return profile.toJSON();
@@ -133,7 +164,11 @@
 //        }
 //
 //        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+//<<<<<<< HEAD
 //            writer.write(jsonArray.toString(4)); // print with 4 spaces
+//=======
+//            writer.write(jsonArray.toString(4)); // Pretty print with 4 spaces
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //            return true;
 //        } catch (IOException e) {
 //            e.printStackTrace();

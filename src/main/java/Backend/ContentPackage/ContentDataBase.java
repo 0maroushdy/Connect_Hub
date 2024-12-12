@@ -20,8 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*TODO
- */
 /**
  *
  * @author moustafa
@@ -59,6 +57,14 @@ public class ContentDataBase {
         return ContentDataBase.dataBase;
     }
 
+    public TreeSet<Post> getPosts() {
+        return new TreeSet<>(posts);
+    }
+
+    public TreeSet<Story> getStories() {
+        return new TreeSet<>(stories);
+    }
+
     public synchronized void addContent(Post cont) {
         this.posts.add(cont);
         this.update();
@@ -67,6 +73,58 @@ public class ContentDataBase {
     public synchronized void addContent(Story cont) {
         this.stories.add(cont);
         this.update();
+    }
+
+    private synchronized void load() {
+        try {
+            JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
+            for (int i = 0; i < storiesJSON.length(); i++) {
+                try {
+                    JSONObject storyJSON = storiesJSON.getJSONObject(i);
+                    Story s = Story.fromJSON(storyJSON);
+                    this.stories.add(s);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            }
+
+            JSONArray postsJSON = JSONUtils.readFromFile(POSTFILE);
+            for (int i = 0; i < postsJSON.length(); i++) {
+                JSONObject postJSON = postsJSON.getJSONObject(i);
+                this.posts.add(Post.fromJSON(postJSON));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error loading files: " + e.getMessage());
+        } catch (JSONException e) {
+            System.err.println("Invalid JSON format: " + e.getMessage());
+        }
+    }
+
+    private synchronized void save() {
+
+        JSONArray storiesJSON = new JSONArray();
+        for (Story story : this.stories) {
+            storiesJSON.put(story.toJSON());
+        }
+
+        JSONArray postsJSON = new JSONArray();
+        for (Post post : this.posts) {
+            postsJSON.put(post.toJSON());
+        }
+
+        try {
+            JSONUtils.writeToFile(STORYFILE, storiesJSON);
+            JSONUtils.writeToFile(POSTFILE, postsJSON);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void update() {
+        this.load();
+        this.save();
     }
 
     private synchronized void removeStory() {
@@ -107,7 +165,7 @@ public class ContentDataBase {
         }
 
         this.stories.removeAll(storiesToRemove);
-
+//could be optimised because stories is sorted in cronological ordering
         try {
             JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
             for (int i = 0; i < storiesJSON.length(); i++) {
@@ -129,67 +187,7 @@ public class ContentDataBase {
         }
     }
 
-    public TreeSet<Post> getPosts() {
-        return new TreeSet<>(posts);
-    }
-
-    public TreeSet<Story> getStories() {
-        return new TreeSet<>(stories);
-    }
-
-    private synchronized final void load() {
-        try {
-            JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
-            for (int i = 0; i < storiesJSON.length(); i++) {
-                try {
-                    JSONObject storyJSON = storiesJSON.getJSONObject(i);
-                    Story s = Story.fromJSON(storyJSON);
-                    this.stories.add(s);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-
-            }
-
-            JSONArray postsJSON = JSONUtils.readFromFile(POSTFILE);
-            for (int i = 0; i < postsJSON.length(); i++) {
-                JSONObject postJSON = postsJSON.getJSONObject(i);
-                this.posts.add(Post.fromJSON(postJSON));
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error loading files: " + e.getMessage());
-        } catch (JSONException e) {
-            System.err.println("Invalid JSON format: " + e.getMessage());
-        }
-    }
-
-    public synchronized void update() {
-        this.load();
-        this.save();
-    }
-
-    private synchronized void save() {
-
-        JSONArray storiesJSON = new JSONArray();
-        for (Story story : this.stories) {
-            storiesJSON.put(story.toJSON());
-        }
-
-        JSONArray postsJSON = new JSONArray();
-        for (Post post : this.posts) {
-            postsJSON.put(post.toJSON());
-        }
-
-        try {
-            JSONUtils.writeToFile(STORYFILE, storiesJSON);
-            JSONUtils.writeToFile(POSTFILE, postsJSON);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void shutDown() {
+    private void shutDown() {
         System.out.println("Shutting down ContentDataBase...");
         System.out.println("\tSaving content database");
 

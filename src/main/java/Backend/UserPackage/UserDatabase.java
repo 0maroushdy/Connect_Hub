@@ -1,6 +1,8 @@
 
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
@@ -13,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 
 /**
  *
@@ -52,6 +55,7 @@ public final class UserDatabase {
         }
         return ans;
     }
+    
 
    public boolean addUser(User user) throws NoSuchAlgorithmException {
     if (user != null) {
@@ -110,7 +114,6 @@ public final class UserDatabase {
 
     public void saveUsersToFile(String filePath) {
         JSONArray jsonArray = new JSONArray();
-        
         for (User user : this.users) {
             System.out.println("3 .... user.getUserProfile().getProfileBio()\n");
             jsonArray.put(user.toJSON());
@@ -127,6 +130,7 @@ public final class UserDatabase {
 
     public void loadUsersFromFile(String filePath) {
        this.users = new ArrayList <>();
+       GroupDatabase.getInstance().getGroups().removeAll(GroupDatabase.getInstance().getGroups());
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         StringBuilder jsonBuilder = new StringBuilder();
         String line;
@@ -136,6 +140,7 @@ public final class UserDatabase {
 
         JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
         int maxCounter = 0; // Track the maximum unique ID counter value
+        int maxCounter2 = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String dateOfBirth = jsonObject.getString("DateOfBirth");
@@ -161,12 +166,26 @@ public final class UserDatabase {
                     System.err.println("Invalid UserId format: " + user.getUserId());
                 }
             }
-          
+       
             addUser(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
         //  addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
         }
+         for(Group group:GroupDatabase.getInstance().getGroups()){
+            String[] parts2 = group.getGroupId().split("-");
+            if (parts2.length == 2) {
+                try {
+                    int idCounter2 = Integer.parseInt(parts2[1]);
+                    maxCounter2 = Math.max(maxCounter2, idCounter2);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid groupId format: " + group.getGroupId());
+                }
+            }
+            }
+        
+        
         // Update uniqueCounter to avoid duplicates
           uniqueCounter = maxCounter + 1;
+          GroupDatabase.getInstance().setCounter(maxCounter2+1);
         
     } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());

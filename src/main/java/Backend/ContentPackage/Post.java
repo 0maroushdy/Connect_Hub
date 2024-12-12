@@ -58,10 +58,6 @@ public class Post extends AContent {
 
         public Builder(String authorId, String text) {
             if (authorId == null || text == null || text.isEmpty()) {
-                //debug
-//                    System.out.println(authorId);
-//                    System.out.println(text);
-                //
                 throw new IllegalArgumentException("Author and text cannot be null or empty.");
             }
             this.authorId = authorId;

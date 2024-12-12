@@ -10,12 +10,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import org.json.JSONObject;
 
 /*
 TODO
-add locking to the files
-*/
-
+.- add locking to the files
+ */
 /**
  *
  * @author moustafa
@@ -39,6 +40,18 @@ public class JSONUtils {
         try (FileWriter writer = new FileWriter(filePath);) {
             writer.write(jsonArray.toString(4)); //indent of 4 spaces
         }
+    }
+
+    //could be more generic
+    public static ArrayList loadArrayList(JSONObject jsonObject, String key) {
+        ArrayList<String> list = new ArrayList<>();
+        
+        JSONArray membersArray = jsonObject.getJSONArray(key);
+        for (int i = 0; i < membersArray.length(); i++) {
+            list.add(membersArray.getString(i));
+        }
+
+        return list;
     }
 
 }
