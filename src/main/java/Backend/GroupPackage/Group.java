@@ -15,6 +15,7 @@ import org.json.JSONObject;
  */
 public class Group {
     
+    private String groupId;
     private String groupName;
     private String groupDescription;
     private String groupPhoto;
@@ -25,7 +26,8 @@ public class Group {
    // private ArrayList <Integer> groupPostsIds;
     
     
-    private Group(String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+    private Group(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+        this.groupId = groupId;
         this.groupName = groupName;
         this.groupDescription = groupDescription;
         this.groupPhoto = groupPhoto;
@@ -43,6 +45,10 @@ public class Group {
     }
     
          /* Getters */
+    public String getGroupId(){
+        return this.groupId;
+    }
+    
     public String getGroupName(){
         return this.groupName;
     }
@@ -94,6 +100,7 @@ public class Group {
     
      public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("groupId",this.groupId);
         jsonObject.put("groupName", this.groupName);
         jsonObject.put("groupDescription", this.groupDescription);
         jsonObject.put("groupPhoto", this.groupPhoto);
@@ -106,6 +113,7 @@ public class Group {
      
      public static Group fromJSON(JSONObject object){
         Group group = new Group();
+        group.groupId = object.getString("groupId");
         group.groupName = object.getString("groupName");
         group.groupDescription = object.getString("groupDescription");
         group.groupPhoto = object.getString("groupPhoto");
@@ -136,8 +144,8 @@ public class Group {
     
     public static class GroupCreate{
         
-        public static Group groupCreate(String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
-            return new Group(groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
+        public static Group groupCreate(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+            return new Group(groupId,groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
         }
     }
 }

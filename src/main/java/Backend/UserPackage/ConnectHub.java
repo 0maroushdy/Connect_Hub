@@ -26,6 +26,7 @@ public class ConnectHub {
         // TODO code application logic here
        
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        System.out.println(GroupDatabase.getInstance().getUniqueCounter());
         System.out.println(GroupDatabase.getInstance().getGroups().size());
         WelcomeFrame frame = new WelcomeFrame();
         frame.setVisible(true);

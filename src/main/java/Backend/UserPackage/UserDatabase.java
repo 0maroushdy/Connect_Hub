@@ -140,6 +140,7 @@ public final class UserDatabase {
 
         JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
         int maxCounter = 0; // Track the maximum unique ID counter value
+        int maxCounter2 = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
            JSONObject jsonObject = jsonArray.getJSONObject(i);
           // String dateOfBirth = jsonObject.getString("DateOfBirth");
@@ -162,10 +163,24 @@ public final class UserDatabase {
                     System.err.println("Invalid UserId format: " + user.getUserId());
                 }
             }
-        //  addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
+        
         }
+         for(Group group:GroupDatabase.getInstance().getGroups()){
+            String[] parts2 = group.getGroupId().split("-");
+            if (parts2.length == 2) {
+                try {
+                    int idCounter2 = Integer.parseInt(parts2[1]);
+                    maxCounter2 = Math.max(maxCounter2, idCounter2);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid groupId format: " + group.getGroupId());
+                }
+            }
+            }
+        
+        
         // Update uniqueCounter to avoid duplicates
           uniqueCounter = maxCounter + 1;
+          GroupDatabase.getInstance().setCounter(maxCounter2+1);
         
     } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());

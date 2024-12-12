@@ -65,12 +65,11 @@ public class FriendshipManagement {
                       requesttt.setRequestStatus(FriendRequest.Status.Accepted);
                   }
               }
-            
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
-            return true;
           }
          
         }
+          UserDatabase.getInstance().saveUsersToFile(USERFILE);
+            return true;
         }
         return false;
     }
@@ -91,12 +90,11 @@ public class FriendshipManagement {
                       requesttt.setRequestStatus(FriendRequest.Status.Declined);
                   }
               }
-            
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
-            return true;
           }
          
         }
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
+            return true;
         }
         return false;
     }
@@ -106,6 +104,10 @@ public class FriendshipManagement {
         if(user.getUserId().equals(blocker.getUserId()) && user.getUserFriends().contains(blocked.getUserId())){
         user.getUserFriends().remove(blocked.getUserId());
         user.getUserBlockedUsers().add(blocked.getUserId());
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+         }
+        if(user.getUserId().equals(blocked.getUserId()) && user.getUserFriends().contains(blocker.getUserId())){
+        user.getUserFriends().remove(blocker.getUserId());
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
          }
         }

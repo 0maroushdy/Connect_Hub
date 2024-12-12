@@ -61,7 +61,7 @@ public class OtherAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             }   
         });
@@ -75,7 +75,7 @@ public class OtherAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to decline member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             }   
         });
@@ -90,7 +90,7 @@ public class OtherAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to remove member", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             }   
         });

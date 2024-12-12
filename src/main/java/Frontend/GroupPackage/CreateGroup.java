@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,8 +43,12 @@ public class CreateGroup extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String name = groupName.getText();
                String description = groupDescription.getText();
-               GroupDatabase.getInstance().createGroup(currentUser, name, description, photo);
-               setVisible(false);
+              if(GroupDatabase.getInstance().createGroup(currentUser, name, description, photo)){
+               JOptionPane.showMessageDialog(null, "Group created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+               setVisible(false);}
+                else{
+                  JOptionPane.showMessageDialog(null, "Failed to create group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+              }
             }
         });
         

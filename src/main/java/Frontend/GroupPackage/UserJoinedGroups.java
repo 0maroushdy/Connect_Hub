@@ -36,7 +36,7 @@ public class UserJoinedGroups extends javax.swing.JFrame {
         DefaultListModel<String> userJoinedGroupsModel = new DefaultListModel<>();
         userJoinedGroupsList.setModel(userJoinedGroupsModel);
         for(Group group:currentUser.getUserJoinedGroups()){
-            userJoinedGroupsModel.addElement(group.getGroupName() + " " + group.getGroupDescription() + " " + group.getGroupPhoto());
+            userJoinedGroupsModel.addElement(group.getGroupId() + " " + group.getGroupName()+ " " + group.getGroupDescription());
         }
         
         manageGroup.addActionListener(new ActionListener(){
@@ -45,7 +45,7 @@ public class UserJoinedGroups extends javax.swing.JFrame {
                  String userId = currentUser.getUserId();
                  String line = userJoinedGroupsList.getSelectedValue();
                  String [] data = line.split(" ");
-                 Group group = GroupDatabase.getInstance().getGroupByAttributes(data[0],data[1],data[2]);
+                 Group group = GroupDatabase.getInstance().getGroupById(data[0]);
                  if(group.getGroupPrimaryAdminId().equals(userId)){
                      PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
                      primaryAdmin.setVisible(true);

@@ -65,7 +65,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Promoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -79,7 +79,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Demoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to demote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -94,7 +94,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to remove member", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -103,13 +103,11 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         deleteGroup.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               String [] data = line.split(" ");
               if(GroupDatabase.getInstance().deleteGroup(currentUser.getUserId(), group)){
-                  JOptionPane.showMessageDialog(null, "Demoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Group is deleted", "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Group cant get deleted", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -124,7 +122,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -138,7 +136,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Failed to decline member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });

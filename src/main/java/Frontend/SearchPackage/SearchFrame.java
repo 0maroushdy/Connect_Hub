@@ -109,7 +109,7 @@ public class SearchFrame extends javax.swing.JFrame {
                 DefaultListModel <String> groupsModel = new DefaultListModel<>();
                 groupList.setModel(groupsModel);
                  for(Group group:groupSearch.getSearchGroups()){
-                    groupsModel.addElement(group.getGroupName() + " " + group.getGroupDescription() + " " + group.getGroupPhoto());
+                    groupsModel.addElement(group.getGroupId() + " " + group.getGroupName() + " " + group.getGroupDescription());
                 }
                 
                 joinGroup.addActionListener(new ActionListener(){
@@ -117,11 +117,9 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        String groupName = data[0];
-                        String groupDescription = data[1];
-                        String groupPhoto = data[2];
-                        Group group = GroupDatabase.getInstance().getGroupByAttributes(groupName, groupDescription, groupPhoto);
+                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
                         groupSearch.joinGroup(currentUser, group);
+                        JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
                 });
                 
@@ -130,11 +128,9 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        String groupName = data[0];
-                        String groupDescription = data[1];
-                        String groupPhoto = data[2];
-                        Group group = GroupDatabase.getInstance().getGroupByAttributes(groupName, groupDescription, groupPhoto);
+                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
                         groupSearch.leaveGroup(currentUser.getUserId(), group);
+                        JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
                 });
                 
@@ -144,10 +140,7 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        String groupName = data[0];
-                        String groupDescription = data[1];
-                        String groupPhoto = data[2];
-                        Group group = GroupDatabase.getInstance().getGroupByAttributes(groupName, groupDescription, groupPhoto);
+                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
                      String check = GroupDatabase.getInstance().checkIfInGroup(currentUser.getUserId(), group);
                      if(check.equals("PRIMARY")){
                          PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
@@ -166,18 +159,9 @@ public class SearchFrame extends javax.swing.JFrame {
                      }
                      
                     } 
-                });
-                
-                
-                
-                
+                });   
             }
-            
-        });
-        
-        
-        
-        
+        });   
     }
 
     /**
