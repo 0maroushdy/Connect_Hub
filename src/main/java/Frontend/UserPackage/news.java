@@ -12,6 +12,7 @@ import Backend.UserPackage.UserDatabase;
 import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.GroupPackage.CreateGroup;
 import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
@@ -108,6 +109,7 @@ public class News extends javax.swing.JFrame {
         JButton searchButton = createStyledButton("SearchEngine");
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
+        JButton createGroupBtn = createStyledButton("CreateGroup");
       
 
         // Add action listeners to the buttons
@@ -122,10 +124,12 @@ public class News extends javax.swing.JFrame {
                 Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        createGroupBtn.addActionListener(e -> createGroup());
 
         // Add buttons to the panel
      //  buttonPanel.add(button1);
-       buttonPanel.add(profileBtn);
+     //  buttonPanel.add(profileBtn);
+        buttonPanel.add(createGroupBtn);
         buttonPanel.add(searchButton);
         buttonPanel.add(button3);
        // buttonPanel.add(profileBtn);
@@ -357,6 +361,11 @@ private JPanel friendComp(User friend) {
     private void searchMethod(){
         SearchFrame searchFrame = new SearchFrame();
         searchFrame.setVisible(true);
+    }
+    
+    private void createGroup(){
+        CreateGroup create = new CreateGroup();
+        create.setVisible(true);
     }
 
     public static void main(String[] args) throws IOException {

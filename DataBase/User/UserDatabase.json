@@ -6,18 +6,11 @@
         "Username": "beego",
         "UserId": "beego-1",
         "Friends": ["omar-2"],
-        "SentFriendRequests": [
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            },
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            }
-        ],
+        "SentFriendRequests": [{
+            "SenderUserId": "beego-1",
+            "ReceiverUserId": "beego-3",
+            "RequestStatus": "Pending"
+        }],
         "ReceivedFriendRequests": [{
             "SenderUserId": "omar-2",
             "ReceiverUserId": "beego-1",
@@ -30,7 +23,15 @@
         },
         "BlockedUsers": [],
         "Password": "2ef570ec98183bfe23fe6469466627b656144688c737efbc95abf4c345d14506",
-        "userJoinedGroups": []
+        "userJoinedGroups": [{
+            "groupName": "beego",
+            "groupDescription": "hithere",
+            "groupMembersIds": [],
+            "groupPrimaryAdminId": "beego-1",
+            "groupOtherAdminsIds": ["beego-3"],
+            "groupPhoto": "C:\\Users\\Abdelrahman\\Pictures\\Screenshot_20230228_032023.png",
+            "groupRequestsIds": []
+        }]
     },
     {
         "Status": "online",
@@ -62,18 +63,11 @@
         "UserId": "beego-3",
         "Friends": [],
         "SentFriendRequests": [],
-        "ReceivedFriendRequests": [
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            },
-            {
-                "SenderUserId": "beego-1",
-                "ReceiverUserId": "beego-3",
-                "RequestStatus": "Pending"
-            }
-        ],
+        "ReceivedFriendRequests": [{
+            "SenderUserId": "beego-1",
+            "ReceiverUserId": "beego-3",
+            "RequestStatus": "Pending"
+        }],
         "Profile": {
             "profilePhoto": "",
             "profileCover": "",
@@ -81,6 +75,14 @@
         },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
-        "userJoinedGroups": []
+        "userJoinedGroups": [{
+            "groupName": "beego",
+            "groupDescription": "hithere",
+            "groupMembersIds": [],
+            "groupPrimaryAdminId": "beego-1",
+            "groupOtherAdminsIds": ["beego-3"],
+            "groupPhoto": "C:\\Users\\Abdelrahman\\Pictures\\Screenshot_20230228_032023.png",
+            "groupRequestsIds": []
+        }]
     }
 ]

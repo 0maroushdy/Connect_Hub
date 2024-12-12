@@ -4,6 +4,8 @@
  */
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 
 /**
  *
@@ -54,6 +57,7 @@ public final class UserDatabase {
         }
         return ans;
     }
+    
 
    public boolean addUser(User user) throws NoSuchAlgorithmException {
     if (user != null) {
@@ -112,7 +116,6 @@ public final class UserDatabase {
 
     public void saveUsersToFile(String filePath) {
         JSONArray jsonArray = new JSONArray();
-        
         for (User user : this.users) {
         JSONObject userJson = user.toJSON();
         jsonArray.put(userJson);
@@ -127,6 +130,7 @@ public final class UserDatabase {
 
     public void loadUsersFromFile(String filePath) {
        this.users = new ArrayList <>();
+       GroupDatabase.getInstance().getGroups().removeAll(GroupDatabase.getInstance().getGroups());
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         StringBuilder jsonBuilder = new StringBuilder();
         String line;

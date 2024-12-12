@@ -21,6 +21,7 @@ public class Group {
     private String groupPrimaryAdminId;
     private ArrayList <String> groupOtherAdminsIds;
     private ArrayList <String> groupMembersIds;
+    private ArrayList <String> groupRequestsIds;
    // private ArrayList <Integer> groupPostsIds;
     
     
@@ -31,12 +32,14 @@ public class Group {
         this.groupPrimaryAdminId = groupPrimaryAdminId;
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
+        this.groupRequestsIds = new ArrayList<>();
        // this.groupPostsIds = new ArrayList<>();
     }
     
     public Group(){
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
+        this.groupRequestsIds = new ArrayList<>();
     }
     
          /* Getters */
@@ -62,6 +65,10 @@ public class Group {
     
     public ArrayList <String> getGroupMemberIds(){
         return this.groupMembersIds;
+    }
+    
+    public ArrayList <String> getGroupRequestsIds(){
+        return this.groupRequestsIds;
     }
     
        /* Setters */
@@ -93,6 +100,7 @@ public class Group {
         jsonObject.put("groupPrimaryAdminId", this.groupPrimaryAdminId);
         jsonObject.put("groupOtherAdminsIds", new JSONArray(this.groupOtherAdminsIds));
         jsonObject.put("groupMembersIds", new JSONArray(this.groupMembersIds));
+        jsonObject.put("groupRequestsIds", new JSONArray(this.groupRequestsIds));
         return jsonObject;
     }
      
@@ -114,6 +122,13 @@ public class Group {
             groupMembersIds.add(membersArray.getString(i));
         }
         group.groupMembersIds = groupMembersIds;
+        JSONArray groupRequestsArray = object.getJSONArray("groupRequestsIds");
+        ArrayList<String> groupRequestsIds = new ArrayList<>();
+        for (int i = 0; i < groupRequestsArray.length(); i++) {
+            groupRequestsIds.add(groupRequestsArray.getString(i));
+        }
+        group.groupRequestsIds = groupRequestsIds;
+        
         return group;
      }
     

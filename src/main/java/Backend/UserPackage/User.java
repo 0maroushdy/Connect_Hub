@@ -158,6 +158,10 @@ public class User {
        }
    }
    
+   public void setUserJoinedGroups(){
+       this.userJoinedGroups = new HashSet<>();
+   }
+   
   public void userLogout(){
      UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
@@ -200,8 +204,15 @@ public class User {
         jsonObject.put("ReceivedFriendRequests", receivedRequestsArray);
         
          JSONArray groupsArray = new JSONArray();
-        for (Group group : this.userJoinedGroups) {
-            groupsArray.put(group.toJSON());
+        for (Group group : GroupDatabase.getInstance().getGroups()) {
+            if(group.getGroupPrimaryAdminId().equals(this.userId)){
+            groupsArray.put(group.toJSON());}
+            else if(group.getGroupMemberIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
+            else if(group.getGroupOtherAdminsIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
         }
         jsonObject.put("userJoinedGroups", groupsArray);
       return jsonObject;
@@ -268,6 +279,9 @@ public class User {
         Group group = Group.fromJSON(groupJson);
         if (group != null) { // Ensure the deserialization didn't fail
         user.userJoinedGroups.add(group);
+       if(!GroupDatabase.getInstance().checkIfGroupExists(group)){
+           GroupDatabase.getInstance().addGroup(group);
+       }
     } else {
         System.err.println("Warning: Failed to deserialize received friend request at index " + i);
     }
@@ -315,6 +329,8 @@ public class User {
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
+    
+    
     
     
    /*  public ArrayList <User> suggestFriends(){

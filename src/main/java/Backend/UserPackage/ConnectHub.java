@@ -4,6 +4,8 @@
  */
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.WelcomeFrame;
 import java.io.FileNotFoundException;
@@ -24,10 +26,7 @@ public class ConnectHub {
         // TODO code application logic here
        
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-      //  System.out.println(UserDatabase.getInstance().getUniqueCounter());
-      //  for(User user:UserDatabase.getInstance().getUsers()){
-           // System.out.println(user.userToString());
-       // }
+        System.out.println(GroupDatabase.getInstance().getGroups().size());
         WelcomeFrame frame = new WelcomeFrame();
         frame.setVisible(true);
         
