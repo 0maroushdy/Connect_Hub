@@ -7,6 +7,7 @@ import Backend.UserProfilePackage.overSizeInputException;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.FriendsGui;
 import Frontend.UserPackage.News;
+import Frontend.UserPackage.WelcomeFrame;
 import java.awt.Image;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -69,24 +70,6 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         lblBio.setText(bioTxt);
     }
     
-        public ProfileManagmentForm(User user) {
-        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
-//JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------"); // testign
-        initComponents();
-        setDefaultImages();
-        super.setVisible(true);
-        super.setTitle("Profile");
-        setLocationRelativeTo(null);
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
-    }
-    
-    
     private void setProfileImg() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -139,6 +122,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         btnFriends = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -279,6 +263,20 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
         );
 
+        btnBack.setBackground(new java.awt.Color(0, 153, 153));
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
+        btnBack.setText("Back");
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBackMouseClicked(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -306,6 +304,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSaveChanges, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLogOut))
                     .addGroup(layout.createSequentialGroup()
@@ -344,7 +344,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSaveChanges)
-                    .addComponent(btnLogOut))
+                    .addComponent(btnLogOut)
+                    .addComponent(btnBack))
                 .addContainerGap())
         );
 
@@ -503,7 +504,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        dispose();
+            new WelcomeFrame().setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnFriendsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFriendsMouseClicked
@@ -515,6 +517,21 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         FriendsGui friends = new FriendsGui();
         friends.setVisible(true);
     }//GEN-LAST:event_btnFriendsActionPerformed
+
+    private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        dispose();
+        try {
+            new News().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -532,6 +549,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnEditCoverPhoto;
     private javax.swing.JButton btnEditProfilePhoto;
     private javax.swing.JButton btnFriends;

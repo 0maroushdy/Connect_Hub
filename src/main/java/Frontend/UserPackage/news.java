@@ -45,7 +45,7 @@ public class News extends javax.swing.JFrame {
         
         
         this.setTitle("Newsfeed");
-        this.setSize(800, 600);
+        this.setSize(1000, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,7 +133,7 @@ public class News extends javax.swing.JFrame {
         buttonPanel.add(createGroupBtn);
         buttonPanel.add(searchButton);
         buttonPanel.add(button3);
-       // buttonPanel.add(profileBtn);
+        buttonPanel.add(profileBtn);
        
 
         buttonPanel.setBackground(new Color(10, 49, 86));
@@ -333,7 +333,7 @@ private JPanel friendComp(User friend) {
         button.setBackground(new Color(84, 110, 122)); // Set background color (SteelBlue)
         button.setForeground(Color.WHITE); // Set text color
         button.setFont(new Font("Arial", Font.BOLD, 14)); // Set font
-        button.setBorder(new EmptyBorder(10, 60, 10, 60)); // Add padding
+        button.setBorder(new EmptyBorder(10, 15, 10, 15)); // Add padding
         return button;
     }
     

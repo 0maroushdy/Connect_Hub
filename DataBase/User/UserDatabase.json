@@ -1,0 +1,46 @@
+[
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-12",
+        "Email": "oo",
+        "Username": "omar",
+        "UserId": "omar-1",
+        "Friends": [],
+        "SentFriendRequests": [],
+        "ReceivedFriendRequests": [{
+            "SenderUserId": "mohamed-2",
+            "ReceiverUserId": "omar-1",
+            "RequestStatus": "Pending"
+        }],
+        "Profile": {
+            "profilePhoto": "C:\\Users\\Omar\\Documents\\resources\\default_profile.jpg",
+            "profileCover": "C:\\Users\\Omar\\Documents\\resources\\default_cover.jpg",
+            "bio": "this is a new bio"
+        },
+        "BlockedUsers": [],
+        "Password": "a8c23cc814179578e3a774418ac5fc4702a66eb3b78c876df81b290465e6e334",
+        "userJoinedGroups": []
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-12",
+        "Email": "m@mm.mm",
+        "Username": "mohamed",
+        "UserId": "mohamed-2",
+        "Friends": [],
+        "SentFriendRequests": [{
+            "SenderUserId": "mohamed-2",
+            "ReceiverUserId": "omar-1",
+            "RequestStatus": "Pending"
+        }],
+        "ReceivedFriendRequests": [],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "yaaaaaaaaaaaaah"
+        },
+        "BlockedUsers": [],
+        "Password": "8fa1dddd53606ceb933c5c6a12e714ed41e11d37a2b7bc48e91d15b54171d033",
+        "userJoinedGroups": []
+    }
+]
