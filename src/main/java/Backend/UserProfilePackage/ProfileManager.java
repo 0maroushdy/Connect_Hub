@@ -1,11 +1,23 @@
+//<<<<<<< HEAD
 //package Backend.UserProfilePackage;
 //
 //import static Files.FILEPATHS.PROFILEFILE;
+//=======
+///*
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+// */
+//package Backend.UserProfilePackage;
+//
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //import Backend.UserPackage.HashingUtil;
 //import java.security.NoSuchAlgorithmException;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
+//<<<<<<< HEAD
 //import org.json.JSONObject;
+//=======
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //
 ///**
 // *
@@ -57,9 +69,12 @@
 //    public boolean saveProfile(String userId) {
 //        return database.saveUser(userId);
 //    }
+//<<<<<<< HEAD
 //    
 //
 //    
+//=======
+//>>>>>>> 3ea4a5e01255111459d5f8a73b7ad853041ab929
 //}
 //    
 //

@@ -22,12 +22,13 @@ public class UserProfile {
         profileBio = bio;
         // must handeling the userId .......... !!
     }
-
-    public UserProfile( ) {
+    
+     public UserProfile( ) {
         profilePhoto = "";
         profileCover = "";
         profileBio   = "<< add Bio Txt >>";
     }
+
 
     public UserProfile(JSONObject profileData) { 
         this.profilePhoto = profileData.optString("profilePhoto", "");
@@ -35,7 +36,13 @@ public class UserProfile {
         this.profileBio = profileData.optString("bio", "");
     }
 
-    
+
+//    public UserProfile(String userId, JSONObject profileData) {
+//        this.profilePhoto = profileData.optString("profilePhoto", "");
+//        this.profileCover = profileData.optString("profileCover", "");
+//        this.profileBio = profileData.optString("profileBio", "");
+//    }
+
     // -----------** Getters **-----------
     public String getProfilePhoto() {
         return profilePhoto;
@@ -92,6 +99,7 @@ public class UserProfile {
     }
 
     // Convert the profile to a JSON object 
+
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("profilePhoto", this.profilePhoto);
@@ -101,13 +109,11 @@ public class UserProfile {
     }
     
     public UserProfile fromJSON(JSONObject json) {
-        UserProfile profile = new UserProfile( json.getString(profilePhoto),
-                              json.getString(profileCover) 
-                             ,json.getString(profileBio));
+
+        UserProfile profile = new UserProfile(json.getString("profilePhoto"),
+                              json.getString("profileCover") 
+                             ,json.getString("bio"));
         return profile;
     }
-    
-    
-    
 
 }

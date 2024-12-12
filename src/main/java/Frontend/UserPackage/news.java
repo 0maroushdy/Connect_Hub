@@ -11,6 +11,8 @@ import Backend.UserPackage.UserDatabase;
 import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.GroupPackage.CreateGroup;
+import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.Border;
+import org.w3c.dom.UserDataHandler;
 
 public class News extends javax.swing.JFrame {
 
@@ -100,14 +103,20 @@ public class News extends javax.swing.JFrame {
 
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
-        JButton refreshButton = createStyledButton("Refresh");
-        JButton button3 = createStyledButton("Friends");
-        JButton profileBtn = createStyledButton("profile"); // ------------------- 1
+
+        JButton searchButton = createStyledButton("SearchEngine");
+        JButton button3 = createStyledButton("Manage Friends");
+        JButton profileBtn = createStyledButton("profile");
+        JButton createGroupBtn = createStyledButton("CreateGroup");
+      
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());
-        refreshButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
-        button3.addActionListener(e -> openFriendsgui());
+       // searchButton.addActionListener(e -> SwingUtilities.invokeLater(() -> refreshContent()));
+       searchButton.addActionListener(e -> searchMethod());
+       //##################################################################################################################
+//        button3.addActionListener(e -> friendsManage());
+    //##################################################################################################################
         profileBtn.addActionListener(e -> {
             try {
                 profileBtnAction();
@@ -115,13 +124,19 @@ public class News extends javax.swing.JFrame {
                 Logger.getLogger(News.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        createGroupBtn.addActionListener(e -> createGroup());
+
 
         // Add buttons to the panel
-        buttonPanel.add(button1);
-        buttonPanel.add(refreshButton);
+     //  buttonPanel.add(button1);
+     //  buttonPanel.add(profileBtn);
+        buttonPanel.add(createGroupBtn);
+        buttonPanel.add(searchButton);
         buttonPanel.add(button3);
+
         // Porfile btn ----------------------- 1
-        buttonPanel.add(profileBtn);
+//        buttonPanel.add(profileBtn);
+
 
         buttonPanel.setBackground(new Color(10, 49, 86));
 
@@ -344,11 +359,22 @@ public class News extends javax.swing.JFrame {
         new FriendsGui().setVisible(true);
 
     }
-
-    private void profileBtnAction() throws overSizeInputException {
+    
+      private void profileBtnAction() throws overSizeInputException { 
         this.dispose();
-        new ProfileManagmentForm().setVisible(true);
+        (new ProfileManagmentForm()).setVisible(true);
+//        new ProfileManagmentForm(UserDatabase.getInstance().getUser("oamr-1")).setVisible(true); // testing 
 
+    } 
+      
+    private void searchMethod(){
+        SearchFrame searchFrame = new SearchFrame();
+        searchFrame.setVisible(true);
+    }
+    
+    private void createGroup(){
+        CreateGroup create = new CreateGroup();
+        create.setVisible(true);
     }
 
     public static void main(String[] args) throws IOException {

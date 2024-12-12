@@ -178,7 +178,7 @@ public class FriendsGui extends javax.swing.JFrame {
         block = new javax.swing.JButton();
         remove = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(friendRequests);
 

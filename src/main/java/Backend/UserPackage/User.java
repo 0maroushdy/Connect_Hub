@@ -1,5 +1,7 @@
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
@@ -27,6 +29,7 @@ public class User {
    private UserProfile profile; // adding userProfile attribute --> making composition
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
+   private Set <Group> userJoinedGroups;
    
    
       /* Constructor */
@@ -56,6 +59,7 @@ public class User {
        this.receivedFriendRequests = new HashSet<>();
        this.profile = profile;
        this.receivedFriendRequests = new HashSet<>(); 
+       this.userJoinedGroups = new HashSet <>();
    }
 
    public User() {
@@ -63,7 +67,8 @@ public class User {
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
-     
+       this.profile = new UserProfile();
+       this.userJoinedGroups = new HashSet <>();
     }
          /* Getters */
     public String getUserId(){
@@ -110,6 +115,9 @@ public class User {
        return this.profile;
    }
    
+   public Set <Group> getUserJoinedGroups(){
+       return this.userJoinedGroups;
+   }
              /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
@@ -159,6 +167,10 @@ public class User {
        }
    }
    
+   public void setUserJoinedGroups(){
+       this.userJoinedGroups = new HashSet<>();
+   }
+   
   public void userLogout(){
      UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
@@ -199,6 +211,19 @@ public class User {
             receivedRequestsArray.put(request.toJSON()); 
         }
         jsonObject.put("ReceivedFriendRequests", receivedRequestsArray);
+        
+         JSONArray groupsArray = new JSONArray();
+        for (Group group : GroupDatabase.getInstance().getGroups()) {
+            if(group.getGroupPrimaryAdminId().equals(this.userId)){
+            groupsArray.put(group.toJSON());}
+            else if(group.getGroupMemberIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
+            else if(group.getGroupOtherAdminsIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
+        }
+        jsonObject.put("userJoinedGroups", groupsArray);
       return jsonObject;
   }
   
@@ -212,13 +237,11 @@ public class User {
     user.userId = jsonObject.getString("UserId");
     user.password = jsonObject.getString("Password");
 
-    // the new iti for the Profile ---- M.B. Err
-    JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
+   // user.date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+     JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
     user.profile = new UserProfile( profileObj.getString("profilePhoto"),
                               profileObj.getString("profileCover") 
-                             ,profileObj.getString("profileBio")) ;
-   
-
+                             ,profileObj.getString("bio")) ;
     // Deserialize the friends set
    // user.friends = new HashSet<>();
     JSONArray friendsArray = jsonObject.getJSONArray("Friends");
@@ -260,12 +283,36 @@ public class User {
         System.err.println("Warning: Failed to deserialize received friend request at index " + i);
     }
     }
+    
+    JSONArray groupsArray = jsonObject.getJSONArray("userJoinedGroups");
+    for (int i = 0; i < groupsArray.length(); i++) {
+        JSONObject groupJson = groupsArray.getJSONObject(i);
+        Group group = Group.fromJSON(groupJson);
+        if (group != null) { // Ensure the deserialization didn't fail
+        user.userJoinedGroups.add(group);
+       if(!GroupDatabase.getInstance().checkIfGroupExists(group)){
+           GroupDatabase.getInstance().addGroup(group);
+       }
+    } else {
+        System.err.println("Warning: Failed to deserialize received friend request at index " + i);
+    }
+    }
     return user;
   }
   
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
+    
+   /*  public ArrayList <User> suggestFriends(){
+        ArrayList <User> suggestions = new ArrayList<>();
+        for(User user:UserDatabase.getInstance().getUsers()){
+             System.out.println(user.userToString());
+            if(!this.getUserFriends().contains(user) && !this.getUserBlockedUsers().contains(user) && !this.getUserId().equals(user.getUserId())) suggestions.add(user);
+          //  System.out.println(differentUser.getUserId());
+        }
+        return suggestions;
+    } */
       
    public String userToString(){
        String ans ="";

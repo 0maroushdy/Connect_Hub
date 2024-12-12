@@ -1,10 +1,12 @@
 package Frontend.profilePackage;
 
+
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
 import Backend.UserProfilePackage.overSizeInputException;
 import static Files.FILEPATHS.USERFILE;
+import Frontend.UserPackage.FriendsGui;
 import Frontend.UserPackage.News;
 import java.awt.Image;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import javax.swing.JOptionPane;
 public class ProfileManagmentForm extends javax.swing.JFrame {
     
     // identifing the current main User
+
     User currentUser = UserSignupSingleton.getInstance().getUser();
     
     String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
@@ -30,8 +33,10 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     String newProfileBio   = currentUser.getUserProfile().getProfileBio();
     
 
-    
+    // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
+        this.currentUser = UserSignupSingleton.getInstance().getUser();
+
         initComponents();
         setDefaultImages();
         super.setVisible(true);
@@ -45,10 +50,25 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         // setting the Bio of the profile page
         String bioTxt = currentUser.getUserProfile().getProfileBio();
         lblBio.setText(bioTxt);
-        
 
     }
     
+        public ProfileManagmentForm(User user) {
+        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
+//JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------"); // testign
+        initComponents();
+        setDefaultImages();
+        super.setVisible(true);
+        super.setTitle("Profile");
+        setLocationRelativeTo(null);
+        
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+    }
     
     private void setProfileImg() {
         JFileChooser fileChooser = new JFileChooser();
@@ -103,7 +123,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblCoverPhoto.setBackground(new java.awt.Color(102, 102, 102));
         lblCoverPhoto.setAutoscrolls(true);
@@ -475,6 +495,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
 
     private void btnFriendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFriendsActionPerformed
         // TODO add your handling code here:
+        FriendsGui friends = new FriendsGui();
+        friends.setVisible(true);
     }//GEN-LAST:event_btnFriendsActionPerformed
 
     /**
