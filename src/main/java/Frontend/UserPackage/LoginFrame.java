@@ -4,7 +4,6 @@
  */
 package Frontend.UserPackage;
 
-import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
 import java.io.IOException;
@@ -18,9 +17,12 @@ import javax.swing.JOptionPane;
  * @author Abdelrahman
  */
 public class LoginFrame extends javax.swing.JFrame {
-private WelcomeFrame welcomeFrame;
+
+    private final WelcomeFrame welcomeFrame;
+
     /**
      * Creates new form LoginFrame
+     * @param welcomeFrame
      */
     public LoginFrame(WelcomeFrame welcomeFrame) {
         this.welcomeFrame = welcomeFrame;
@@ -128,12 +130,14 @@ private WelcomeFrame welcomeFrame;
         String passwordd = new String(password.getPassword());
 
         try {
-            if (UserDatabase.getInstance().userLogin(email, passwordd)) {           
-                JOptionPane.showMessageDialog(null, "User has been logged in successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (UserDatabase.getInstance().userLogin(email, passwordd)) {
+                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+
                 this.dispose();
                 this.welcomeFrame.dispose();
-               News news = new News();
-               news.setVisible(true);
+
+                News news = new News();
+                news.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }

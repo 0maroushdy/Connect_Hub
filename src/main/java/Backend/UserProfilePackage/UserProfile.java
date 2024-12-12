@@ -1,5 +1,6 @@
 package Backend.UserProfilePackage;
 
+import static Files.FILEPATHS.PROFILEFILE;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
@@ -13,13 +14,13 @@ public class UserProfile {
     private String profilePhoto;
     private String profileCover;
     private String profileBio;
-
-
-    // -----------** Constructor **-----------
+    
+    // -----------** Constructors **-----------
     public UserProfile(String photo, String cover, String bio) {
         profilePhoto = photo;
         profileCover = cover;
         profileBio = bio;
+        // must handeling the userId .......... !!
     }
     
      public UserProfile( ) {
@@ -28,11 +29,13 @@ public class UserProfile {
         profileBio   = "<< add Bio Txt >>";
     }
 
+
     public UserProfile(JSONObject profileData) { 
         this.profilePhoto = profileData.optString("profilePhoto", "");
         this.profileCover = profileData.optString("profileCover", "");
         this.profileBio = profileData.optString("bio", "");
     }
+
 
 //    public UserProfile(String userId, JSONObject profileData) {
 //        this.profilePhoto = profileData.optString("profilePhoto", "");
@@ -52,6 +55,7 @@ public class UserProfile {
     public String getProfileBio() {
         return profileBio;
     }
+
 
     // -----------** Some Setters **-----------
     public void setProfilePhoto(String profilePhoto) {
@@ -94,7 +98,8 @@ public class UserProfile {
         }
     }
 
-   // Convert the profile to a JSON object 
+    // Convert the profile to a JSON object 
+
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("profilePhoto", this.profilePhoto);
@@ -104,6 +109,7 @@ public class UserProfile {
     }
     
     public UserProfile fromJSON(JSONObject json) {
+
         UserProfile profile = new UserProfile(json.getString("profilePhoto"),
                               json.getString("profileCover") 
                              ,json.getString("bio"));
