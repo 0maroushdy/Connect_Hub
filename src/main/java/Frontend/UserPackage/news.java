@@ -110,8 +110,7 @@ public class News extends javax.swing.JFrame {
         JButton searchButton = createStyledButton("SearchEngine");
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
-        JButton createGroupBtn = createStyledButton("CreateGroup");
-      
+        JButton createGroupBtn = createStyledButton("CreateGroup");      
 
         // Add action listeners to the buttons
         button1.addActionListener(e -> systemLogout());

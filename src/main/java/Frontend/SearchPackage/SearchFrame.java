@@ -14,9 +14,14 @@ import Backend.UserPackage.UserSignupSingleton;
 import Frontend.GroupPackage.NormalUserUI;
 import Frontend.GroupPackage.OtherAdminUI;
 import Frontend.GroupPackage.PrimaryAdminUI;
+import Frontend.UserPackage.News;
 import Frontend.profilePackage.ProfileManagmentForm;
+import Frontend.profilePackage.PublicProfileManagmentForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -93,7 +98,7 @@ public class SearchFrame extends javax.swing.JFrame {
                         String line = userList.getSelectedValue();
                         String [] data = line.split(" ");
                         User userInList = UserDatabase.getInstance().getUser(data[0]);
-                        ProfileManagmentForm  profileForm = new ProfileManagmentForm(userInList);
+                        PublicProfileManagmentForm  profileForm = new PublicProfileManagmentForm(userInList);
                         profileForm.setVisible(true);  
                     } 
                 });
@@ -190,8 +195,9 @@ public class SearchFrame extends javax.swing.JFrame {
         viewGroup = new javax.swing.JButton();
         searchButton1 = new javax.swing.JButton();
         searchButton2 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(30, 30, 47));
 
         jLabel1.setBackground(new java.awt.Color(92, 107, 192));
@@ -283,6 +289,20 @@ public class SearchFrame extends javax.swing.JFrame {
         searchButton2.setForeground(new java.awt.Color(255, 255, 255));
         searchButton2.setText("Search");
 
+        btnBack.setBackground(new java.awt.Color(0, 51, 51));
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
+        btnBack.setText("Back");
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBackMouseClicked(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -312,11 +332,13 @@ public class SearchFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(blockUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                     .addComponent(viewProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(viewGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(searchButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(searchButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnBack)
+                            .addComponent(viewGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -356,12 +378,15 @@ public class SearchFrame extends javax.swing.JFrame {
                         .addComponent(joinGroup)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(leaveGroup))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(viewGroup)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addComponent(viewGroup)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBack))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -376,6 +401,20 @@ public class SearchFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_viewProfileActionPerformed
 
+    private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        dispose();
+        try {
+            new News().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -384,6 +423,7 @@ public class SearchFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addFriend;
     private javax.swing.JButton blockUser;
+    private javax.swing.JButton btnBack;
     private javax.swing.JList<String> groupList;
     private javax.swing.JTextField groupTextField;
     private javax.swing.JLabel jLabel1;

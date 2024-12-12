@@ -24,12 +24,7 @@ import javax.swing.JOptionPane;
  */
 public class ProfileManagmentForm extends javax.swing.JFrame {
     
-    // identifing the current main User
-//    String currentUserID;
-//    User currentUser = UserDatabase.getInstance().getUser(currentUserID);
-    User currentUser = new User();
-
-    
+    User currentUser = UserSignupSingleton.getInstance().getUser();
     String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
     String newProfileCover = currentUser.getUserProfile().getProfileCover();
     String newProfileBio   = currentUser.getUserProfile().getProfileBio();
@@ -38,36 +33,12 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
         this.currentUser = UserSignupSingleton.getInstance().getUser();
-
         initComponents();
         setDefaultImages();
+        setDefaultText();
         super.setVisible(true);
         super.setTitle("Profile");
         setLocationRelativeTo(null);
-        
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
-    }
-    
-     public ProfileManagmentForm(User user) {
-        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
-        initComponents();
-        setDefaultImages();
-        super.setVisible(true);
-        super.setTitle("Profile");
-        setLocationRelativeTo(null);
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
     }
     
     private void setProfileImg() {
@@ -84,6 +55,24 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }
     
     private void setDefaultImages() {
+        
+    if(this.newProfilePhoto != ""){
+        // Load the selected image
+       ImageIcon selectedImage = new ImageIcon(newProfilePhoto);
+       ImageIcon selectedImageCover = new ImageIcon(newProfileCover);
+
+       // Scale the image to fit the JLabel dimensions
+       Image scaledImage = selectedImage.getImage().getScaledInstance(
+        lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
+       
+       Image scaledCover = selectedImageCover.getImage().getScaledInstance(
+        lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+
+       // Set the scaled image as the JLabel icon
+       lblProfilePhoto.setIcon(new ImageIcon(scaledImage));  
+       lblCoverPhoto.setIcon(new ImageIcon(scaledCover));  
+       
+    } else {
     // Default Cover Photo
     ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
     Image scaledCover = defaultCoverIcon.getImage().getScaledInstance(
@@ -95,9 +84,17 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     Image scaledProfile = defaultProfileIcon.getImage().getScaledInstance(
         lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
     lblProfilePhoto.setIcon(new ImageIcon(scaledProfile));
+    }
 } 
-
     
+    public void setDefaultText (){
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -503,7 +500,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOutMouseClicked
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:    
         dispose();
             new WelcomeFrame().setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
