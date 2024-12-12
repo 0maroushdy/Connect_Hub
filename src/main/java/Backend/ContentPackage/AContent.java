@@ -97,7 +97,7 @@ timeStamp is String representation of timeOfUpload
 
     @Override
     public int compareTo(AContent o) {
-        return this.contentId.toString().compareTo(o.contentId.toString());
+        return this.timeOfUpload.compareTo(o.timeOfUpload);
     }
 
 }

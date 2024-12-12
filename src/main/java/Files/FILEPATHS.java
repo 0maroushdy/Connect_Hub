@@ -13,6 +13,7 @@ public interface FILEPATHS {
     String POSTFILE = "DataBase/Content/posts.json";
     String USERFILE = "DataBase/User/UserDatabase.json";
     String PROFILEFILE = "DataBase/User/profiles.json";
+    String GROUPFILE =  "DataBase/Group/Group.json";
     String ROCKLY = "resources/GLOBEG_Icon.png";
     
 }
