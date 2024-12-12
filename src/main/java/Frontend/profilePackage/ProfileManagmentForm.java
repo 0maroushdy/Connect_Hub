@@ -27,6 +27,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
 //    String currentUserID;
 //    User currentUser = UserDatabase.getInstance().getUser(currentUserID);
     User currentUser = new User();
+
     
     String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
     String newProfileCover = currentUser.getUserProfile().getProfileCover();
@@ -36,7 +37,24 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
         this.currentUser = UserSignupSingleton.getInstance().getUser();
-//        this.currentUserID = UserSignupSingleton.getInstance().getUser().getUserId();
+
+        initComponents();
+        setDefaultImages();
+        super.setVisible(true);
+        super.setTitle("Profile");
+        setLocationRelativeTo(null);
+        
+        
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+    }
+    
+     public ProfileManagmentForm(User user) {
+        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
         initComponents();
         setDefaultImages();
         super.setVisible(true);

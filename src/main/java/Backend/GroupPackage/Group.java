@@ -15,31 +15,40 @@ import org.json.JSONObject;
  */
 public class Group {
     
+    private String groupId;
     private String groupName;
     private String groupDescription;
     private String groupPhoto;
     private String groupPrimaryAdminId;
     private ArrayList <String> groupOtherAdminsIds;
     private ArrayList <String> groupMembersIds;
+    private ArrayList <String> groupRequestsIds;
    // private ArrayList <Integer> groupPostsIds;
     
     
-    private Group(String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+    private Group(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+        this.groupId = groupId;
         this.groupName = groupName;
         this.groupDescription = groupDescription;
         this.groupPhoto = groupPhoto;
         this.groupPrimaryAdminId = groupPrimaryAdminId;
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
+        this.groupRequestsIds = new ArrayList<>();
        // this.groupPostsIds = new ArrayList<>();
     }
     
     public Group(){
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
+        this.groupRequestsIds = new ArrayList<>();
     }
     
          /* Getters */
+    public String getGroupId(){
+        return this.groupId;
+    }
+    
     public String getGroupName(){
         return this.groupName;
     }
@@ -62,6 +71,10 @@ public class Group {
     
     public ArrayList <String> getGroupMemberIds(){
         return this.groupMembersIds;
+    }
+    
+    public ArrayList <String> getGroupRequestsIds(){
+        return this.groupRequestsIds;
     }
     
        /* Setters */
@@ -87,17 +100,20 @@ public class Group {
     
      public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("groupId",this.groupId);
         jsonObject.put("groupName", this.groupName);
         jsonObject.put("groupDescription", this.groupDescription);
         jsonObject.put("groupPhoto", this.groupPhoto);
         jsonObject.put("groupPrimaryAdminId", this.groupPrimaryAdminId);
         jsonObject.put("groupOtherAdminsIds", new JSONArray(this.groupOtherAdminsIds));
         jsonObject.put("groupMembersIds", new JSONArray(this.groupMembersIds));
+        jsonObject.put("groupRequestsIds", new JSONArray(this.groupRequestsIds));
         return jsonObject;
     }
      
      public static Group fromJSON(JSONObject object){
         Group group = new Group();
+        group.groupId = object.getString("groupId");
         group.groupName = object.getString("groupName");
         group.groupDescription = object.getString("groupDescription");
         group.groupPhoto = object.getString("groupPhoto");
@@ -114,6 +130,13 @@ public class Group {
             groupMembersIds.add(membersArray.getString(i));
         }
         group.groupMembersIds = groupMembersIds;
+        JSONArray groupRequestsArray = object.getJSONArray("groupRequestsIds");
+        ArrayList<String> groupRequestsIds = new ArrayList<>();
+        for (int i = 0; i < groupRequestsArray.length(); i++) {
+            groupRequestsIds.add(groupRequestsArray.getString(i));
+        }
+        group.groupRequestsIds = groupRequestsIds;
+        
         return group;
      }
     
@@ -121,8 +144,8 @@ public class Group {
     
     public static class GroupCreate{
         
-        public static Group groupCreate(String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
-            return new Group(groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
+        public static Group groupCreate(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+            return new Group(groupId,groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
         }
     }
 }

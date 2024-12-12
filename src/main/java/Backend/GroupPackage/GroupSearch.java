@@ -31,7 +31,7 @@ public class GroupSearch {
     }
     
     public void joinGroup(User user,Group group){
-        this.groupDatabase.joinGroup(user, group);
+        this.groupDatabase.sendGroupRequest(user.getUserId(), group);
     }
     
     public boolean leaveGroup(String groupMemberId,Group group){
