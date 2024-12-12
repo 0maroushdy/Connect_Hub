@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.Border;
+import org.w3c.dom.UserDataHandler;
 
 public class News extends javax.swing.JFrame {
 
@@ -355,6 +356,7 @@ private JPanel friendComp(User friend) {
       private void profileBtnAction() throws overSizeInputException { 
         this.dispose();
         new ProfileManagmentForm().setVisible(true);
+//        new ProfileManagmentForm(UserDatabase.getInstance().getUser("oamr-1")).setVisible(true); // testing 
 
     } 
       
