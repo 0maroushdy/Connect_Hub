@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -60,11 +61,11 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername() + " " + "(Request Pending)");
         }
         
-       /* for(Post post:ContentDataBase.getInstance().getPosts()){
-            if(post.getGroupId().equals(group.getGroupId()))
-            //PostPanel postPanel = new PostPanel(post);
-          //  postsPanel.add(postPanel);
-        } */
+       for(Post post:ContentDataBase.getInstance().getPosts()){
+            if(post.getGroupId().equals(group.getGroupId())){
+            PostPanell postPanel = new PostPanell(post);
+            postsPanel.add(postPanel);}
+        } 
         
         promote.addActionListener(new ActionListener(){
             @Override
@@ -159,8 +160,12 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             }   
          });
          
+         
         
     }
+    
+    
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -236,7 +241,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         postsPanel.setLayout(postsPanelLayout);
         postsPanelLayout.setHorizontalGroup(
             postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 331, Short.MAX_VALUE)
+            .addGap(0, 435, Short.MAX_VALUE)
         );
         postsPanelLayout.setVerticalGroup(
             postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,30 +315,28 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(promote, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(demote, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(removeMember, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(deleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(acceptRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(declineRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(addPost, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addGap(44, 44, 44)
+                        .addComponent(promote, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(demote, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(removeMember, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(acceptRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(declineRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(addPost, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(156, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                        .addComponent(postsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 2, Short.MAX_VALUE)
+                                .addComponent(postsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15))))
         );
 

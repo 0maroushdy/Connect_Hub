@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Frontend.GroupPackage;
 
@@ -16,23 +16,21 @@ import javax.swing.ImageIcon;
  *
  * @author Abdelrahman
  */
-public class PostPanel extends javax.swing.JFrame {
+public class PostPanell extends javax.swing.JPanel {
     
     private Post post;
     private ContentDataBase contentDatabase;
     /**
-     * Creates new form AddGroupPostFrame
+     * Creates new form PostPanell
      */
-    public PostPanel(Post post) {
+    public PostPanell(Post post) {
         initComponents();
-        setLocationRelativeTo(null);
-        pack();
         this.post = post;
         this.contentDatabase = ContentDataBase.getInstance();
         initCustomComponents();
     }
     
-    private void initCustomComponents(){
+     private void initCustomComponents(){
         
         lblAuthorName.setText(UserDatabase.getInstance().getUser(post.getAuthorId()).getUsername());
         lblTimeStamp.setText(post.getTimestamp());
@@ -67,7 +65,7 @@ public class PostPanel extends javax.swing.JFrame {
 
             // Load the selected image
             ImageIcon selectedImage = new ImageIcon(post.getImagePath());
-
+            
             // Scale the image to fit the JLabel dimensions
             Image scaledImage = selectedImage.getImage().getScaledInstance(
                 lblContentPhoto.getWidth(), lblContentPhoto.getHeight(), Image.SCALE_SMOOTH);
@@ -86,23 +84,16 @@ public class PostPanel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblContentText = new javax.swing.JLabel();
         lblAuthorName = new javax.swing.JLabel();
         lblTimeStamp = new javax.swing.JLabel();
+        lblContentText = new javax.swing.JLabel();
         lblContentPhoto = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
-        btnComment = new javax.swing.JButton();
         btnReact = new javax.swing.JButton();
+        btnComment = new javax.swing.JButton();
         lblReactionCounter = new javax.swing.JLabel();
         lblCommentCounter = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lblContentText.setBackground(new java.awt.Color(255, 255, 255));
-        lblContentText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblContentText.setForeground(new java.awt.Color(0, 0, 0));
-        lblContentText.setOpaque(true);
 
         lblAuthorName.setBackground(new java.awt.Color(255, 255, 255));
         lblAuthorName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -113,6 +104,11 @@ public class PostPanel extends javax.swing.JFrame {
         lblTimeStamp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTimeStamp.setForeground(new java.awt.Color(0, 0, 0));
         lblTimeStamp.setOpaque(true);
+
+        lblContentText.setBackground(new java.awt.Color(255, 255, 255));
+        lblContentText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblContentText.setForeground(new java.awt.Color(0, 0, 0));
+        lblContentText.setOpaque(true);
 
         lblContentPhoto.setBackground(new java.awt.Color(255, 255, 255));
         lblContentPhoto.setOpaque(true);
@@ -125,13 +121,13 @@ public class PostPanel extends javax.swing.JFrame {
         btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEdit.setText("Edit");
 
-        btnComment.setBackground(new java.awt.Color(92, 107, 192));
-        btnComment.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnComment.setText("Comment");
-
         btnReact.setBackground(new java.awt.Color(92, 107, 192));
         btnReact.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnReact.setText("React");
+
+        btnComment.setBackground(new java.awt.Color(92, 107, 192));
+        btnComment.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnComment.setText("Comment");
 
         lblReactionCounter.setBackground(new java.awt.Color(255, 255, 255));
         lblReactionCounter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -143,49 +139,54 @@ public class PostPanel extends javax.swing.JFrame {
         lblCommentCounter.setForeground(new java.awt.Color(0, 0, 0));
         lblCommentCounter.setOpaque(true);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblContentText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblContentPhoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblContentText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblContentPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblReactionCounter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnReact, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnComment)
-                            .addComponent(lblCommentCounter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnReact, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(btnComment)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblReactionCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(lblCommentCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblContentText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblContentPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblContentPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblReactionCounter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCommentCounter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblReactionCounter, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
-                    .addComponent(lblCommentCounter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,14 +194,8 @@ public class PostPanel extends javax.swing.JFrame {
                     .addComponent(btnReact, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComment;
