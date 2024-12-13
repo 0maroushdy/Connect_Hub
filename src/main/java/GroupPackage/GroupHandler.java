@@ -47,7 +47,7 @@ public class GroupHandler {
         this.joinRequests = (joinRequests == null) ? new ArrayList<>() : joinRequests;
     }
 
-    public GroupHandler(GroupHandler.Builder builder) {
+    protected GroupHandler(GroupHandler.Builder builder) {
         this(builder.mainAdminId,
                 builder.adminIds,
                 builder.memberIds,
@@ -135,7 +135,7 @@ public class GroupHandler {
         validateInputUsers(actorId, targetId);
 
         //check for minimun permissions of actor to perform the action
-        if (this.adminIds.contains(actorId)) {
+        if (!this.adminIds.contains(actorId)) {
             throw new IllegalArgumentException("User with Id: " + actorId
                     + " doesn't have permission");
         }
@@ -220,6 +220,9 @@ public class GroupHandler {
         private ArrayList<String> joinRequests;
 
         public Builder(String mainAdminId) {
+            if(mainAdminId == null){
+                throw new IllegalArgumentException("mainAdminId cannot be null.");
+            }
             this.mainAdminId = mainAdminId;
         }
 

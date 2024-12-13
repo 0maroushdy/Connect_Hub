@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Backend.GroupPackage;
+package Backend.GroupiPackage;
 
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
@@ -18,7 +18,7 @@ public class GroupDatabase {
     
     private static GroupDatabase groupDatabase;
     private int uniqueCounter;
-    private ArrayList <Group> groups;
+    private ArrayList <Groupi> groups;
     private ArrayList <User> users;
     
     private GroupDatabase() {
@@ -39,21 +39,21 @@ public class GroupDatabase {
         return uniqueCounter;
     }
     
-    public ArrayList <Group> getGroups(){
+    public ArrayList <Groupi> getGroups(){
         return this.groups;
     }
     
-    public ArrayList <Group> getGroupsByName(String groupName){
-        ArrayList <Group> groups = new ArrayList<>();
-        for(Group group:this.groups){
+    public ArrayList <Groupi> getGroupsByName(String groupName){
+        ArrayList <Groupi> groups = new ArrayList<>();
+        for(Groupi group:this.groups){
             System.out.println(group.getGroupName() + " " + group.getGroupDescription());
             if(group.getGroupName().equals(groupName)) groups.add(group);
         }
         return groups;
     }
     
-    public Group getGroupById(String groupId){
-        for(Group group:this.groups){
+    public Groupi getGroupById(String groupId){
+        for(Groupi group:this.groups){
             if(group.getGroupId().equals(groupId)) return group;
         }
         return null;
@@ -72,8 +72,8 @@ public class GroupDatabase {
         this.uniqueCounter = counter;
     }
     
-   public boolean checkIfGroupExists(Group group){
-        for(Group groupp:this.groups){
+   public boolean checkIfGroupExists(Groupi group){
+        for(Groupi groupp:this.groups){
             if(groupp.getGroupId().equals(group.getGroupId())){
                 return true;
             }
@@ -81,7 +81,7 @@ public class GroupDatabase {
         return false;
     } 
     
-    public void addGroup(Group group){
+    public void addGroup(Groupi group){
         if(group!=null){
             this.groups.add(group);
             
@@ -98,7 +98,7 @@ public class GroupDatabase {
         }
     }
     
-    public String checkIfInGroup(String userId,Group group){
+    public String checkIfInGroup(String userId,Groupi group){
         if(group.getGroupPrimaryAdminId().equals(userId)) return "PRIMARY";
         else if(group.getGroupOtherAdminsIds().contains(userId)) return "OTHER";
         else if(group.getGroupMemberIds().contains(userId)) return "MEMBER";
@@ -112,7 +112,7 @@ public class GroupDatabase {
       for(User userr:this.users){
        if(userr.getUserId().equals(user.getUserId())){
         String groupId = groupName + "-" + uniqueCounter;
-      Group newGroup = Group.GroupCreate.groupCreate(groupId,user.getUserId(),groupName, groupDescription, groupPhoto);
+      Groupi newGroup = Groupi.GroupCreate.groupCreate(groupId,user.getUserId(),groupName, groupDescription, groupPhoto);
       this.groups.add(newGroup);
       userr.getUserJoinedGroups().add(newGroup);
       UserDatabase.getInstance().saveUsersToFile(USERFILE);
@@ -121,8 +121,8 @@ public class GroupDatabase {
       return true;
     }
     
-    public void sendGroupRequest(String requestId,Group group){
-                for(Group groupp:this.groups){
+    public void sendGroupRequest(String requestId,Groupi group){
+                for(Groupi groupp:this.groups){
                     if(groupp.getGroupName().equals(group.getGroupName()) && groupp.getGroupDescription().equals(group.getGroupDescription()) && groupp.getGroupPhoto().equals(group.getGroupPhoto())){
                         groupp.getGroupRequestsIds().add(requestId);
                         UserDatabase.getInstance().saveUsersToFile(USERFILE);
@@ -130,8 +130,8 @@ public class GroupDatabase {
                 }
     }
     
-    public boolean acceptGroupRequest(String otherAdminId,String requestId,Group group){
-                for(Group groupp:this.groups){
+    public boolean acceptGroupRequest(String otherAdminId,String requestId,Groupi group){
+                for(Groupi groupp:this.groups){
                     if(group.getGroupId().equals(group.getGroupId())){
                         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
                             groupp.getGroupRequestsIds().remove(requestId);
@@ -151,8 +151,8 @@ public class GroupDatabase {
     }
     
     
-     public boolean declineGroupRequest(String otherAdminId,String requestId,Group group){
-                for(Group groupp:this.groups){
+     public boolean declineGroupRequest(String otherAdminId,String requestId,Groupi group){
+                for(Groupi groupp:this.groups){
                     if(groupp.getGroupId().equals(group.getGroupId())){
                         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
                             groupp.getGroupRequestsIds().remove(requestId);
@@ -184,8 +184,8 @@ public class GroupDatabase {
        }
     } */
     
-   public boolean promoteOtherAdmin(String primaryAdminId,String otherAdminId,Group group){
-      for(Group groupp:this.groups){
+   public boolean promoteOtherAdmin(String primaryAdminId,String otherAdminId,Groupi group){
+      for(Groupi groupp:this.groups){
        if(groupp.getGroupId().equals(group.getGroupId())){ 
        if(groupp.getGroupPrimaryAdminId().equals(primaryAdminId)){
         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
@@ -208,9 +208,9 @@ public class GroupDatabase {
        return false;
     }
     
-    public boolean demoteOtherAdmin(String primaryAdminId,String otherAdminId,Group group){
+    public boolean demoteOtherAdmin(String primaryAdminId,String otherAdminId,Groupi group){
        
-        for(Group groupp:this.groups){
+        for(Groupi groupp:this.groups){
        if(groupp.getGroupId().equals(group.getGroupId())){ 
        if(groupp.getGroupPrimaryAdminId().equals(primaryAdminId)){
         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
@@ -226,8 +226,8 @@ public class GroupDatabase {
        return false;
     }
     
-    public boolean removeAnyGroupMember(String primaryAdminId,String groupMemberId,Group group){
-       for(Group groupp:this.groups){
+    public boolean removeAnyGroupMember(String primaryAdminId,String groupMemberId,Groupi group){
+       for(Groupi groupp:this.groups){
        if(groupp.getGroupId().equals(group.getGroupId())){
         if(groupp.getGroupPrimaryAdminId().equals(primaryAdminId)){
             if(groupp.getGroupMemberIds().contains(groupMemberId)){
@@ -254,8 +254,8 @@ public class GroupDatabase {
         return false;
     } */
     
-    public boolean deleteGroup(String primaryAdminId,Group group){
-        for(Group groupp:this.groups){
+    public boolean deleteGroup(String primaryAdminId,Groupi group){
+        for(Groupi groupp:this.groups){
             if(groupp.getGroupId().equals(group.getGroupId())){
                 if(groupp.getGroupPrimaryAdminId().equals(primaryAdminId)){
                 this.groups.remove(group);
@@ -267,8 +267,8 @@ public class GroupDatabase {
         return false;
     }
     
-    public boolean removeNormalMember(String otherAdminId,String groupMemberId,Group group){
-        for(Group groupp:this.groups){
+    public boolean removeNormalMember(String otherAdminId,String groupMemberId,Groupi group){
+        for(Groupi groupp:this.groups){
            if(groupp.getGroupId().equals(group.getGroupId())){
                if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
                    if(groupp.getGroupMemberIds().contains(groupMemberId)){
@@ -283,8 +283,8 @@ public class GroupDatabase {
         return false;
     }
     
-    public boolean leaveGroup(String groupMemberId,Group group){
-        for(Group groupp:this.groups){
+    public boolean leaveGroup(String groupMemberId,Groupi group){
+        for(Groupi groupp:this.groups){
             if(groupp.getGroupId().equals(group.getGroupId())){
                 if(groupp.getGroupMemberIds().contains(groupMemberId)){
                     groupp.getGroupMemberIds().remove(groupMemberId);

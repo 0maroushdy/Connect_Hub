@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Backend.GroupPackage;
+package Backend.GroupiPackage;
 
 import Backend.ContentPackage.Post;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.json.JSONObject;
  *
  * @author Abdelrahman
  */
-public class Group {
+public class Groupi {
     
     private String groupId;
     private String groupName;
@@ -26,7 +26,7 @@ public class Group {
    // private ArrayList <Integer> groupPostsIds;
     
     
-    private Group(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+    private Groupi(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
         this.groupId = groupId;
         this.groupName = groupName;
         this.groupDescription = groupDescription;
@@ -38,7 +38,7 @@ public class Group {
        // this.groupPostsIds = new ArrayList<>();
     }
     
-    public Group(){
+    public Groupi(){
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
         this.groupRequestsIds = new ArrayList<>();
@@ -111,8 +111,8 @@ public class Group {
         return jsonObject;
     }
      
-     public static Group fromJSON(JSONObject object){
-        Group group = new Group();
+     public static Groupi fromJSON(JSONObject object){
+        Groupi group = new Groupi();
         group.groupId = object.getString("groupId");
         group.groupName = object.getString("groupName");
         group.groupDescription = object.getString("groupDescription");
@@ -144,8 +144,8 @@ public class Group {
     
     public static class GroupCreate{
         
-        public static Group groupCreate(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
-            return new Group(groupId,groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
+        public static Groupi groupCreate(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
+            return new Groupi(groupId,groupPrimaryAdminId,groupName,groupDescription,groupPhoto);
         }
     }
 }

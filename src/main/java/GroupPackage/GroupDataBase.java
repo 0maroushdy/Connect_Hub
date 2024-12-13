@@ -4,7 +4,6 @@
  */
 package GroupPackage;
 
-import Backend.ContentPackage.ContentDataBase;
 import Backend.ContentPackage.JSONUtils;
 import static Files.FILEPATHS.GROUPFILE;
 import java.io.IOException;
@@ -27,13 +26,13 @@ public class GroupDataBase {
         this.groups = new TreeSet<>();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            this.shutDown();
+            this.shutdown();
         }));
     }
 
     public static GroupDataBase getInstance() {
         if (GroupDataBase.dataBase == null) {
-            synchronized (ContentDataBase.class) {
+            synchronized (GroupDataBase.class) {
                 GroupDataBase.dataBase = new GroupDataBase();
                 GroupDataBase.dataBase.load();
             }
@@ -85,7 +84,13 @@ public class GroupDataBase {
         }
     }
     
-    private void shutDown() {
+    public synchronized void remove(Group group){
+        this.load();
+        this.groups.remove(group);
+        this.save();
+    }
+    
+    private void shutdown() {
         System.out.println("Shutting down GroupDataBase...");
         System.out.println("\tSaving GroupDataBase");
 

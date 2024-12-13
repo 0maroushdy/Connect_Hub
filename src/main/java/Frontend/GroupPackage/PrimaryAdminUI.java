@@ -4,8 +4,8 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
@@ -21,12 +21,12 @@ import javax.swing.JOptionPane;
 public class PrimaryAdminUI extends javax.swing.JFrame {
     
     private User currentUser;
-    private Group group;
+    private Groupi group;
     private UserDatabase userDatabase;
     /**
      * Creates new form PrimaryAdminUI
      */
-    public PrimaryAdminUI(Group group) {
+    public PrimaryAdminUI(Groupi group) {
         initComponents();
         setTitle("PrimaryAdminUI");
         setLocationRelativeTo(null);

@@ -4,8 +4,8 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserSignupSingleton;
 import java.awt.Image;

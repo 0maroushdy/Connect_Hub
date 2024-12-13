@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -31,6 +32,9 @@ public class ContentDataBase {
 
     private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
+    
+    Comparator<AContent> timeOrdering = (s1, s2) -> s1.getTimeOfUpload()
+            .compareTo(s2.getTimeOfUpload());
 
     private ContentDataBase() {
         this.posts = new TreeSet<>();
@@ -58,11 +62,15 @@ public class ContentDataBase {
     }
 
     public TreeSet<Post> getPosts() {
-        return new TreeSet<>(posts);
+        TreeSet<Post> temp = new TreeSet<>(this.timeOrdering);
+        temp.addAll(posts);
+        return temp;
     }
 
     public TreeSet<Story> getStories() {
-        return new TreeSet<>(stories);
+        TreeSet<Story> temp = new TreeSet<>(this.timeOrdering);
+        temp.addAll(stories);
+        return temp;
     }
 
     public synchronized void addContent(Post cont) {

@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.Border;
@@ -286,6 +287,11 @@ public class News extends javax.swing.JFrame {
         JPanel suggestionsPanel = new JPanel();
         suggestionsPanel.setLayout(new BoxLayout(suggestionsPanel, BoxLayout.Y_AXIS));
 
+        TreeSet<Post> temp = ContentDataBase.getInstance().getPosts();
+        for(Post post : temp){
+            System.out.println(post.getText());
+        }
+        
         for (Post post : ContentDataBase.Query.getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
             JPanel component = postComp(post);
             postsPanel.add(component, 0); // Add to the top

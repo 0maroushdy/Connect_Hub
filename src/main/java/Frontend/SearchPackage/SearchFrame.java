@@ -4,9 +4,9 @@
  */
 package Frontend.SearchPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
-import Backend.GroupPackage.GroupSearch;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
+import Backend.GroupiPackage.GroupSearch;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSearch;
@@ -108,7 +108,7 @@ public class SearchFrame extends javax.swing.JFrame {
                 groupSearch = GroupSearch.GroupSearchFactory.createGroupSearch(groupName);
                 DefaultListModel <String> groupsModel = new DefaultListModel<>();
                 groupList.setModel(groupsModel);
-                 for(Group group:groupSearch.getSearchGroups()){
+                 for(Groupi group:groupSearch.getSearchGroups()){
                     groupsModel.addElement(group.getGroupId() + " " + group.getGroupName() + " " + group.getGroupDescription());
                 }
                 
@@ -117,7 +117,7 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
+                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
                         groupSearch.joinGroup(currentUser, group);
                         JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
@@ -128,7 +128,7 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
+                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
                         groupSearch.leaveGroup(currentUser.getUserId(), group);
                         JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
@@ -140,7 +140,7 @@ public class SearchFrame extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
-                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
+                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
                      String check = GroupDatabase.getInstance().checkIfInGroup(currentUser.getUserId(), group);
                      if(check.equals("PRIMARY")){
                          PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);

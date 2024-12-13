@@ -1,8 +1,8 @@
 
 package Backend.UserPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.io.BufferedReader;
@@ -170,7 +170,7 @@ public final class UserDatabase {
             addUser(User.UserFactory.create( userId, email, username, password, date, status, Profile, false));
         //  addUser(User.UserFactory.create(userId,email, username, password, date, status, false));
         }
-         for(Group group:GroupDatabase.getInstance().getGroups()){
+         for(Groupi group:GroupDatabase.getInstance().getGroups()){
             String[] parts2 = group.getGroupId().split("-");
             if (parts2.length == 2) {
                 try {

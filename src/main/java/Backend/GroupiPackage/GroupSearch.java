@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Backend.GroupPackage;
+package Backend.GroupiPackage;
 
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class GroupSearch {
     
-    private ArrayList <Group> searchGroups;
+    private ArrayList <Groupi> searchGroups;
     private GroupDatabase groupDatabase;
     private ArrayList <User> users;
     
@@ -26,15 +26,15 @@ public class GroupSearch {
         this.users = UserDatabase.getInstance().getUsers();
     }
     
-    public ArrayList <Group> getSearchGroups(){
+    public ArrayList <Groupi> getSearchGroups(){
         return this.searchGroups;
     }
     
-    public void joinGroup(User user,Group group){
+    public void joinGroup(User user,Groupi group){
         this.groupDatabase.sendGroupRequest(user.getUserId(), group);
     }
     
-    public boolean leaveGroup(String groupMemberId,Group group){
+    public boolean leaveGroup(String groupMemberId,Groupi group){
       return this.groupDatabase.leaveGroup(groupMemberId, group);
     }
     

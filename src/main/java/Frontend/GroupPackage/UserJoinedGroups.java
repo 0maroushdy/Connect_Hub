@@ -4,8 +4,8 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserSignupSingleton;
 import java.awt.event.ActionEvent;
@@ -35,7 +35,7 @@ public class UserJoinedGroups extends javax.swing.JFrame {
         
         DefaultListModel<String> userJoinedGroupsModel = new DefaultListModel<>();
         userJoinedGroupsList.setModel(userJoinedGroupsModel);
-        for(Group group:currentUser.getUserJoinedGroups()){
+        for(Groupi group:currentUser.getUserJoinedGroups()){
             userJoinedGroupsModel.addElement(group.getGroupId() + " " + group.getGroupName()+ " " + group.getGroupDescription());
         }
         
@@ -45,7 +45,7 @@ public class UserJoinedGroups extends javax.swing.JFrame {
                  String userId = currentUser.getUserId();
                  String line = userJoinedGroupsList.getSelectedValue();
                  String [] data = line.split(" ");
-                 Group group = GroupDatabase.getInstance().getGroupById(data[0]);
+                 Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
                  if(group.getGroupPrimaryAdminId().equals(userId)){
                      PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
                      primaryAdmin.setVisible(true);

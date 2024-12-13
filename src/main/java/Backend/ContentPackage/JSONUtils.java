@@ -11,6 +11,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Supplier;
 import org.json.JSONObject;
 
 /*
@@ -45,13 +49,25 @@ public class JSONUtils {
     //could be more generic
     public static ArrayList loadArrayList(JSONObject jsonObject, String key) {
         ArrayList<String> list = new ArrayList<>();
-        
+
         JSONArray membersArray = jsonObject.getJSONArray(key);
         for (int i = 0; i < membersArray.length(); i++) {
             list.add(membersArray.getString(i));
         }
 
         return list;
+    }
+
+    public static <C extends Collection<String>> C 
+        loadCollection(JSONObject jsonObject, String key, Supplier<C> collectionSupplier) {
+            
+        C collection = collectionSupplier.get();
+        
+        JSONArray jsonArray = jsonObject.getJSONArray(key);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            collection.add(jsonArray.getString(i));
+        }
+        return collection;
     }
 
 }

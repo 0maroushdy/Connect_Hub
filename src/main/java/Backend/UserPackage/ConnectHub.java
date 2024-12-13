@@ -4,8 +4,8 @@
  */
 package Backend.UserPackage;
 
-import Backend.GroupPackage.Group;
-import Backend.GroupPackage.GroupDatabase;
+import Backend.GroupiPackage.Groupi;
+import Backend.GroupiPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.WelcomeFrame;
 import java.io.FileNotFoundException;

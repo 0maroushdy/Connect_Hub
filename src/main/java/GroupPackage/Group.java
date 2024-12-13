@@ -21,7 +21,7 @@ enternal folder
  *
  * @author moustafa
  */
-public class Group {
+public class Group implements Comparable<Group>{
 
     private final UUID id;
     private String name;
@@ -48,12 +48,32 @@ public class Group {
         //
     }
 
-    public Group(Group.Builder groupBuilder) {
+    protected Group(Group.Builder groupBuilder) {
         this(groupBuilder.name,
                 groupBuilder.handler,
                 groupBuilder.description,
                 groupBuilder.photoPath,
                 groupBuilder.id);
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public GroupHandler getHandler() {
+        return handler;
     }
 
     public JSONObject toJSON() {
@@ -89,6 +109,18 @@ public class Group {
 
         return groupBuilder.build();
     }
+    
+    public Group create(){
+        GroupDataBase.getInstance().addGroup(this);
+        return this;
+    }
+
+    @Override
+    public int compareTo(Group o) {
+        return this.id.compareTo(o.id);
+    }
+    
+    
 
     public static class Builder {
 
@@ -131,5 +163,4 @@ public class Group {
             return new Group(this);
         }
     }
-
 }
