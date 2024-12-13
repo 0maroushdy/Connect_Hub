@@ -15,6 +15,7 @@ import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.GroupPackage.CreateGroup;
+import Frontend.NotificationPackage.NotiForm;
 import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
@@ -122,6 +123,7 @@ public class News extends javax.swing.JFrame {
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
         JButton createGroupBtn = createStyledButton("CreateGroup");
+        JButton notificationBtn = createStyledButton("Notfications");
       
 
         // Add action listeners to the buttons
@@ -138,6 +140,7 @@ public class News extends javax.swing.JFrame {
         });
         createGroupBtn.addActionListener(e -> createGroup());
         refreshButton.addActionListener(e -> refresh());
+        notificationBtn.addActionListener(e -> notificationAction());
 
         // Add buttons to the panel
        buttonPanel.add(button1);
@@ -146,6 +149,7 @@ public class News extends javax.swing.JFrame {
         buttonPanel.add(searchButton);
         buttonPanel.add(button3);
         buttonPanel.add(refreshButton);
+        buttonPanel.add(notificationBtn);
        // buttonPanel.add(profileBtn);
        
         
@@ -481,6 +485,7 @@ private JPanel friendComp(User friend) {
        // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
+        new WelcomeFrame();
     }
     
     private void friendsManage(){
@@ -513,6 +518,15 @@ private JPanel friendComp(User friend) {
     private void refresh(){
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
     }
+    
+    public void notificationAction(){
+//        this.setVisible(false);
+        this.dispose();
+        new NotiForm();
+        
+        
+    }
+    
 
     public static void main(String[] args) throws IOException {
         new News();

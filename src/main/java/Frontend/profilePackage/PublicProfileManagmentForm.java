@@ -23,8 +23,7 @@ import javax.swing.JOptionPane;
  */
 public class PublicProfileManagmentForm extends javax.swing.JFrame {
     
-    // identifing the current main User
-//    User currentUser = UserDatabase.getInstance().getUser(currentUserID);
+
     User MainUser = UserSignupSingleton.getInstance().getUser();
     User currentUser = new User();
     
@@ -36,23 +35,16 @@ public class PublicProfileManagmentForm extends javax.swing.JFrame {
     // ----------------** Constractor **------------------
   
         public PublicProfileManagmentForm() {
-            
         }
         
-      public PublicProfileManagmentForm(User user) {
+        public PublicProfileManagmentForm(User user) {
         this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
         initComponents();
         setDefaultImages();
+        setDefaultText();
         super.setVisible(true);
         super.setTitle("Profile");
         setLocationRelativeTo(null);
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
     }
     
     
@@ -69,7 +61,26 @@ public class PublicProfileManagmentForm extends javax.swing.JFrame {
          }
     }
     
+    
     private void setDefaultImages() {
+        
+    if(this.newProfilePhoto != ""){
+        // Load the selected image
+       ImageIcon selectedImage = new ImageIcon(newProfilePhoto);
+       ImageIcon selectedImageCover = new ImageIcon(newProfileCover);
+
+       // Scale the image to fit the JLabel dimensions
+       Image scaledImage = selectedImage.getImage().getScaledInstance(
+        lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
+       
+       Image scaledCover = selectedImageCover.getImage().getScaledInstance(
+        lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+
+       // Set the scaled image as the JLabel icon
+       lblProfilePhoto.setIcon(new ImageIcon(scaledImage));  
+       lblCoverPhoto.setIcon(new ImageIcon(scaledCover));  
+       
+    } else {
     // Default Cover Photo
     ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
     Image scaledCover = defaultCoverIcon.getImage().getScaledInstance(
@@ -81,7 +92,17 @@ public class PublicProfileManagmentForm extends javax.swing.JFrame {
     Image scaledProfile = defaultProfileIcon.getImage().getScaledInstance(
         lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
     lblProfilePhoto.setIcon(new ImageIcon(scaledProfile));
+    }
 } 
+    
+    public void setDefaultText (){
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+    }
 
     
 

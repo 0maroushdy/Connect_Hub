@@ -6,6 +6,7 @@ package Backend.UserPackage;
 
 import Backend.GroupPackage.Group;
 import Backend.GroupPackage.GroupDatabase;
+import Backend.NotificationPackage.*;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class User {
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
    private Set <Group> userJoinedGroups;
+   private NotificationManager notificationMang;
    
    
       /* Constructor */
@@ -50,6 +52,7 @@ public class User {
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
        this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
    }
 
    public User() {
@@ -59,6 +62,7 @@ public class User {
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
        this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
     }
          /* Getters */
     public String getUserId(){
@@ -107,6 +111,10 @@ public class User {
    
    public Set <Group> getUserJoinedGroups(){
        return this.userJoinedGroups;
+   }
+   
+   public NotificationManager getNotificationManager(){
+       return this.notificationMang;
    }
    
              /* Setters */
@@ -189,6 +197,9 @@ public class User {
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
       jsonObject.put("Profile",this.profile.toJSON());
+      
+      jsonObject.put("Notificatoins",this.notificationMang.toJSON());
+      
       JSONArray friendsArray = new JSONArray();
         for (String friend : this.friends) {
             friendsArray.put(friend); 
@@ -236,14 +247,22 @@ public class User {
     user.dateOfBirth = jsonObject.getString("DateOfBirth");
     user.status = jsonObject.getString("Status");
     user.email = jsonObject.getString("Email");
-     user.username = jsonObject.getString("Username");
-     user.userId = jsonObject.getString("UserId");
+    user.username = jsonObject.getString("Username");
+    user.userId = jsonObject.getString("UserId");
     user.password = jsonObject.getString("Password");
    // user.date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
-     JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
+   
+    JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
     user.profile = new UserProfile( profileObj.getString("profilePhoto"),
                               profileObj.getString("profileCover") 
                              ,profileObj.getString("bio")) ;
+    // >> notification from JSON ................
+    JSONArray notificationsArray = jsonObject.getJSONArray("Notificatoins");
+    for (int i = 0; i < notificationsArray.length(); i++) {
+        UserNotification notification = new UserNotification( notificationsArray.getJSONObject(i) );
+        user.notificationMang.addNotification(notification);
+    }
+    
     // Deserialize the friends set
    // user.friends = new HashSet<>();
     JSONArray friendsArray = jsonObject.getJSONArray("Friends");
