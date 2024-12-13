@@ -65,8 +65,11 @@ public class SearchFrame extends javax.swing.JFrame {
                          String line = userList.getSelectedValue();
                          String [] data = line.split(" ");
                          User userInList = UserDatabase.getInstance().getUser(data[0]);
-                         userSearch.addFriend(currentUser, userInList);
-                         JOptionPane.showMessageDialog(null, "Friend request sent to " + userInList.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                         if(userSearch.addFriend(currentUser, userInList)){
+                         JOptionPane.showMessageDialog(null, "Friend request sent to " + userInList.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);}
+                else{
+                    JOptionPane.showMessageDialog(null, "Already friends", "Fail", JOptionPane.INFORMATION_MESSAGE);         
+                         }
                     } 
                 });
                 
@@ -137,8 +140,11 @@ public class SearchFrame extends javax.swing.JFrame {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
                         Group group = GroupDatabase.getInstance().getGroupById(data[0]);
-                        groupSearch.leaveGroup(currentUser.getUserId(), group);
-                        JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                       if (groupSearch.leaveGroup(currentUser.getUserId(), group)){
+                        JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);}
+                       else {
+                           JOptionPane.showMessageDialog(null, "You are not a member in this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                       }
                     } 
                 });
                 

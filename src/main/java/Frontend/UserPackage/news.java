@@ -399,8 +399,9 @@ private JPanel friendComp(User friend) {
     joinedGroupsPanel.setLayout(new BoxLayout(joinedGroupsPanel, BoxLayout.Y_AXIS));
 
     for (Post post : ContentDataBase.Query.getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
+        if(post.getGroupId()==null || post.getGroupId().length()==0){
         JPanel component = postComp(post);
-        postsPanel.add(component, 0); // Add to the top
+        postsPanel.add(component, 0);} // Add to the top
     }
     for (Story story : ContentDataBase.Query.getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = storyComp(story);

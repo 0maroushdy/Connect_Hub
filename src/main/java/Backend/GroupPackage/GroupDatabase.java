@@ -134,17 +134,19 @@ public class GroupDatabase {
                         if(groupp.getGroupPrimaryAdminId().equals(requestId)){
                             return false;
                         }
-                        if(groupp.getGroupOtherAdminsIds().contains(requestId)){
+                       else if(groupp.getGroupOtherAdminsIds().contains(requestId)){
                             return false;
                         }
-                        if(groupp.getGroupMemberIds().contains(requestId)){
+                       else if(groupp.getGroupMemberIds().contains(requestId)){
                             return false;
                         }
-                        if(groupp.getGroupRequestsIds().contains(requestId)){
+                      else  if(groupp.getGroupRequestsIds().contains(requestId)){
                             return false;
                         }
+                      else{
                         groupp.getGroupRequestsIds().add(requestId);
                         UserDatabase.getInstance().saveUsersToFile(USERFILE);
+                      return true; }
                     }
                 }
                 return true;
@@ -153,6 +155,9 @@ public class GroupDatabase {
     public boolean acceptGroupRequest(String otherAdminId,String requestId,Group group){
                 for(Group groupp:this.groups){
                     if(group.getGroupId().equals(group.getGroupId())){
+                        if(groupp.getGroupPrimaryAdminId().equals(requestId)) return false;
+                        if(groupp.getGroupMemberIds().contains(requestId)) return false;
+                        if(groupp.getGroupOtherAdminsIds().contains(requestId)) return false;
                         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
                             groupp.getGroupRequestsIds().remove(requestId);
                             groupp.getGroupMemberIds().add(requestId);
@@ -174,6 +179,9 @@ public class GroupDatabase {
      public boolean declineGroupRequest(String otherAdminId,String requestId,Group group){
                 for(Group groupp:this.groups){
                     if(groupp.getGroupId().equals(group.getGroupId())){
+                        if(groupp.getGroupPrimaryAdminId().equals(requestId)) return false;
+                        if(groupp.getGroupMemberIds().contains(requestId)) return false;
+                        if(groupp.getGroupOtherAdminsIds().contains(requestId)) return false;
                         if(groupp.getGroupOtherAdminsIds().contains(otherAdminId)){
                             groupp.getGroupRequestsIds().remove(requestId);
                             UserDatabase.getInstance().saveUsersToFile(USERFILE);

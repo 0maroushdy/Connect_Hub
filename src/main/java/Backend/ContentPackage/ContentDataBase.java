@@ -73,20 +73,28 @@ public class ContentDataBase {
     }
     
     public void removePost(Post post){
-        if(post != null){
-            this.posts.remove(post);
-            this.update();
+       for(Post postt:this.posts){
+        if(postt.getContentId().equals(post.getContentId())){
+            this.posts.remove(postt);
+            this.save();
         }
+       }
+    }
+    
+    public boolean editPost(String text,String imagePath){
+        if(text.length() == 0 || imagePath == null || imagePath.length() == 0) return false;
+        
+        return true;
     }
 
     public synchronized void addContent(Post cont) {
         this.posts.add(cont);
-        this.update();
+        this.save();
     }
 
     public synchronized void addContent(Story cont) {
         this.stories.add(cont);
-        this.update();
+        this.save();
     }
 
     private synchronized void load() {
@@ -116,7 +124,7 @@ public class ContentDataBase {
         }
     }
 
-    private synchronized void save() {
+    public synchronized void save() {
 
         JSONArray storiesJSON = new JSONArray();
         for (Story story : this.stories) {
@@ -137,8 +145,8 @@ public class ContentDataBase {
     }
 
     public synchronized void update() {
-        this.load();
         this.save();
+        this.load(); 
     }
 
     private synchronized void removeStory() {
