@@ -15,9 +15,11 @@ import Frontend.GroupPackage.NormalUserUI;
 import Frontend.GroupPackage.OtherAdminUI;
 import Frontend.GroupPackage.PrimaryAdminUI;
 import Frontend.profilePackage.ProfileManagmentForm;
+import Frontend.profilePackage.PublicProfileManagmentForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -64,6 +66,7 @@ public class SearchFrame extends javax.swing.JFrame {
                          String [] data = line.split(" ");
                          User userInList = UserDatabase.getInstance().getUser(data[0]);
                          userSearch.addFriend(currentUser, userInList);
+                         JOptionPane.showMessageDialog(null, "Friend request sent to " + userInList.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
                 });
                 
@@ -74,6 +77,7 @@ public class SearchFrame extends javax.swing.JFrame {
                          String [] data = line.split(" ");
                          User userInList = UserDatabase.getInstance().getUser(data[0]);
                          userSearch.removeFriend(currentUser, userInList);
+                         JOptionPane.showMessageDialog(null, "Removed friend with id " + userInList.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
                 });
                 
@@ -84,6 +88,7 @@ public class SearchFrame extends javax.swing.JFrame {
                          String [] data = line.split(" ");
                          User userInList = UserDatabase.getInstance().getUser(data[0]);
                          userSearch.blockUser(currentUser, userInList);
+                         JOptionPane.showMessageDialog(null, "Blocked user with id " + userInList.getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } 
                 });
                 
@@ -93,7 +98,7 @@ public class SearchFrame extends javax.swing.JFrame {
                         String line = userList.getSelectedValue();
                         String [] data = line.split(" ");
                         User userInList = UserDatabase.getInstance().getUser(data[0]);
-                        ProfileManagmentForm  profileForm = new ProfileManagmentForm(userInList);
+                        PublicProfileManagmentForm  profileForm = new PublicProfileManagmentForm(userInList);
                         profileForm.setVisible(true);  
                     } 
                 });
@@ -138,9 +143,9 @@ public class SearchFrame extends javax.swing.JFrame {
                 viewGroup.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String line = groupList.getSelectedValue();
-                        String [] data = line.split(" ");
-                        Group group = GroupDatabase.getInstance().getGroupById(data[0]);
+                     String line = groupList.getSelectedValue();
+                     String [] data = line.split(" ");
+                     Group group = GroupDatabase.getInstance().getGroupById(data[0]);
                      String check = GroupDatabase.getInstance().checkIfInGroup(currentUser.getUserId(), group);
                      if(check.equals("PRIMARY")){
                          PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);

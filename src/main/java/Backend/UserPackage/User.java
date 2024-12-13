@@ -163,7 +163,10 @@ public class User {
    }
    
   public void userLogout(){
-     UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
+     for(User user:UserDatabase.getInstance().getUsers()){
+        if(user.getUserId().equals(this.userId)){
+         user.setUserStatus("offline");}
+     }
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   

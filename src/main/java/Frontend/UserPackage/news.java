@@ -44,7 +44,7 @@ public class News extends javax.swing.JFrame {
         
         
         this.setTitle("Newsfeed");
-        this.setSize(800, 600);
+        this.setSize(1100,800);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,6 +107,7 @@ public class News extends javax.swing.JFrame {
         // Create and style the buttons
         JButton button1 = createStyledButton("Logout");
         JButton searchButton = createStyledButton("SearchEngine");
+        JButton refreshButton = createStyledButton("refreshEngine");
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
         JButton createGroupBtn = createStyledButton("CreateGroup");
@@ -125,16 +126,18 @@ public class News extends javax.swing.JFrame {
             }
         });
         createGroupBtn.addActionListener(e -> createGroup());
+        refreshButton.addActionListener(e -> refresh());
 
         // Add buttons to the panel
-     //  buttonPanel.add(button1);
-     //  buttonPanel.add(profileBtn);
+       buttonPanel.add(button1);
+       buttonPanel.add(profileBtn);
         buttonPanel.add(createGroupBtn);
         buttonPanel.add(searchButton);
         buttonPanel.add(button3);
+        buttonPanel.add(refreshButton);
        // buttonPanel.add(profileBtn);
        
-
+        
         buttonPanel.setBackground(new Color(10, 49, 86));
 
         // Add the button panel to the south of the frame
@@ -149,7 +152,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(post.getAuthor().getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(post.getAuthorId()).getUsername());
       //  System.out.println(post.getAuthor().getUsername());
         JLabel timestampLabel = new JLabel(post.getTimestamp());
 
@@ -185,7 +188,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(story.getAuthor().getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(story.getAuthorId()).getUsername());
         JLabel timestampLabel = new JLabel(story.getTimestamp());
 
         // Create a panel for the top section to hold the author name and timestamp
@@ -264,7 +267,7 @@ private JPanel friendComp(User friend) {
         panel3.removeAll();
         panel4.removeAll();
         panel5.removeAll();
-        ContentDataBase.getInstance().save();   
+        ContentDataBase.getInstance().update();  
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
        // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);
@@ -281,11 +284,11 @@ private JPanel friendComp(User friend) {
     JPanel suggestionsPanel = new JPanel();
     suggestionsPanel.setLayout(new BoxLayout(suggestionsPanel, BoxLayout.Y_AXIS));
 
-    for (Post post : ContentDataBase.getInstance().getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
+    for (Post post : ContentDataBase.Query.getFriendsPosts(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = postComp(post);
         postsPanel.add(component, 0); // Add to the top
     }
-    for (Story story : ContentDataBase.getInstance().getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
+    for (Story story : ContentDataBase.Query.getFriendsStories(UserSignupSingleton.getInstance().getUser())) {
         JPanel component = storyComp(story);
         storiesPanel.add(component, 0); // Add to the top
     }
@@ -332,7 +335,7 @@ private JPanel friendComp(User friend) {
         button.setBackground(new Color(84, 110, 122)); // Set background color (SteelBlue)
         button.setForeground(Color.WHITE); // Set text color
         button.setFont(new Font("Arial", Font.BOLD, 14)); // Set font
-        button.setBorder(new EmptyBorder(10, 60, 10, 60)); // Add padding
+        button.setBorder(new EmptyBorder(10, 15, 10, 15)); // Add padding
         return button;
     }
     
@@ -343,6 +346,7 @@ private JPanel friendComp(User friend) {
     }
     
     private void friendsManage(){
+        //UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         FriendsGui friendsGui = new FriendsGui();
         friendsGui.setVisible(true);
     }
@@ -366,6 +370,10 @@ private JPanel friendComp(User friend) {
     private void createGroup(){
         CreateGroup create = new CreateGroup();
         create.setVisible(true);
+    }
+    
+    private void refresh(){
+        UserDatabase.getInstance().loadUsersFromFile(USERFILE);
     }
 
     public static void main(String[] args) throws IOException {

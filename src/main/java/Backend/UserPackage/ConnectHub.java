@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import Backend.ContentPackage.ContentDataBase;
 import Backend.GroupPackage.Group;
 import Backend.GroupPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
@@ -26,6 +27,7 @@ public class ConnectHub {
         // TODO code application logic here
        
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
+        ContentDataBase.getInstance().update();
         System.out.println(GroupDatabase.getInstance().getUniqueCounter());
         System.out.println(GroupDatabase.getInstance().getGroups().size());
         WelcomeFrame frame = new WelcomeFrame();

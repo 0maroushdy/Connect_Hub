@@ -9,6 +9,7 @@ import Backend.UserPackage.UserDatabase;
 import static Files.FILEPATHS.USERFILE;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -42,6 +43,12 @@ public class GroupDatabase {
     public ArrayList <Group> getGroups(){
         return this.groups;
     }
+    
+    public ArrayList <String> getGroupPostsIds(){
+        return this.getGroupPostsIds();
+    }
+    
+    
     
     public ArrayList <Group> getGroupsByName(String groupName){
         ArrayList <Group> groups = new ArrayList<>();

@@ -1,7 +1,7 @@
 [
     {
         "Status": "online",
-        "DateOfBirth": "2024-12-09",
+        "DateOfBirth": "2024-12-08",
         "Email": "beego@gmail.com",
         "Username": "beego",
         "UserId": "beego-1",
@@ -21,7 +21,7 @@
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
         "userJoinedGroups": [{
             "groupName": "hi",
-            "groupDescription": "hello",
+            "groupDescription": "ghhh",
             "groupId": "hi-1",
             "groupMembersIds": [],
             "groupPrimaryAdminId": "beego-1",

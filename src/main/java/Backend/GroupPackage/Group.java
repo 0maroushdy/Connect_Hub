@@ -6,6 +6,7 @@ package Backend.GroupPackage;
 
 import Backend.ContentPackage.Post;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,7 +24,7 @@ public class Group {
     private ArrayList <String> groupOtherAdminsIds;
     private ArrayList <String> groupMembersIds;
     private ArrayList <String> groupRequestsIds;
-   // private ArrayList <Integer> groupPostsIds;
+   // private ArrayList <String> groupPostsIds; 
     
     
     private Group(String groupId,String groupPrimaryAdminId,String groupName,String groupDescription,String groupPhoto){
@@ -35,13 +36,14 @@ public class Group {
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
         this.groupRequestsIds = new ArrayList<>();
-       // this.groupPostsIds = new ArrayList<>();
+     //   this.groupPostsIds = new ArrayList<>();
     }
     
     public Group(){
         this.groupOtherAdminsIds = new ArrayList<>();
         this.groupMembersIds = new ArrayList<>();
         this.groupRequestsIds = new ArrayList<>();
+      //  this.groupPostsIds = new ArrayList<>();
     }
     
          /* Getters */
@@ -77,6 +79,10 @@ public class Group {
         return this.groupRequestsIds;
     }
     
+  /*  public ArrayList <String> getGroupPostsIds(){
+        return this.groupPostsIds;
+    } */
+    
        /* Setters */
     public void setGroupName(String groupName){
         this.groupName = groupName;
@@ -108,6 +114,7 @@ public class Group {
         jsonObject.put("groupOtherAdminsIds", new JSONArray(this.groupOtherAdminsIds));
         jsonObject.put("groupMembersIds", new JSONArray(this.groupMembersIds));
         jsonObject.put("groupRequestsIds", new JSONArray(this.groupRequestsIds));
+      //  jsonObject.put("groupPosts",new JSONArray(this.groupPostsIds));
         return jsonObject;
     }
      
@@ -136,7 +143,12 @@ public class Group {
             groupRequestsIds.add(groupRequestsArray.getString(i));
         }
         group.groupRequestsIds = groupRequestsIds;
-        
+      /*  JSONArray groupPostsArray = object.getJSONArray("groupPosts");
+        ArrayList <String> groupPostsIds = new ArrayList<>();
+        for (int i = 0; i < groupPostsArray.length(); i++) {
+            groupPostsIds.add(groupPostsArray.getString(i));
+        }
+        group.groupPostsIds = groupPostsIds; */
         return group;
      }
     
