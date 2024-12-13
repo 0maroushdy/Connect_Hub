@@ -28,7 +28,7 @@ public class NotificationManager {
 
     // -----------** Adding Noti. **--------------
     public void addNotification(UserNotification notification ) {
-        notification.setId( this.generateNotificatoinId());
+        notification.setId(this.generateNotificatoinId());
         notifications.add( notification);
     }
 
@@ -50,12 +50,20 @@ public class NotificationManager {
         this.addNotification(new NewPostNotification(message));
     }
     
-    public void makeAllSeen(){
-        for(User user : UserDatabase.getInstance().getUsers() ){
-//            if( user.getUserId().equals(this.) )
-            for(UserNotification noti : notifications){
-                noti.setSeenStatus(true);
+    public void makeAllSeen(User user){
+        for(User userr : UserDatabase.getInstance().getUsers() ){
+         if(userr.getUserId().equals(user.getUserId()) ){
+            for(UserNotification noti : userr.getNotificationManager().notifications){
+              //  noti.setSeenStatus(true);
+              userr.getNotificationManager().setAllNotiSeen();
             }
+         }
+        }
+    }
+    
+    public void setAllNotiSeen(){
+        for(UserNotification noti:this.getNotiList()){
+            noti.setSeenStatus(true);
         }
     }
     

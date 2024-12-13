@@ -280,6 +280,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Remove All Notifications"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

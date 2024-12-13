@@ -500,7 +500,7 @@ private JPanel friendComp(User friend) {
     }
     
       private void profileBtnAction() throws overSizeInputException { 
-        this.dispose();
+      //  this.dispose();
         new ProfileManagmentForm().setVisible(true);
 
     } 
@@ -516,15 +516,15 @@ private JPanel friendComp(User friend) {
     }
     
     private void refresh(){
+        ContentDataBase.getInstance().update();
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
     }
     
     public void notificationAction(){
 //        this.setVisible(false);
-        this.dispose();
+       // this.dispose();
         new NotiForm();
-        
-        
+ 
     }
     
 

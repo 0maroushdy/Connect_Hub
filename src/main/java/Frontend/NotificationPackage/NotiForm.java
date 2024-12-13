@@ -186,6 +186,11 @@ public class NotiForm extends javax.swing.JFrame {
         add.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         add.setForeground(new java.awt.Color(0, 0, 0));
         add.setText("Remove All Notifications");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -275,10 +280,10 @@ public class NotiForm extends javax.swing.JFrame {
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         // TODO add your handling code here:
-        UserSignupSingleton.getInstance().getUser().getNotificationManager().makeAllSeen();
+        
+       UserSignupSingleton.getInstance().getUser().getNotificationManager().makeAllSeen( UserSignupSingleton.getInstance().getUser());
+        
         fillOutNotifications();
-        
-        
     }//GEN-LAST:event_removeActionPerformed
 
     private void btnBack2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack2ActionPerformed
@@ -301,6 +306,11 @@ public class NotiForm extends javax.swing.JFrame {
             Logger.getLogger(NotiForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_addActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
