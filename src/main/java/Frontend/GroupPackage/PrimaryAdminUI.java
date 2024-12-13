@@ -11,11 +11,17 @@ import Backend.GroupPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -60,13 +66,29 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         for(String id:group.getGroupRequestsIds()){
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername() + " " + "(Request Pending)");
         }
-        
-       for(Post post:ContentDataBase.getInstance().getPosts()){
-            if(post.getGroupId().equals(group.getGroupId())){
-            PostPanell postPanel = new PostPanell(post);
-            postsPanel.add(postPanel);}
-        } 
-        
+          JPanel postsContainer = new JPanel();
+          postsContainer.setLayout(new BoxLayout(postsContainer, BoxLayout.Y_AXIS));
+
+        for (Post post : ContentDataBase.getInstance().getPosts()) {
+          if (post.getGroupId().equals(group.getGroupId())) {
+        PostPanell postPanel = new PostPanell(post);
+        postsContainer.add(postPanel);
+         }
+        }
+
+         // Wrap postsContainer in JScrollPane
+       JScrollPane scrollPane = new JScrollPane(postsContainer);
+       scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+       scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+       scrollPane.setPreferredSize(new Dimension(600,500));
+             // Ensure postsContainer respects its contents
+          postsContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+          postsPanel.setLayout(new BorderLayout());
+            // Add the scrollPane to your main panel
+          postsPanel.add(scrollPane, BorderLayout.CENTER);
+          postsPanel.revalidate();
+          postsPanel.repaint();
+       
         promote.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -241,7 +263,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         postsPanel.setLayout(postsPanelLayout);
         postsPanelLayout.setHorizontalGroup(
             postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
+            .addGap(0, 525, Short.MAX_VALUE)
         );
         postsPanelLayout.setVerticalGroup(
             postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
