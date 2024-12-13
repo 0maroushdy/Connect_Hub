@@ -66,12 +66,12 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         for(String id:group.getGroupRequestsIds()){
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername() + " " + "(Request Pending)");
         }
-          JPanel postsContainer = new JPanel();
-          postsContainer.setLayout(new BoxLayout(postsContainer, BoxLayout.Y_AXIS));
+         JPanel postsContainer = new JPanel();
+         postsContainer.setLayout(new BoxLayout(postsContainer, BoxLayout.Y_AXIS));
 
         for (Post post : ContentDataBase.getInstance().getPosts()) {
          if (post.getGroupId().equals(group.getGroupId())) {
-        PostPanell postPanel = new PostPanell(post);
+        PostPanell postPanel = new PostPanell(post,postsContainer);
         postsContainer.add(postPanel);
          }
         }
@@ -167,7 +167,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "You are already a member of this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -184,7 +184,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
-                  JOptionPane.showMessageDialog(null, "Failed to decline member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "You are already a member of this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             } 
         });
@@ -197,6 +197,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             }   
          });
          
+        
          
         
     }
@@ -226,7 +227,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         declineRequest = new javax.swing.JButton();
         addPost = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setBackground(new java.awt.Color(92, 107, 192));
@@ -366,13 +367,13 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                         .addComponent(declineRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(addPost, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(156, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 2, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(postsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15))))
         );

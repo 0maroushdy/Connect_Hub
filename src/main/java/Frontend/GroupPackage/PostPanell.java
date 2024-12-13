@@ -8,6 +8,7 @@ import Backend.ContentPackage.ContentDataBase;
 import Backend.ContentPackage.Post;
 import Backend.UserPackage.UserDatabase;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -24,12 +27,14 @@ public class PostPanell extends javax.swing.JPanel {
     
     private Post post;
     private ContentDataBase contentDatabase;
+    private JPanel postsContainer;
     /**
      * Creates new form PostPanell
      */
-    public PostPanell(Post post) {
+    public PostPanell(Post post,JPanel postsContainer) {
         initComponents();
         this.post = post;
+        this.postsContainer = postsContainer;
        // setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.contentDatabase = ContentDataBase.getInstance();
         initCustomComponents();
@@ -49,8 +54,22 @@ public class PostPanell extends javax.swing.JPanel {
                 for(Post postt:contentDatabase.getPosts()){
                     if(postt.getContentId().equals(post.getContentId())){
                         contentDatabase.removePost(postt);
+                        JOptionPane.showMessageDialog(null, "Deleted Post", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
+                  for (Component component : postsContainer.getComponents()) {
+                    if (component instanceof PostPanell) {
+                        PostPanell postPanel = (PostPanell) component;
+                        if (postPanel.getPost().getContentId().equals(post.getContentId())) {
+                            postsContainer.remove(postPanel);
+                            break; // Exit loop once the panel is removed
+                        }
+                    }
+                }
+                postsContainer.revalidate();
+                postsContainer.repaint();
+                  
+                  
             }  
         });
         
@@ -223,4 +242,8 @@ public class PostPanell extends javax.swing.JPanel {
     private javax.swing.JLabel lblReactionCounter;
     private javax.swing.JLabel lblTimeStamp;
     // End of variables declaration//GEN-END:variables
+
+    private Post getPost() {
+        return this.post;
+    }
 }

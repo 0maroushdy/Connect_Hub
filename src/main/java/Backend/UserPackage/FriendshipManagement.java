@@ -27,6 +27,9 @@ public class FriendshipManagement {
             FriendRequest request = new FriendRequest(requestSender.getUserId(),requestReceiver.getUserId(), FriendRequest.Status.Pending);
             for(User user:this.users){
                 if(user.getUserId().equals(requestSender.getUserId())) {
+                    if(user.getUserFriends().contains(requestReceiver.getUserId())){
+                        return false;
+                    }
                     user.getUserSentFriendRequests().add(request);
                 }
                 if(user.getUserId().equals(requestReceiver.getUserId())){
@@ -34,7 +37,6 @@ public class FriendshipManagement {
                 }
             }
             UserDatabase.getInstance().saveUsersToFile(USERFILE);
-           // System.out.println(requestSender.getUserSentFriendRequests().size());
             return true;
         }
         else{

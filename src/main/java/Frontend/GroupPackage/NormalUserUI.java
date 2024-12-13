@@ -65,7 +65,7 @@ public class NormalUserUI extends javax.swing.JFrame {
 
         for (Post post : ContentDataBase.getInstance().getPosts()) {
           if (post.getGroupId().equals(group.getGroupId())) {
-        PostPanell postPanel = new PostPanell(post);
+        PostPanell postPanel = new PostPanell(post,postsContainer);
         postsContainer.add(postPanel);
          }
         }
@@ -124,7 +124,7 @@ public class NormalUserUI extends javax.swing.JFrame {
         leaveGroup = new javax.swing.JButton();
         addPost = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setBackground(new java.awt.Color(92, 107, 192));
