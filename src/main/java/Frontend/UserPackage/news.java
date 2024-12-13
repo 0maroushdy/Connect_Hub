@@ -122,6 +122,7 @@ public class News extends javax.swing.JFrame {
         JButton button3 = createStyledButton("Manage Friends");
         JButton profileBtn = createStyledButton("profile");
         JButton createGroupBtn = createStyledButton("CreateGroup");
+        JButton notificationBtn = createStyledButton("Notfications");
       
 
         // Add action listeners to the buttons
@@ -138,6 +139,7 @@ public class News extends javax.swing.JFrame {
         });
         createGroupBtn.addActionListener(e -> createGroup());
         refreshButton.addActionListener(e -> refresh());
+        notificationBtn.addActionListener(e -> notificationAction());
 
         // Add buttons to the panel
        buttonPanel.add(button1);
@@ -480,6 +482,7 @@ private JPanel friendComp(User friend) {
        // UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         UserSignupSingleton.getInstance().getUser().userLogout();
         this.dispose();
+        new WelcomeFrame();
     }
     
     private void friendsManage(){
@@ -512,6 +515,11 @@ private JPanel friendComp(User friend) {
     private void refresh(){
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
     }
+    
+    public void notificationAction(){
+        
+    }
+    
 
     public static void main(String[] args) throws IOException {
         new News();

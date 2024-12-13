@@ -3,10 +3,12 @@ import java.lang.*;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
+import Backend.UserProfilePackage.UserProfile;
 import Backend.UserProfilePackage.overSizeInputException;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.FriendsGui;
 import Frontend.UserPackage.News;
+import Frontend.UserPackage.WelcomeFrame;
 import java.awt.Image;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -19,55 +21,33 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Omar
+ * @author Omar Roushdy
  */
 public class ProfileManagmentForm extends javax.swing.JFrame {
     
-    // identifing the current main User
-//    String currentUserID;
-//    User currentUser = UserDatabase.getInstance().getUser(currentUserID);
-    User currentUser = new User();
-    
-    String newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
-    String newProfileCover = currentUser.getUserProfile().getProfileCover();
-    String newProfileBio   = currentUser.getUserProfile().getProfileBio();
-    
+    User currentUser;
+    String newProfilePhoto ;
+    String newProfileCover ;
+    String newProfileBio   ;
 
+    
     // ----------------** Constractor **------------------
     public ProfileManagmentForm() {
+    UserDatabase.getInstance().loadUsersFromFile(USERFILE); // load newest data
+    
+    User currentUser = UserSignupSingleton.getInstance().getUser();
+    
+        this.newProfilePhoto = currentUser.getUserProfile().getProfilePhoto();
+        this.newProfileCover = currentUser.getUserProfile().getProfileCover();
+        this.newProfileBio   = currentUser.getUserProfile().getProfileBio();
         this.currentUser = UserSignupSingleton.getInstance().getUser();
-//        this.currentUserID = UserSignupSingleton.getInstance().getUser().getUserId();
         initComponents();
         setDefaultImages();
+        setDefaultText();
         super.setVisible(true);
         super.setTitle("Profile");
         setLocationRelativeTo(null);
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
     }
-    
-        public ProfileManagmentForm(User user) {
-        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
-//JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------"); // testign
-        initComponents();
-        setDefaultImages();
-        super.setVisible(true);
-        super.setTitle("Profile");
-        setLocationRelativeTo(null);
-        
-        // setting the user name of the profile page
-        lblName1.setText(currentUser.getUsername());
-        
-        // setting the Bio of the profile page
-        String bioTxt = currentUser.getUserProfile().getProfileBio();
-        lblBio.setText(bioTxt);
-    }
-    
     
     private void setProfileImg() {
         JFileChooser fileChooser = new JFileChooser();
@@ -83,6 +63,24 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }
     
     private void setDefaultImages() {
+
+    if(this.newProfilePhoto != ""){
+        // Load the selected image
+       ImageIcon selectedImage = new ImageIcon(newProfilePhoto);
+       ImageIcon selectedImageCover = new ImageIcon(newProfileCover);
+
+       // Scale the image to fit the JLabel dimensions
+       Image scaledImage = selectedImage.getImage().getScaledInstance(
+        lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
+       
+       Image scaledCover = selectedImageCover.getImage().getScaledInstance(
+        lblCoverPhoto.getWidth(), lblCoverPhoto.getHeight(), Image.SCALE_SMOOTH);
+
+       // Set the scaled image as the JLabel icon
+       lblProfilePhoto.setIcon(new ImageIcon(scaledImage));  
+       lblCoverPhoto.setIcon(new ImageIcon(scaledCover));  
+       
+    } else {
     // Default Cover Photo
     ImageIcon defaultCoverIcon = new ImageIcon("resources/default_cover.jpg");
     Image scaledCover = defaultCoverIcon.getImage().getScaledInstance(
@@ -90,13 +88,21 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     lblCoverPhoto.setIcon(new ImageIcon(scaledCover));
 
     // Default Profile Photo
-    ImageIcon defaultProfileIcon = new ImageIcon("resources/default_profile.jpg");
+    ImageIcon defaultProfileIcon = new ImageIcon("resources/defaultIcon.png");
     Image scaledProfile = defaultProfileIcon.getImage().getScaledInstance(
         lblProfilePhoto.getWidth(), lblProfilePhoto.getHeight(), Image.SCALE_SMOOTH);
     lblProfilePhoto.setIcon(new ImageIcon(scaledProfile));
+    }
 } 
-
     
+    public void setDefaultText (){
+        // setting the user name of the profile page
+        lblName1.setText(currentUser.getUsername());
+        
+        // setting the Bio of the profile page
+        String bioTxt = currentUser.getUserProfile().getProfileBio();
+        lblBio.setText(bioTxt);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,6 +127,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         btnFriends = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -261,6 +268,20 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
         );
 
+        btnBack.setBackground(new java.awt.Color(0, 153, 153));
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
+        btnBack.setText("Back");
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBackMouseClicked(evt);
+            }
+        });
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,6 +309,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSaveChanges, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLogOut))
                     .addGroup(layout.createSequentialGroup()
@@ -326,7 +349,8 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSaveChanges)
-                    .addComponent(btnLogOut))
+                    .addComponent(btnLogOut)
+                    .addComponent(btnBack))
                 .addContainerGap())
         );
 
@@ -370,18 +394,41 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditProfilePhotoActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-//    UserDatabase.getInstance().getUser( currentUser.getUserId()).getUserProfile().setProfileBio(userInput); 
-
         // updating the cover & photo & Bio in the database
+        String savingMsg = "";
+        UserProfile  currentProfile = UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile();
+        if(currentProfile.getProfilePhoto() != newProfilePhoto){
+            savingMsg += "Profile Photo | ";
+        }
+        if(currentProfile.getProfileCover() != newProfileCover){
+            savingMsg += "Cover Photo | ";
+        }
+        if(currentProfile.getProfileBio() != newProfileBio){
+            savingMsg += "Bio | ";
+        }
+            
         try {
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfilePhoto(newProfilePhoto);
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfileCover(newProfileCover);
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfileBio(newProfileBio);
+            currentProfile.setProfilePhoto(newProfilePhoto);
+            currentProfile.setProfileCover(newProfileCover);
+            currentProfile.setProfileBio(newProfileBio);
         } catch (overSizeInputException ex) {
+            JOptionPane.showMessageDialog(this, ex);
             Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         UserDatabase.getInstance().saveUsersToFile(USERFILE);
+//JOptionPane.showMessageDialog(this,"The New----> "+newProfilePhoto); // testooo --------------->>> s ------------------------------
+
+        UserSignupSingleton.getInstance().setUser(currentUser);
+//JOptionPane.showMessageDialog(this,"The New----> "+UserSignupSingleton.getInstance().getUser().); // testooo --------------->>> s ------------------------------
+//        UserDatabase.getInstance().loadUsersFromFile(USERFILE); // extra load
+        if(savingMsg != ""){
+        JOptionPane.showMessageDialog(this, savingMsg + "--> updated successfully!"); // Confirmation message
+        } else {
+        JOptionPane.showMessageDialog(this,"No thing was changed, pls updates data first to save it!"); // Confirmation message
+        }
+            
+
     
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
@@ -409,10 +456,6 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditProfilePhotoMouseClicked
 
     private void btnSaveChangesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveChangesMouseClicked
-//        String name = txtName;   // Get the name text
-//        String bio = txtBio;     // Get the bio text
-//        lblName.setText(name);   // Update the name label
-        JOptionPane.showMessageDialog(this, "Profile updated successfully!"); // Confirmation message
         
     }//GEN-LAST:event_btnSaveChangesMouseClicked
 
@@ -484,8 +527,9 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOutMouseClicked
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        // TODO add your handling code here:    
+        dispose();
+            new WelcomeFrame().setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnFriendsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFriendsMouseClicked
@@ -497,6 +541,21 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         FriendsGui friends = new FriendsGui();
         friends.setVisible(true);
     }//GEN-LAST:event_btnFriendsActionPerformed
+
+    private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        dispose();
+        try {
+            new News().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -514,6 +573,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnEditCoverPhoto;
     private javax.swing.JButton btnEditProfilePhoto;
     private javax.swing.JButton btnFriends;

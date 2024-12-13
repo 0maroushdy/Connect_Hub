@@ -13,9 +13,9 @@
         }],
         "ReceivedFriendRequests": [],
         "Profile": {
-            "profilePhoto": "",
+            "profilePhoto": "C:\\Users\\Omar\\Documents\\resources\\GLOBEG_Icon.png",
             "profileCover": "",
-            "bio": "<< add Bio Txt >>"
+            "bio": "tttttttttttttttt"
         },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
@@ -35,9 +35,9 @@
             "RequestStatus": "Accepted"
         }],
         "Profile": {
-            "profilePhoto": "",
+            "profilePhoto": "C:\\Users\\Omar\\Documents\\resources\\GLOBEG_Icon.png",
             "profileCover": "",
-            "bio": "<< add Bio Txt >>"
+            "bio": "jjj"
         },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
@@ -49,7 +49,7 @@
             "groupPrimaryAdminId": "omar-2",
             "groupOtherAdminsIds": [],
             "groupPhoto": "C:\\Users\\Abdelrahman\\Pictures\\Screenshot_20230228_032023.png",
-            "groupRequestsIds": []
+            "groupRequestsIds": ["beego-1"]
         }]
     }
 ]
