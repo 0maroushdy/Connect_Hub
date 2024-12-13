@@ -4,9 +4,8 @@
  */
 package Backend.ContentPackage;
 
-import Backend.UserPackage.User;
-import Backend.UserPackage.UserDatabase;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.json.JSONObject;
 
 /**
@@ -15,8 +14,12 @@ import org.json.JSONObject;
  */
 public class Post extends AContent {
 
-    public Post(User authorId) {
-        super(authorId);
+    public Post(Post.Builder postBuilder) {
+        super(postBuilder.groupId,postBuilder.authorId,
+                postBuilder.text, 
+                postBuilder.imagePath,
+                postBuilder.timeOfUpload,
+                postBuilder.contentId);
     }
 
     @Override
@@ -24,15 +27,69 @@ public class Post extends AContent {
         this.setTimeOfUpload();
         ContentDataBase.getInstance().addContent(this);
     }
+    
+    
 
     public static Post fromJSON(JSONObject jsonObject) {
-        User author = UserDatabase.getInstance().getUser(jsonObject.getString("authorId"));
-        Post post = new Post(author);
-        post.setText(jsonObject.getString("text"));
-        post.setImagePath(jsonObject.optString("imagePath", null));
+        String groupId = jsonObject.getString("groupId");
+        String userId = jsonObject.getString("authorId");
+        String text = jsonObject.getString("text");
+        String imagePath = jsonObject.optString("imagePath", null);
+        String timeStamp = jsonObject.getString("timeStamp");
+        UUID contentId = UUID.fromString(jsonObject.getString("contentId"));
+        LocalDateTime timeOfUpload = LocalDateTime.parse(timeStamp,AContent.getTimeStampFormat());
+        
+        Post.Builder postBuilder = new Post.Builder(
+                groupId,
+                userId,
+                text
+        )
+                .setImagePath(imagePath)
+                .setTimeOfUpload(timeOfUpload)
+                .setContentId(contentId);
 
-        String timeOfUploadStr = jsonObject.getString("timestamp");
-        post.setTimeOfUpload(LocalDateTime.parse(timeOfUploadStr, AContent.getTimeStampFormat()));
-        return post;
+        return postBuilder.build();
+    }
+
+    public static class Builder {
+        
+        private String groupId = "";
+        private final String text;
+        private final String authorId;
+        private String imagePath;
+        private LocalDateTime timeOfUpload;
+        private UUID contentId;
+
+        public Builder(String groupId,String authorId, String text) {
+            if (authorId == null || text == null || text.isEmpty()) {
+                throw new IllegalArgumentException("Author and text cannot be null or empty.");
+            }
+            if(groupId != null || groupId.length()!=0){
+                this.groupId = groupId;
+            }
+            this.authorId = authorId;
+            this.text = text;
+            this.imagePath = null;
+            this.timeOfUpload = null;
+        }
+
+        public Builder setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+            return this;
+        }
+        
+        public Builder setTimeOfUpload(LocalDateTime timeOfUpload) {
+            this.timeOfUpload = timeOfUpload;
+            return this;
+        }
+        
+        public Builder setContentId(UUID id){
+            this.contentId = id;
+            return this;
+        }
+
+        public Post build() {
+            return new Post(this);
+        }
     }
 }

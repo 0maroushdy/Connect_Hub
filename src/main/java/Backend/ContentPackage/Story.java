@@ -4,9 +4,8 @@
  */
 package Backend.ContentPackage;
 
-import Backend.UserPackage.User;
-import Backend.UserPackage.UserDatabase;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.json.JSONObject;
 
 /**
@@ -15,8 +14,12 @@ import org.json.JSONObject;
  */
 public class Story extends AContent {
 
-    public Story(User authorId) {
-        super(authorId);
+    public Story(Story.Builder storyBuilder) {
+        super(storyBuilder.groupId,storyBuilder.authorId,
+                storyBuilder.text,
+                storyBuilder.imagePath,
+                storyBuilder.timeOfUpload,
+                storyBuilder.contentId);
     }
 
     @Override
@@ -26,13 +29,63 @@ public class Story extends AContent {
     }
 
     public static Story fromJSON(JSONObject jsonObject) {
-        User author = UserDatabase.getInstance().getUser(jsonObject.getString("authorId"));
-        Story story = new Story(author);
-        story.setText(jsonObject.getString("text"));
-        story.setImagePath(jsonObject.optString("imagePath", null));
+        String groupId = jsonObject.getString("groupId");
+        String userId = jsonObject.getString("authorId");
+        String text = jsonObject.getString("text");
+        String imagePath = jsonObject.optString("imagePath", null);
+        String timeStamp = jsonObject.getString("timeStamp");
+        UUID contentId = UUID.fromString(jsonObject.getString("contentId"));
+        LocalDateTime timeOfUpload = LocalDateTime.parse(timeStamp,AContent.getTimeStampFormat());
+            
+        Story.Builder storyBuilder = new Story.Builder(
+                groupId,
+                userId,
+                text
+        )
+                .setImagePath(imagePath)
+                .setTimeOfUpload(timeOfUpload)
+                .setContentId(contentId);
 
-        String timeOfUploadStr = jsonObject.getString("timestamp");
-        story.setTimeOfUpload(LocalDateTime.parse(timeOfUploadStr, AContent.getTimeStampFormat()));
-        return story;
+        return storyBuilder.build();
+    }
+
+    public static class Builder {
+        
+        private String groupId = "";
+        private final String text;
+        private final String authorId;
+        private String imagePath;
+        private LocalDateTime timeOfUpload;
+        private UUID contentId;
+
+        public Builder(String groupId,String authorId, String text) {
+            if (authorId == null || text == null || text.isEmpty()) {
+                throw new IllegalArgumentException("Author and text cannot be null or empty.");
+            }
+            if(groupId!=null || groupId.length()!=0){
+                this.groupId = groupId;
+            }
+            this.authorId = authorId;
+            this.text = text;
+        }
+
+        public Builder setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+            return this;
+        }
+
+        public Builder setTimeOfUpload(LocalDateTime timeOfUpload) {
+            this.timeOfUpload = timeOfUpload;
+            return this;
+        }
+        
+        public Builder setContentId(UUID id){
+            this.contentId = id;
+            return this;
+        }
+
+        public Story build() {
+            return new Story(this);
+        }
     }
 }

@@ -4,11 +4,16 @@
  */
 package Backend.UserPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
+import Backend.NotificationPackage.*;
 import Backend.UserProfilePackage.UserProfile;
 import static Files.FILEPATHS.USERFILE;
 import java.util.Set;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import org.json.*;
 
@@ -24,11 +29,14 @@ public class User {
    private String password;
    private String dateOfBirth;
    private String status;
-   private Set <User> friends;
-   private Set <User> blockedUsers; 
+   private Set <String> friends;
+   private Set <String> blockedUsers; 
    private UserProfile profile; // adding userProfile attribute --> making composition
    private Set <FriendRequest> sentFriendRequests; 
    private Set <FriendRequest> receivedFriendRequests;
+   private Set <Group> userJoinedGroups;
+   private NotificationManager notificationMang;
+   
    
       /* Constructor */
   private User(String userId, String email,String username,String password,LocalDate dateOfBirth,String status){
@@ -42,10 +50,19 @@ public class User {
        this.blockedUsers = new HashSet<>();
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
+       this.profile = new UserProfile();
+       this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
    }
 
    public User() {
-        
+       this.friends = new HashSet<>();
+       this.blockedUsers = new HashSet<>();
+       this.sentFriendRequests = new HashSet<>();
+       this.receivedFriendRequests = new HashSet<>();
+       this.profile = new UserProfile();
+       this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
     }
          /* Getters */
     public String getUserId(){
@@ -72,11 +89,11 @@ public class User {
        return this.password;
    }
    
-   public Set <User> getUserFriends(){
+   public Set <String> getUserFriends(){
        return this.friends;
    }
    
-   public Set <User> getUserBlockedUsers(){
+   public Set <String> getUserBlockedUsers(){
        return this.blockedUsers;
    }
    
@@ -88,6 +105,19 @@ public class User {
        return this.receivedFriendRequests;
    }
    
+   public UserProfile getUserProfile(){
+       return this.profile;
+   }
+   
+   public Set <Group> getUserJoinedGroups(){
+       return this.userJoinedGroups;
+   }
+   
+   public NotificationManager getNotificationManager(){
+       return this.notificationMang;
+   }
+   
+             /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
    }
@@ -99,7 +129,6 @@ public class User {
            this.password = password;
    }
    
-             /* Setters */
    public void setUserDateOfBirth(LocalDate date){
        this.dateOfBirth = date.toString();
    }
@@ -119,8 +148,43 @@ public class User {
        return true;
    }
    
+   public void setStatusAcceptedFriendRequest(FriendRequest request){
+       for(FriendRequest requestt:this.sentFriendRequests){
+           if(requestt.getRequestSenderId().equals(request.getRequestSenderId()) && requestt.getRequestReceiverId().equals(request.getRequestReceiverId())){
+               requestt.setRequestStatus(FriendRequest.Status.Accepted);
+           }
+           
+       }
+   }
+   
+   public void setStatusDeclinedFriendRequest(FriendRequest request){
+       for(FriendRequest requestt:this.sentFriendRequests){
+           if(requestt.getRequestSenderId().equals(request.getRequestSenderId()) && requestt.getRequestReceiverId().equals(request.getRequestReceiverId())){
+               requestt.setRequestStatus(FriendRequest.Status.Declined);
+           }
+           
+       }
+   }
+   
+   
+   public boolean checkIfInJoinedGroups(Group group){
+       for(Group groupp:this.userJoinedGroups){
+           if(groupp.getGroupId().equals(group.getGroupId())){
+               return true;
+           }
+       }
+       return false;
+   }
+   
+   public void setUserJoinedGroups(){
+       this.userJoinedGroups = new HashSet<>();
+   }
+   
   public void userLogout(){
-     setUserStatus("offline");
+     for(User user:UserDatabase.getInstance().getUsers()){
+        if(user.getUserId().equals(this.userId)){
+         user.setUserStatus("offline");}
+     }
      UserDatabase.getInstance().saveUsersToFile(USERFILE);
   }
   
@@ -132,62 +196,223 @@ public class User {
       jsonObject.put("Password",this.password);
       jsonObject.put("Status",this.status);
       jsonObject.put("DateOfBirth",this.dateOfBirth);
+      jsonObject.put("Profile",this.profile.toJSON());
+      
+      jsonObject.put("Notificatoins",this.notificationMang.toJSON());
+      
+      JSONArray friendsArray = new JSONArray();
+        for (String friend : this.friends) {
+            friendsArray.put(friend); 
+        }
+        jsonObject.put("Friends", friendsArray);
+
+        // Serialize blocked users
+        JSONArray blockedUsersArray = new JSONArray();
+        for (String blockedUser : this.blockedUsers) {
+            blockedUsersArray.put(blockedUser); 
+        }
+        jsonObject.put("BlockedUsers", blockedUsersArray);
+
+        // Serialize sent friend requests
+        JSONArray sentRequestsArray = new JSONArray();
+        for (FriendRequest request : this.sentFriendRequests) {
+            sentRequestsArray.put(request.toJSON());
+        }
+        jsonObject.put("SentFriendRequests", sentRequestsArray);
+
+        // Serialize received friend requests
+        JSONArray receivedRequestsArray = new JSONArray();
+        for (FriendRequest request : this.receivedFriendRequests) {
+            receivedRequestsArray.put(request.toJSON()); 
+        }
+        jsonObject.put("ReceivedFriendRequests", receivedRequestsArray);
+        
+         JSONArray groupsArray = new JSONArray();
+        for (Group group : GroupDatabase.getInstance().getGroups()) {
+            if(group.getGroupPrimaryAdminId().equals(this.userId)){
+            groupsArray.put(group.toJSON());}
+            else if(group.getGroupMemberIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
+            else if(group.getGroupOtherAdminsIds().contains(this.userId)){
+                groupsArray.put(group.toJSON());
+            }
+        }
+        jsonObject.put("userJoinedGroups", groupsArray);
       return jsonObject;
   }
   
-  public void sendFriendRequest(User receiver) {
-        FriendRequest request = new FriendRequest(this, receiver, FriendRequest.Status.Pending);
-        this.sentFriendRequests.add(request);
-        receiver.receivedFriendRequests.add(request);
+  public static User fromJson(JSONObject jsonObject){
+    User user = new User();
+    user.dateOfBirth = jsonObject.getString("DateOfBirth");
+    user.status = jsonObject.getString("Status");
+    user.email = jsonObject.getString("Email");
+    user.username = jsonObject.getString("Username");
+    user.userId = jsonObject.getString("UserId");
+    user.password = jsonObject.getString("Password");
+   // user.date = LocalDate.parse(dateOfBirth, DateTimeFormatter.ISO_LOCAL_DATE);
+   
+    JSONObject profileObj = (JSONObject) jsonObject.get("Profile") ;
+    user.profile = new UserProfile( profileObj.getString("profilePhoto"),
+                              profileObj.getString("profileCover") 
+                             ,profileObj.getString("bio")) ;
+    // >> notification from JSON ................
+    JSONArray notificationsArray = jsonObject.getJSONArray("Notificatoins");
+    for (int i = 0; i < notificationsArray.length(); i++) {
+        UserNotification notification = new UserNotification( notificationsArray.getJSONObject(i) );
+        user.notificationMang.addNotification(notification);
+    }
+    
+    // Deserialize the friends set
+   // user.friends = new HashSet<>();
+    JSONArray friendsArray = jsonObject.getJSONArray("Friends");
+    for (int i = 0; i < friendsArray.length(); i++) {
+        String friendId = friendsArray.getString(i);
+        user.friends.add(friendId);
+    }
+
+    // Deserialize the blocked users set
+   // user.blockedUsers = new HashSet<>();
+    JSONArray blockedUsersArray = jsonObject.getJSONArray("BlockedUsers");
+    for (int i = 0; i < blockedUsersArray.length(); i++) {
+        String blockedUserId = blockedUsersArray.getString(i);
+        user.blockedUsers.add(blockedUserId);
+    }
+
+    // Deserialize sent friend requests
+   // user.sentFriendRequests = new HashSet<>();
+    JSONArray sentRequestsArray = jsonObject.getJSONArray("SentFriendRequests");
+    for (int i = 0; i < sentRequestsArray.length(); i++) {
+        JSONObject requestJson = sentRequestsArray.getJSONObject(i);
+        FriendRequest request = FriendRequest.fromJson(requestJson);
+          if (request != null) { // Ensure the deserialization didn't fail
+        user.sentFriendRequests.add(request);
+    } else {
+        System.err.println("Warning: Failed to deserialize sent friend request at index " + i);
+    }
+    }
+
+    // Deserialize received friend requests
+   // user.receivedFriendRequests = new HashSet<>();
+    JSONArray receivedRequestsArray = jsonObject.getJSONArray("ReceivedFriendRequests");
+    for (int i = 0; i < receivedRequestsArray.length(); i++) {
+        JSONObject requestJson = receivedRequestsArray.getJSONObject(i);
+        FriendRequest request = FriendRequest.fromJson(requestJson);
+        if (request != null) { // Ensure the deserialization didn't fail
+        user.receivedFriendRequests.add(request);
+    } else {
+        System.err.println("Warning: Failed to deserialize received friend request at index " + i);
+    }
+    }
+    
+    JSONArray groupsArray = jsonObject.getJSONArray("userJoinedGroups");
+    for (int i = 0; i < groupsArray.length(); i++) {
+        JSONObject groupJson = groupsArray.getJSONObject(i);
+        Group group = Group.fromJSON(groupJson);
+        if (group != null) { // Ensure the deserialization didn't fail
+        user.userJoinedGroups.add(group);
+       if(!GroupDatabase.getInstance().checkIfGroupExists(group)){
+           GroupDatabase.getInstance().addGroup(group);
+       }
+    } else {
+        System.err.println("Warning: Failed to deserialize received friend request at index " + i);
+    }
+    }
+    return user;
   }
   
-  public boolean acceptFriendRequest(FriendRequest request) {
+   /* public void sendFriendRequest(User receiver) {
+        FriendRequest request = new FriendRequest(this.userId, receiver.userId, FriendRequest.Status.Pending);
+        this.sentFriendRequests.add(request);
+        receiver.receivedFriendRequests.add(request);
+  } */
+  
+ /* public boolean acceptFriendRequest(FriendRequest request) {
         if (this.receivedFriendRequests.contains(request)) {
             request.setRequestStatus(FriendRequest.Status.Accepted);
-            this.friends.add(request.getRequestSender());
-            request.getRequestSender().friends.add(this);
+            this.friends.add(UserDatabase.getInstance().getUser(request.getRequestSenderId()));
+            UserDatabase.getInstance().getUser(request.getRequestSenderId()).friends.add(this);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
         }
         return false;
-    }
+    } */
   
-  public boolean declineFriendRequest(FriendRequest request) {
+ /* public boolean declineFriendRequest(FriendRequest request) {
         if (this.receivedFriendRequests.contains(request)) {
             request.setRequestStatus(FriendRequest.Status.Declined);
+            UserDatabase.getInstance().saveUsersToFile(USERFILE);
             return true;
         }
         return false;
-    }
+    } */
   
-   public void blockUser(User user) {
+  /* public void blockUser(User user) {
         this.friends.remove(user);
         this.blockedUsers.add(user);
-    }
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+    } */
    
-    public void removeFriend(User user) {
+   /* public void removeFriend(User user) {
         this.friends.remove(user);
-    }
+        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+    } */
     
     public boolean isUserBlocked(User user) {
         return this.blockedUsers.contains(user);
     }
+    
+    
+    
+    
+   /*  public ArrayList <User> suggestFriends(){
+        ArrayList <User> suggestions = new ArrayList<>();
+        for(User user:UserDatabase.getInstance().getUsers()){
+             System.out.println(user.userToString());
+            if(!this.getUserFriends().contains(user) && !this.getUserBlockedUsers().contains(user) && !this.getUserId().equals(user.getUserId())) suggestions.add(user);
+          //  System.out.println(differentUser.getUserId());
+        }
+        return suggestions;
+    } */
+      
+   public String userToString(){
+       String ans ="";
+       ans += this.userId;
+       ans += " ";
+       ans += this.username;
+       ans += " ";
+       ans += this.email;
+       ans += " ";
+       ans += this.password;
+       ans += " ";
+       ans += this.dateOfBirth;
+       ans += " ";
+       ans += this.status;
+       return ans;
+   }
   
   public static class UserFactory{
-      public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
+     /* public static User create(String email, String username, String password, LocalDate dateOfBirth,String status) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
             User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
             return user;
-        }
+        }*/
       
-     public static User create(String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
+   /*  public static User create(String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
             User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
             user.setUserPassword(password,wanttohash);
-            
+            return user;
+        } */
+     public static User create(String userId,String email, String username, String password, LocalDate dateOfBirth,String status, boolean wanttohash) throws NoSuchAlgorithmException {
+            String hashedPassword = HashingUtil.generateUserHashedPassword(password);
+            User user = new User(userId, email, username, hashedPassword, dateOfBirth,status);
+            user.setUserPassword(password,wanttohash);
             return user;
         }
+     
   }
   
 }
