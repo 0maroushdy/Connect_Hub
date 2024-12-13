@@ -14,6 +14,7 @@ import static Files.FILEPATHS.USERFILE;
 import Frontend.GroupPackage.CreateGroup;
 import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
+import Frontend.profilePackage.PublicProfileManagmentForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -34,6 +35,8 @@ public class News extends javax.swing.JFrame {
     private JPanel panel3;
     private JPanel panel4;
     private JPanel panel5;
+    private JPanel panel6;
+    private JPanel panel7;
 
     public News() throws IOException {
         panel1 = new JPanel();
@@ -41,9 +44,11 @@ public class News extends javax.swing.JFrame {
         panel3 = new JPanel();
         panel4 = new JPanel();
         panel5 = new JPanel();
-
+        panel6 = new JPanel();
+        panel7 = new JPanel();
+        
         this.setTitle("Newsfeed");
-        this.setSize(800, 600);
+        this.setSize(1000, 800);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +67,8 @@ public class News extends javax.swing.JFrame {
         panel3.setBackground(Color.LIGHT_GRAY);
         panel4.setBackground(Color.LIGHT_GRAY);
         panel5.setBackground(Color.LIGHT_GRAY);
+        panel6.setBackground(Color.LIGHT_GRAY);
+        panel7.setBackground(Color.LIGHT_GRAY);
 
         // Set BoxLayout for the panels to arrange components vertically
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
@@ -69,7 +76,9 @@ public class News extends javax.swing.JFrame {
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
         panel5.setLayout(new BoxLayout(panel5, BoxLayout.Y_AXIS));
-
+        panel6.setLayout(new BoxLayout(panel6, BoxLayout.Y_AXIS));
+        panel7.setLayout(new BoxLayout(panel7, BoxLayout.Y_AXIS));
+       
         // Load content
         refreshContent();
 
@@ -79,6 +88,8 @@ public class News extends javax.swing.JFrame {
         JScrollPane scrollPane3 = new JScrollPane(panel3);
         JScrollPane scrollPane4 = new JScrollPane(panel4);
         JScrollPane scrollPane5 = new JScrollPane(panel5);
+        JScrollPane scrollPane6 = new JScrollPane(panel6);
+        JScrollPane scrollPane7 = new JScrollPane(panel7);
 
         // Add the tabs with the ImageIcon
         tabbedPane.addTab("Friend List", icon, scrollPane1, "shank7 foo");
@@ -86,12 +97,14 @@ public class News extends javax.swing.JFrame {
         tabbedPane.addTab("Content Creation Area", icon, scrollPane4, "shank7 bar");
         tabbedPane.addTab("Posts", icon, scrollPane2, "shank7 bar");
         tabbedPane.addTab("Stories", icon, scrollPane5, "Shank7 foo");
+        tabbedPane.addTab("Groups", icon, scrollPane6, "Shank7 foo");
+        tabbedPane.addTab("Groups Suggestions", icon, scrollPane7, "Shank7 foo");
 
         // Set fixed width for the tabs
         tabbedPane.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
-                return 156; // Fixed width for tabs
+                return 140; // Fixed width for tabs
             }
         });
 
@@ -299,9 +312,9 @@ public class News extends javax.swing.JFrame {
             if (UserSignupSingleton.getInstance().getUser().getUserFriends().contains(friend.getUserId())) {
                 JPanel component = friendComp(friend);
                 component.setBackground(Color.white);
-                Dimension minimumSize = new Dimension(800, 50);
+                Dimension minimumSize = new Dimension(1000, 50);
                 component.setMinimumSize(minimumSize);
-                Dimension maximumSize = new Dimension(800, 50);
+                Dimension maximumSize = new Dimension(1000, 50);
                 component.setMaximumSize(maximumSize);
                 friendListPanel.add(component, 0); // Add to the top
                 Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
@@ -312,9 +325,9 @@ public class News extends javax.swing.JFrame {
         for (User friend : FriendshipManagement.FriendshipManagementFactory.create().suggestFriends(UserSignupSingleton.getInstance().getUser())) {
             JPanel component = friendComp(friend);
             component.setBackground(Color.white);
-            Dimension minimumSize = new Dimension(800, 50);
+            Dimension minimumSize = new Dimension(1000, 50);
             component.setMinimumSize(minimumSize);
-            Dimension maximumSize = new Dimension(800, 50);
+            Dimension maximumSize = new Dimension(1000, 50);
             component.setMaximumSize(maximumSize);
             suggestionsPanel.add(component, 0); // Add to the top
             Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
