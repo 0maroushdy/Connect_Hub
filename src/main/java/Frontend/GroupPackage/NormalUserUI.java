@@ -4,11 +4,11 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
+import GroupPackage.Group;
+import GroupPackage.GroupDataBase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
@@ -21,12 +21,12 @@ import javax.swing.JOptionPane;
 public class NormalUserUI extends javax.swing.JFrame {
      
     private User currentUser;
-    private Groupi group;
+    private Group group;
     private UserDatabase userDatabase;
     /**
      * Creates new form NormalUserUI
      */
-    public NormalUserUI(Groupi group) {
+    public NormalUserUI(Group group) {
         initComponents();
          setTitle("NormalUserUI");
         setLocationRelativeTo(null);
@@ -42,25 +42,28 @@ public class NormalUserUI extends javax.swing.JFrame {
         
         membersList.setModel(membersListModel);
                      /* Filling Out List */
-        membersListModel.addElement(group.getGroupPrimaryAdminId() + " " + this.userDatabase.getUser(group.getGroupPrimaryAdminId()).getUsername());
+        membersListModel.addElement(group.getHandler().getMainAdminId() + " " + this.userDatabase.getUser(group.getHandler().getMainAdminId()).getUsername());
         
-        for(String id:group.getGroupMemberIds()){
+        for(String id:group.getHandler().getMemberIds()){
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername());
         }
         
-        for(String id:group.getGroupOtherAdminsIds()){
+        for(String id:group.getHandler().getAdminIds()){
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername());
         }
         
           leaveGroup.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-              if(GroupDatabase.getInstance().leaveGroup(currentUser.getUserId(), group)){
-                  JOptionPane.showMessageDialog(null, "Successfully left the group", "Success", JOptionPane.INFORMATION_MESSAGE);
+              try{
+                  group.getHandler().leave(currentUser.getUserId().toString());
+                  
               }
-              else {
+              catch(IllegalArgumentException ex) {
                   JOptionPane.showMessageDialog(null, "Failed to leave group", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
+              
+              JOptionPane.showMessageDialog(null, "Successfully left the group", "Success", JOptionPane.INFORMATION_MESSAGE);
             }   
         });
         

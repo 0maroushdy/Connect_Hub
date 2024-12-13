@@ -5,9 +5,9 @@
 package Backend.UserPackage;
 
 import static Files.FILEPATHS.USERFILE;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class FriendshipManagement {
     
-    private ArrayList <User> users;
+    private TreeSet <User> users;
     
     public FriendshipManagement(){
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
@@ -33,7 +33,7 @@ public class FriendshipManagement {
                     user.getUserReceivedFriendRequests().add(request);
                 }
             }
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
+            UserDatabase.getInstance().saveUsersToFile();
            // System.out.println(requestSender.getUserSentFriendRequests().size());
             return true;
         }
@@ -68,7 +68,7 @@ public class FriendshipManagement {
           }
          
         }
-          UserDatabase.getInstance().saveUsersToFile(USERFILE);
+          UserDatabase.getInstance().saveUsersToFile();
             return true;
         }
         return false;
@@ -93,7 +93,7 @@ public class FriendshipManagement {
           }
          
         }
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
+            UserDatabase.getInstance().saveUsersToFile();
             return true;
         }
         return false;
@@ -104,11 +104,11 @@ public class FriendshipManagement {
         if(user.getUserId().equals(blocker.getUserId()) && user.getUserFriends().contains(blocked.getUserId())){
         user.getUserFriends().remove(blocked.getUserId());
         user.getUserBlockedUsers().add(blocked.getUserId());
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
          }
         if(user.getUserId().equals(blocked.getUserId()) && user.getUserFriends().contains(blocker.getUserId())){
         user.getUserFriends().remove(blocker.getUserId());
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
          }
         }
     }
@@ -117,7 +117,7 @@ public class FriendshipManagement {
         for(User userr:this.users){
         if(userr.getUserId().equals(user.getUserId()) && userr.getUserFriends().contains(friend.getUserId())){
         userr.getUserFriends().remove(friend.getUserId());
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
           }
         }
     }

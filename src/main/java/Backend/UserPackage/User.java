@@ -1,25 +1,24 @@
 package Backend.UserPackage;
 
 import Backend.ContentPackage.JSONUtils;
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserProfilePackage.UserProfile;
-import static Files.FILEPATHS.USERFILE;
+import GroupPackage.Group;
+import GroupPackage.GroupDataBase;
 import java.util.Set;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.json.*;
 
 /**
  *
  * @author Abdelrahman
  */
-public class User {
+public class User implements Comparable<User> {
 
-    private String userId;
+    private UUID userId;
     private String email;
     private String username;
     private String password;
@@ -28,16 +27,21 @@ public class User {
 
     private UserProfile profile; // adding userProfile attribute --> making composition
 
-    private Set<String> friends;
-    private Set<String> blockedUsers;
+    private Set<UUID> friends;
+    private Set<UUID> blockedUsers;
     private Set<FriendRequest> sentFriendRequests;
     private Set<FriendRequest> receivedFriendRequests;
 
-    private Set<Groupi> userJoinedGroups;
+    private Set<Group> userJoinedGroups;
 
 // <editor-fold defaultstate="collapsed" desc="Constructors">
-    private User(String userId, String email, String username, String password, LocalDate dateOfBirth, String status) {
-        this.userId = userId;
+    private User(UUID userId, String email, String username, String password, LocalDate dateOfBirth, String status) {
+        if (userId != null) {
+            this.userId = userId;
+        } else {
+            this.userId = UUID.randomUUID();
+        }
+
         this.email = email;
         this.username = username;
         this.password = password;
@@ -50,7 +54,7 @@ public class User {
         this.profile = new UserProfile();
     }
 
-    private User(String userId, String email, String username, String password, LocalDate dateOfBirth, String status, UserProfile profile) {
+    private User(UUID userId, String email, String username, String password, LocalDate dateOfBirth, String status, UserProfile profile) {
         this.userId = userId;
         this.email = email;
         this.username = username;
@@ -65,29 +69,37 @@ public class User {
         this.userJoinedGroups = new HashSet<>();
     }
 
-    private User(String userId, String email, String username,
+    private User(UUID userId, String email, String username,
             String password, boolean passwordAlreadyHashed,
             LocalDate dateOfBirth, String status, UserProfile profile,
-            Set<String> friends,
-            Set<String> blockedUsers,
+            Set<UUID> friends,
+            Set<UUID> blockedUsers,
             Set<FriendRequest> sentFriendRequests,
             Set<FriendRequest> receivedFriendRequests,
-            Set<Groupi> userJoinedGroups) {
+            Set<Group> userJoinedGroups) {
 
         this.userId = userId;
         this.email = email;
         this.username = username;
-        this.password = password;
+
+        if (passwordAlreadyHashed) {
+            this.password = password;
+        } else {
+            this.password = HashingUtil.generateUserHashedPassword(password);
+        }
+
         this.dateOfBirth = dateOfBirth.toString();
         this.status = status;
 
-        this.friends = new HashSet<>();
-        this.blockedUsers = new HashSet<>();
-        this.sentFriendRequests = new HashSet<>();
-        this.receivedFriendRequests = new HashSet<>();
+        this.friends = (friends == null) ? new HashSet<>() : friends;
+        this.blockedUsers = (blockedUsers == null) ? new HashSet<>() : blockedUsers;
+        this.sentFriendRequests = (sentFriendRequests == null) ? new HashSet<>() : sentFriendRequests;
+        this.receivedFriendRequests = (receivedFriendRequests == null) ? new HashSet<>() : receivedFriendRequests;
+        this.receivedFriendRequests = (receivedFriendRequests == null) ? new HashSet<>() : receivedFriendRequests;
+        
         this.profile = profile;
-        this.receivedFriendRequests = new HashSet<>();
-        this.userJoinedGroups = new HashSet<>();
+        
+        this.userJoinedGroups = (userJoinedGroups == null) ? new HashSet<>() : userJoinedGroups;
     }
 
     public User() {
@@ -99,26 +111,25 @@ public class User {
         this.userJoinedGroups = new HashSet<>();
     }
 
-//    public User(User.Builder builder) {
-//        this(builder.userId,
-//                builder.email,
-//                builder.username,
-//                builder.password,
-//                builder.passwordAlreadyHashed,
-//                builder.dateOfBirth,
-//                builder.status,
-//                builder.profile,
-//                builder.friends,
-//                builder.blockedUsers,
-//                builder.sentFriendRequests,
-//                builder.receivedFriendRequests,
-//                builder.receivedFriendRequests,
-//                builder.userJoinedGroups);
-//    }
+    public User(User.Builder builder) {
+        this(builder.userId,
+                builder.email,
+                builder.username,
+                builder.password,
+                builder.passwordAlreadyHashed,
+                builder.dateOfBirth,
+                builder.status,
+                builder.profile,
+                builder.friends,
+                builder.blockedUsers,
+                builder.sentFriendRequests,
+                builder.receivedFriendRequests,
+                builder.userJoinedGroups);
+    }
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Getters">
-    public String getUserId() {
+    public UUID getUserId() {
         return this.userId;
     }
 
@@ -142,11 +153,11 @@ public class User {
         return this.password;
     }
 
-    public Set<String> getUserFriends() {
+    public Set<UUID> getUserFriends() {
         return this.friends;
     }
 
-    public Set<String> getUserBlockedUsers() {
+    public Set<UUID> getUserBlockedUsers() {
         return this.blockedUsers;
     }
 
@@ -162,7 +173,7 @@ public class User {
         return this.profile;
     }
 
-    public Set<Groupi> getUserJoinedGroups() {
+    public Set<Group> getUserJoinedGroups() {
         return this.userJoinedGroups;
     }
 // </editor-fold>
@@ -227,7 +238,7 @@ public class User {
 
     public void userLogout() {
         UserSignupSingleton.getInstance().getUser().setUserStatus("offline");
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
     }
 
     public JSONObject toJSON() {
@@ -254,7 +265,7 @@ public class User {
         user.status = jsonObject.getString("Status");
         user.email = jsonObject.getString("Email");
         user.username = jsonObject.getString("Username");
-        user.userId = jsonObject.getString("UserId");
+        user.userId = UUID.fromString(jsonObject.getString("UserId"));
         user.password = jsonObject.getString("Password");
 
         //#############################################################################################
@@ -265,8 +276,15 @@ public class User {
                 profileObj.getString("bio"));
         //#############################################################################################
 
-        user.friends = JSONUtils.loadCollection(jsonObject, "Friends", HashSet::new);
-        user.blockedUsers = JSONUtils.loadCollection(jsonObject, "BlockedUsers", HashSet::new);
+        user.friends = JSONUtils.loadCollection(jsonObject, "Friends", HashSet::new)
+                .stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toCollection(HashSet::new));
+
+        user.blockedUsers = JSONUtils.loadCollection(jsonObject, "BlockedUsers", HashSet::new)
+                .stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toCollection(HashSet::new));
 //#############################################################################################
         JSONArray sentRequestsArray = jsonObject.getJSONArray("SentFriendRequests");
         for (int i = 0; i < sentRequestsArray.length(); i++) {
@@ -295,12 +313,12 @@ public class User {
         JSONArray groupsArray = jsonObject.getJSONArray("userJoinedGroups");
         for (int i = 0; i < groupsArray.length(); i++) {
             JSONObject groupJson = groupsArray.getJSONObject(i);
-            Groupi group = Groupi.fromJSON(groupJson);
+            Group group = Group.fromJSON(groupJson);
             if (group != null) { // Ensure the deserialization didn't fail
                 user.userJoinedGroups.add(group);
-                if (!GroupDatabase.getInstance().checkIfGroupExists(group)) {
-                    GroupDatabase.getInstance().addGroup(group);
-                }
+//                if (!GroupDataBase.getInstance().checkIfGroupExists(group)) {
+//                    GroupDataBase.getInstance().addGroup(group);
+//                }
             } else {
                 System.err.println("Warning: Failed to deserialize received friend request at index " + i);
             }
@@ -339,16 +357,21 @@ public class User {
         return ans;
     }
 
+    @Override
+    public int compareTo(User o) {
+        return this.userId.compareTo(o.userId);
+    }
+
     public static class UserFactory {
 
-        public static User create(String userId, String email, String username, String password, LocalDate dateOfBirth, String status, boolean wanttohash) throws NoSuchAlgorithmException {
+        public static User create(UUID userId, String email, String username, String password, LocalDate dateOfBirth, String status, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             User user = new User(userId, email, username, hashedPassword, dateOfBirth, status);
             user.setUserPassword(password, wanttohash);
             return user;
         }
 
-        public static User create(String userId, String email, String username, String password, LocalDate dateOfBirth, String status, UserProfile profile, boolean wanttohash) throws NoSuchAlgorithmException {
+        public static User create(UUID userId, String email, String username, String password, LocalDate dateOfBirth, String status, UserProfile profile, boolean wanttohash) throws NoSuchAlgorithmException {
             String hashedPassword = HashingUtil.generateUserHashedPassword(password);
             User user = new User(userId, email, username, hashedPassword, dateOfBirth, status, profile);
             user.setUserPassword(password, wanttohash);
@@ -359,7 +382,7 @@ public class User {
 
     public static class Builder {
 
-        private String userId;
+        private UUID userId;
         private String email;
         private String username;
         private String password;
@@ -370,12 +393,12 @@ public class User {
 
         private UserProfile profile; // adding userProfile attribute --> making composition
 
-        private Set<String> friends;
-        private Set<String> blockedUsers;
+        private Set<UUID> friends;
+        private Set<UUID> blockedUsers;
         private Set<FriendRequest> sentFriendRequests;
         private Set<FriendRequest> receivedFriendRequests;
 
-        private Set<Groupi> userJoinedGroups;
+        private Set<Group> userJoinedGroups;
 
         public Builder(String email, String password, String username, LocalDate dateOfBirth) {
             if (email == null || email.isEmpty()
@@ -395,7 +418,7 @@ public class User {
             //
         }
 
-        public Builder setUserId(String userId) {
+        public Builder setUserId(UUID userId) {
             this.userId = userId;
             return this;
         }
@@ -410,12 +433,12 @@ public class User {
             return this;
         }
 
-        public Builder setFriends(Set<String> friends) {
+        public Builder setFriends(Set<UUID> friends) {
             this.friends = friends;
             return this;
         }
 
-        public Builder setBlockedUsers(Set<String> blockedUsers) {
+        public Builder setBlockedUsers(Set<UUID> blockedUsers) {
             this.blockedUsers = blockedUsers;
             return this;
         }
@@ -430,7 +453,7 @@ public class User {
             return this;
         }
 
-        public Builder setUserJoinedGroups(Set<Groupi> userJoinedGroups) {
+        public Builder setUserJoinedGroups(Set<Group> userJoinedGroups) {
             this.userJoinedGroups = userJoinedGroups;
             return this;
         }
@@ -440,9 +463,9 @@ public class User {
             return this;
         }
 
-//        public User build() {
-//            return new User(this);
-//        }
+        public User build() {
+            return new User(this);
+        }
     }
 
 }

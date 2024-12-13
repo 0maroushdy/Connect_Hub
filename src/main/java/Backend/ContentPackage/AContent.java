@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public abstract class AContent implements Comparable<AContent> {
 
     private final UUID contentId;
-    private final String authorId;
+    private final UUID authorId;
 
     private String text;
     private String imagePath;
@@ -31,7 +31,7 @@ timeStamp is String representation of timeOfUpload
 
     private static final DateTimeFormatter timeStampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    protected AContent(String authorId, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId) {
+    protected AContent(UUID authorId, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId) {
         //if condition not needed because the check is in the post and story builder 
         if (authorId == null || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Author and text cannot be null or empty.");
@@ -64,7 +64,7 @@ timeStamp is String representation of timeOfUpload
         return contentId;
     }
 
-    public String getAuthorId() {
+    public UUID getAuthorId() {
         return authorId;
     }
 

@@ -186,7 +186,6 @@ public class SignupFrame extends javax.swing.JFrame {
                 this.welcomeFrame.dispose();
                 News news = new News();
                 news.setVisible(true);
-                System.out.println(UserDatabase.getInstance().getUniqueCounter());
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to add user", "Fail", JOptionPane.INFORMATION_MESSAGE);
             }

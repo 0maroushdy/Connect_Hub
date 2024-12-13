@@ -4,12 +4,13 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserSignupSingleton;
+import GroupPackage.Group;
+import GroupPackage.GroupDataBase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 import javax.swing.DefaultListModel;
 
 /**
@@ -35,26 +36,26 @@ public class UserJoinedGroups extends javax.swing.JFrame {
         
         DefaultListModel<String> userJoinedGroupsModel = new DefaultListModel<>();
         userJoinedGroupsList.setModel(userJoinedGroupsModel);
-        for(Groupi group:currentUser.getUserJoinedGroups()){
-            userJoinedGroupsModel.addElement(group.getGroupId() + " " + group.getGroupName()+ " " + group.getGroupDescription());
+        for(Group group:currentUser.getUserJoinedGroups()){
+            userJoinedGroupsModel.addElement(group.getId() + " " + group.getName()+ " " + group.getDescription());
         }
         
         manageGroup.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                 String userId = currentUser.getUserId();
+                 String userId = currentUser.getUserId().toString();
                  String line = userJoinedGroupsList.getSelectedValue();
                  String [] data = line.split(" ");
-                 Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
-                 if(group.getGroupPrimaryAdminId().equals(userId)){
+                 Group group = GroupDataBase.getInstance().getGroupById(UUID.fromString(data[0]));
+                 if(group.getHandler().getMainAdminId().equals(userId)){
                      PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
                      primaryAdmin.setVisible(true);
                  }
-                 else if(group.getGroupOtherAdminsIds().contains(userId)){
+                 else if(group.getHandler().getAdminIds().contains(userId)){
                      OtherAdminUI otherAdmin = new OtherAdminUI(group);
                      otherAdmin.setVisible(true);
                  }
-                 else if(group.getGroupMemberIds().contains(userId)){
+                 else if(group.getHandler().getMemberIds().contains(userId)){
                      NormalUserUI normalUser = new NormalUserUI(group);
                      normalUser.setVisible(true);
                  } 

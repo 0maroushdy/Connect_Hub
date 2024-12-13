@@ -8,6 +8,7 @@ import Backend.ContentPackage.JSONUtils;
 import static Files.FILEPATHS.GROUPFILE;
 import java.io.IOException;
 import java.util.TreeSet;
+import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +89,15 @@ public class GroupDataBase {
         this.load();
         this.groups.remove(group);
         this.save();
+    }
+    
+    public synchronized Group getGroupById(UUID id){
+        for(Group group : this.groups){
+            if(group.getId().compareTo(id)==1){
+                return group;
+            }
+        }
+        return null;
     }
     
     private void shutdown() {

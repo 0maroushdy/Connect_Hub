@@ -33,7 +33,7 @@ public class ContentDataBase {
     private static ContentDataBase dataBase;
     private final ScheduledExecutorService scheduler;
     
-    Comparator<AContent> timeOrdering = (s1, s2) -> s1.getTimeOfUpload()
+    private final Comparator<AContent> timeOrdering = (s1, s2) -> s1.getTimeOfUpload()
             .compareTo(s2.getTimeOfUpload());
 
     private ContentDataBase() {
@@ -87,14 +87,9 @@ public class ContentDataBase {
         try {
             JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
             for (int i = 0; i < storiesJSON.length(); i++) {
-                try {
                     JSONObject storyJSON = storiesJSON.getJSONObject(i);
                     Story s = Story.fromJSON(storyJSON);
                     this.stories.add(s);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-
             }
 
             JSONArray postsJSON = JSONUtils.readFromFile(POSTFILE);

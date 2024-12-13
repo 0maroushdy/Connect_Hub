@@ -38,7 +38,7 @@ public class PublicProfileManagmentForm extends javax.swing.JFrame {
         public PublicProfileManagmentForm() {
         }
         public PublicProfileManagmentForm(User user) {
-        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
+        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId().toString());
         initComponents();
         setDefaultImages();
         super.setVisible(true);

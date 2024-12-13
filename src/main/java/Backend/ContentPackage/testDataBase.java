@@ -6,6 +6,7 @@ package Backend.ContentPackage;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +26,7 @@ public class testDataBase {
                 .map(Story::getTimestamp)
                 .collect(Collectors.toCollection(TreeSet::new)));
 
-        new Story.Builder("m-1", "story 1")
+        new Story.Builder(UUID.fromString("m-1"), "story 1")
                 .build()
                 .uplode();
 
@@ -35,12 +36,12 @@ public class testDataBase {
 //            e.printStackTrace();
 //        }
 
-        Story s = new Story.Builder("m-1", "story 2")
+        Story s = new Story.Builder(UUID.fromString("m-1"), "story 2")
                 .build();
 
         s.uplode();
 
-        new Post.Builder("m-1", "post 1")
+        new Post.Builder(UUID.fromString("m-1"), "post 1")
                 .build()
                 .uplode();
 

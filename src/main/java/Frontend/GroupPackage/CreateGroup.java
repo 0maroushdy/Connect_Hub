@@ -4,10 +4,12 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
+
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserSignupSingleton;
+import GroupPackage.Group;
+import GroupPackage.GroupDataBase;
+import GroupPackage.GroupHandler;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,12 +45,12 @@ public class CreateGroup extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String name = groupName.getText();
                String description = groupDescription.getText();
-              if(GroupDatabase.getInstance().createGroup(currentUser, name, description, photo)){
-               JOptionPane.showMessageDialog(null, "Group created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-               setVisible(false);}
-                else{
-                  JOptionPane.showMessageDialog(null, "Failed to create group", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
+//              if(GroupDataBase.getInstance().createGroup(currentUser, name, description, photo)){
+//               JOptionPane.showMessageDialog(null, "Group created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+//               setVisible(false);}
+//                else{
+//                  JOptionPane.showMessageDialog(null, "Failed to create group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+//              }
             }
         });
         
@@ -72,25 +74,22 @@ public class CreateGroup extends javax.swing.JFrame {
         addPhoto = new javax.swing.JButton();
         create = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Group Name");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Group Description");
         jLabel2.setOpaque(true);
 
         jLabel3.setBackground(new java.awt.Color(204, 204, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Group Photo");
         jLabel3.setOpaque(true);
@@ -101,7 +100,6 @@ public class CreateGroup extends javax.swing.JFrame {
 
         addPhoto.setBackground(new java.awt.Color(204, 204, 255));
         addPhoto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        addPhoto.setForeground(new java.awt.Color(0, 0, 0));
         addPhoto.setText("Add Photo");
         addPhoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,8 +109,12 @@ public class CreateGroup extends javax.swing.JFrame {
 
         create.setBackground(new java.awt.Color(153, 204, 255));
         create.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        create.setForeground(new java.awt.Color(0, 0, 0));
         create.setText("Create Group");
+        create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,6 +190,18 @@ public class CreateGroup extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_addPhotoActionPerformed
+
+    private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
+        // TODO add your handling code here:
+        
+        GroupHandler handler = new GroupHandler.Builder(UserSignupSingleton.getInstance().getUser().getUserId().toString())
+                .build();
+        
+        new Group.Builder(groupName.getText(),handler)
+                .setDescription(groupDescription.getText())
+                .build()
+                .create();
+    }//GEN-LAST:event_createActionPerformed
 
     /**
      * @param args the command line arguments

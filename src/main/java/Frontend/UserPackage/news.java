@@ -13,6 +13,7 @@ import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.GroupPackage.CreateGroup;
 import Frontend.SearchPackage.SearchFrame;
+//import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import Frontend.profilePackage.PublicProfileManagmentForm;
 import javax.imageio.ImageIO;
@@ -166,7 +167,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(post.getAuthorId()).getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(post.getAuthorId().toString()).getUsername());
         //  System.out.println(post.getAuthor().getUsername());
         JLabel timestampLabel = new JLabel(post.getTimestamp());
 
@@ -202,7 +203,7 @@ public class News extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
 
         // Create labels for the author name and timestamp
-        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(story.getAuthorId()).getUsername());
+        JLabel authorLabel = new JLabel(UserDatabase.getInstance().getUser(story.getAuthorId().toString()).getUsername());
         JLabel timestampLabel = new JLabel(story.getTimestamp());
 
         // Create a panel for the top section to hold the author name and timestamp
@@ -283,7 +284,7 @@ public class News extends javax.swing.JFrame {
         panel4.removeAll();
         panel5.removeAll();
         ContentDataBase.getInstance().update();
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
 
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
         // UserDatabase.getInstance().reloadUsersFromFile(USERFILE);

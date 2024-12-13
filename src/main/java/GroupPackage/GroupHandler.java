@@ -54,6 +54,24 @@ public class GroupHandler {
                 builder.joinRequests);
     }
 
+    public String getMainAdminId() {
+        return mainAdminId;
+    }
+
+    public ArrayList<String> getAdminIds() {
+        return adminIds;
+    }
+
+    public ArrayList<String> getMemberIds() {
+        return memberIds;
+    }
+
+    public ArrayList<String> getJoinRequests() {
+        return joinRequests;
+    }
+    
+    
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
 
@@ -209,6 +227,13 @@ public class GroupHandler {
             throw new IllegalArgumentException("User with Id: " + actorId
                     + " is not in the group");
         }
+    }
+    
+    public void deleteGroup(String actorId, Group g){
+        if (actorId == null) {
+            throw new IllegalArgumentException("actor can't be null");
+        }
+        GroupDataBase.getInstance().remove(g);
     }
 
     public static class Builder {

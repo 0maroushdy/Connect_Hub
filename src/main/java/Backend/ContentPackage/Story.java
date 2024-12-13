@@ -29,7 +29,7 @@ public class Story extends AContent {
     }
 
     public static Story fromJSON(JSONObject jsonObject) {
-        String userId = jsonObject.getString("authorId");
+        UUID userId = UUID.fromString(jsonObject.getString("authorId"));
         String text = jsonObject.getString("text");
         String imagePath = jsonObject.optString("imagePath", null);
         String timeStamp = jsonObject.getString("timeStamp");
@@ -50,12 +50,12 @@ public class Story extends AContent {
     public static class Builder {
 
         private final String text;
-        private final String authorId;
+        private final UUID authorId;
         private String imagePath;
         private LocalDateTime timeOfUpload;
         private UUID contentId;
 
-        public Builder(String authorId, String text) {
+        public Builder(UUID authorId, String text) {
             if (authorId == null || text == null || text.isEmpty()) {
                 throw new IllegalArgumentException("Author and text cannot be null or empty.");
             }

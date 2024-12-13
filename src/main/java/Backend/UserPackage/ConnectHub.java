@@ -4,14 +4,11 @@
  */
 package Backend.UserPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.UserPackage.WelcomeFrame;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 /**
  *
@@ -26,8 +23,6 @@ public class ConnectHub {
         // TODO code application logic here
        
         UserDatabase.getInstance().loadUsersFromFile(USERFILE);
-        System.out.println(GroupDatabase.getInstance().getUniqueCounter());
-        System.out.println(GroupDatabase.getInstance().getGroups().size());
         WelcomeFrame frame = new WelcomeFrame();
         frame.setVisible(true);
         

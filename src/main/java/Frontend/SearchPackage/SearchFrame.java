@@ -4,9 +4,6 @@
  */
 package Frontend.SearchPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
-import Backend.GroupiPackage.GroupSearch;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSearch;
@@ -27,7 +24,7 @@ import javax.swing.JOptionPane;
 public class SearchFrame extends javax.swing.JFrame {
     
     private UserSearch userSearch;
-    private GroupSearch groupSearch;
+//    private GroupSearch groupSearch;
     private User currentUser;
     /**
      * Creates new form SearchFrame
@@ -101,67 +98,67 @@ public class SearchFrame extends javax.swing.JFrame {
             }
         });
         
-        searchButton2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String groupName = groupTextField.getText();
-                groupSearch = GroupSearch.GroupSearchFactory.createGroupSearch(groupName);
-                DefaultListModel <String> groupsModel = new DefaultListModel<>();
-                groupList.setModel(groupsModel);
-                 for(Groupi group:groupSearch.getSearchGroups()){
-                    groupsModel.addElement(group.getGroupId() + " " + group.getGroupName() + " " + group.getGroupDescription());
-                }
-                
-                joinGroup.addActionListener(new ActionListener(){
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String line = groupList.getSelectedValue();
-                        String [] data = line.split(" ");
-                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
-                        groupSearch.joinGroup(currentUser, group);
-                        JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                    } 
-                });
-                
-                leaveGroup.addActionListener(new ActionListener(){
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String line = groupList.getSelectedValue();
-                        String [] data = line.split(" ");
-                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
-                        groupSearch.leaveGroup(currentUser.getUserId(), group);
-                        JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    } 
-                });
-                
-                
-                viewGroup.addActionListener(new ActionListener(){
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String line = groupList.getSelectedValue();
-                        String [] data = line.split(" ");
-                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
-                     String check = GroupDatabase.getInstance().checkIfInGroup(currentUser.getUserId(), group);
-                     if(check.equals("PRIMARY")){
-                         PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
-                         primaryAdmin.setVisible(true);
-                     }
-                     else if(check.equals("OTHER")){
-                         OtherAdminUI otherAdmin = new OtherAdminUI(group);
-                         otherAdmin.setVisible(true);
-                     }
-                     else if(check.equals("MEMBER")){
-                         NormalUserUI normalUser = new NormalUserUI(group);
-                         normalUser.setVisible(true);
-                     }
-                     else {
-                         JOptionPane.showMessageDialog(null, "You are not a member in this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
-                     }
-                     
-                    } 
-                });   
-            }
-        });   
+//        searchButton2.addActionListener(new ActionListener(){
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String groupName = groupTextField.getText();
+//                groupSearch = GroupSearch.GroupSearchFactory.createGroupSearch(groupName);
+//                DefaultListModel <String> groupsModel = new DefaultListModel<>();
+//                groupList.setModel(groupsModel);
+//                 for(Groupi group:groupSearch.getSearchGroups()){
+//                    groupsModel.addElement(group.getGroupId() + " " + group.getGroupName() + " " + group.getGroupDescription());
+//                }
+//                
+//                joinGroup.addActionListener(new ActionListener(){
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        String line = groupList.getSelectedValue();
+//                        String [] data = line.split(" ");
+//                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
+//                        groupSearch.joinGroup(currentUser, group);
+//                        JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+//                    } 
+//                });
+//                
+//                leaveGroup.addActionListener(new ActionListener(){
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        String line = groupList.getSelectedValue();
+//                        String [] data = line.split(" ");
+//                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
+//                        groupSearch.leaveGroup(currentUser.getUserId(), group);
+//                        JOptionPane.showMessageDialog(null, "Left the group successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+//                    } 
+//                });
+//                
+//                
+////                viewGroup.addActionListener(new ActionListener(){
+////                    @Override
+////                    public void actionPerformed(ActionEvent e) {
+////                        String line = groupList.getSelectedValue();
+////                        String [] data = line.split(" ");
+////                        Groupi group = GroupDatabase.getInstance().getGroupById(data[0]);
+////                     String check = GroupDatabase.getInstance().checkIfInGroup(currentUser.getUserId(), group);
+////                     if(check.equals("PRIMARY")){
+////                         PrimaryAdminUI primaryAdmin = new PrimaryAdminUI(group);
+////                         primaryAdmin.setVisible(true);
+////                     }
+////                     else if(check.equals("OTHER")){
+////                         OtherAdminUI otherAdmin = new OtherAdminUI(group);
+////                         otherAdmin.setVisible(true);
+////                     }
+////                     else if(check.equals("MEMBER")){
+////                         NormalUserUI normalUser = new NormalUserUI(group);
+////                         normalUser.setVisible(true);
+////                     }
+////                     else {
+////                         JOptionPane.showMessageDialog(null, "You are not a member in this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+////                     }
+////                     
+////                    } 
+////                });   
+//            }
+//        });   
     }
 
     /**

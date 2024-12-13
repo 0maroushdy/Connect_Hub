@@ -13,6 +13,7 @@ import static Files.FILEPATHS.USERFILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.swing.DefaultListModel;
 
 /**
@@ -23,7 +24,7 @@ public class FriendsGui extends javax.swing.JFrame {
     
     private User currentUser;
     private FriendshipManagement friendship;
-    private ArrayList <User> users;
+    private TreeSet <User> users;
     /**
      * Creates new form FriendsGui
      */
@@ -31,7 +32,7 @@ public class FriendsGui extends javax.swing.JFrame {
         initComponents();
         this.currentUser = UserSignupSingleton.getInstance().getUser();
         this.friendship = FriendshipManagement.FriendshipManagementFactory.create();
-        this.users = new ArrayList <>();
+        this.users = new TreeSet <>();
         this.users = UserDatabase.getInstance().getUsers();
         initCustomComponents();
     }
@@ -54,7 +55,7 @@ public class FriendsGui extends javax.swing.JFrame {
         
                        /* filling out data */
         for(FriendRequest friendRequest: currentUser.getUserReceivedFriendRequests()){
-            friendRequestsModel.addElement(friendRequest.getRequestSenderId()+ " " + UserDatabase.getInstance().getUser(friendRequest.getRequestSenderId()).getUsername() + " " + friendRequest.getRequestStatus());
+            friendRequestsModel.addElement(friendRequest.getRequestSenderId()+ " " + UserDatabase.getInstance().getUser(friendRequest.getRequestSenderId().toString()).getUsername() + " " + friendRequest.getRequestStatus());
         }
         
         for(User friend: UserDatabase.getInstance().getUsers()){
@@ -85,7 +86,7 @@ public class FriendsGui extends javax.swing.JFrame {
                }
                }
                }
-               UserDatabase.getInstance().saveUsersToFile(USERFILE);
+               UserDatabase.getInstance().saveUsersToFile();
             }
         });
         
@@ -102,7 +103,7 @@ public class FriendsGui extends javax.swing.JFrame {
                 friendRequestsModel.removeElementAt(ind);
               }
            }
-                UserDatabase.getInstance().saveUsersToFile(USERFILE);
+                UserDatabase.getInstance().saveUsersToFile();
           } 
         });
         
@@ -115,7 +116,7 @@ public class FriendsGui extends javax.swing.JFrame {
         User blocked = UserDatabase.getInstance().getUser(data[0]);
         friendship.blockUser(currentUser, blocked);
         changeFriendStatusModel.removeElementAt(ind);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
           } 
         });
         
@@ -128,7 +129,7 @@ public class FriendsGui extends javax.swing.JFrame {
         User removed = UserDatabase.getInstance().getUser(data[0]);
         friendship.removeFriend(currentUser, removed);
         changeFriendStatusModel.removeElementAt(ind);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
             }
         });
         
@@ -142,7 +143,7 @@ public class FriendsGui extends javax.swing.JFrame {
         friendship.sendFriendRequest(currentUser,suggestion);
       //  System.out.println(currentUser.getUserSentFriendRequests().size());
         friendSuggestionsModel.removeElementAt(ind);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
         } 
         });
         

@@ -54,7 +54,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
     }
     
         public ProfileManagmentForm(User user) {
-        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId());
+        this.currentUser = UserDatabase.getInstance().getUser(user.getUserId().toString());
 //JOptionPane.showMessageDialog (this, "2--- " + currentUser + "------"); // testign
         initComponents();
         setDefaultImages();
@@ -375,14 +375,14 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
 
         // updating the cover & photo & Bio in the database
         try {
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfilePhoto(newProfilePhoto);
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfileCover(newProfileCover);
-            UserDatabase.getInstance().getUser(currentUser.getUserId() ).getUserProfile().setProfileBio(newProfileBio);
+            UserDatabase.getInstance().getUser(currentUser.getUserId().toString() ).getUserProfile().setProfilePhoto(newProfilePhoto);
+            UserDatabase.getInstance().getUser(currentUser.getUserId().toString() ).getUserProfile().setProfileCover(newProfileCover);
+            UserDatabase.getInstance().getUser(currentUser.getUserId().toString() ).getUserProfile().setProfileBio(newProfileBio);
         } catch (overSizeInputException ex) {
             Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
     
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
@@ -433,7 +433,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
         }
         try {
             currentUser.getUserProfile().setProfileBio(userInput);
-            UserDatabase.getInstance().getUser( currentUser.getUserId()).getUserProfile().setProfileBio(userInput);
+            UserDatabase.getInstance().getUser( currentUser.getUserId().toString()).getUserProfile().setProfileBio(userInput);
         } catch (overSizeInputException ex) {
             Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -457,7 +457,7 @@ public class ProfileManagmentForm extends javax.swing.JFrame {
             System.out.println("User entered: " + userInput);
         }
         try {
-            UserDatabase.getInstance().getUser( currentUser.getUserId()).setUserPassword(userInput);
+            UserDatabase.getInstance().getUser( currentUser.getUserId().toString()).setUserPassword(userInput);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(ProfileManagmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }

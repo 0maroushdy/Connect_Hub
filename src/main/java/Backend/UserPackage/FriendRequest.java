@@ -4,6 +4,7 @@
  */
 package Backend.UserPackage;
 
+import java.util.UUID;
 import org.json.JSONObject;
 
 /**
@@ -11,14 +12,14 @@ import org.json.JSONObject;
  * @author Abdelrahman
  */
 public class FriendRequest {
-    private String requestSenderId;
-    private String requestReceiverId;
+    private UUID requestSenderId;
+    private UUID requestReceiverId;
     private Status requestStatus;
     public enum Status{
         Accepted, Declined, Pending
     }
     
-     public FriendRequest(String requestsenderId,String requestReceiverId, Status requestStatus) {
+     public FriendRequest(UUID requestsenderId,UUID requestReceiverId, Status requestStatus) {
         this.requestSenderId = requestsenderId;
         this.requestReceiverId = requestReceiverId;
         this.requestStatus = requestStatus;
@@ -34,11 +35,11 @@ public class FriendRequest {
         return this.requestStatus;
     }
     
-    public String getRequestSenderId(){
+    public UUID getRequestSenderId(){
         return this.requestSenderId;
     }
     
-    public String getRequestReceiverId(){
+    public UUID getRequestReceiverId(){
         return this.requestReceiverId;
     }
     
@@ -48,7 +49,7 @@ public class FriendRequest {
         this.requestStatus = requestStatus;
     }
     
-    public void setRequestSenderId(String requestSenderId){
+    public void setRequestSenderId(UUID requestSenderId){
         this.requestSenderId = requestSenderId;
     }
     
@@ -67,9 +68,9 @@ public class FriendRequest {
     
     public static FriendRequest fromJson(JSONObject jsonObject){
        FriendRequest request = new FriendRequest();
-       String senderId = jsonObject.getString("SenderUserId");
+       UUID senderId = UUID.fromString(jsonObject.getString("SenderUserId"));
       //  System.out.println(senderId);
-        String receiverId = jsonObject.getString("ReceiverUserId");
+        UUID receiverId = UUID.fromString(jsonObject.getString("ReceiverUserId"));
        // System.out.println(receiverId);
        request.requestSenderId = senderId;
        request.requestReceiverId = receiverId;

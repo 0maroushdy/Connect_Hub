@@ -48,10 +48,10 @@ public class UserSignupSingleton {
         if (!ValidationUtil.validateUserEmail(email)) {
             return false;
         }
-        String userId = username + "-" + UserDatabase.getInstance().getUniqueCounter();
-        user = User.UserFactory.create(userId,email, username, password, dateOfBirth, "online",true);
+
+        user = User.UserFactory.create(null,email, username, password, dateOfBirth, "online",true);
         UserDatabase.getInstance().addUser(user);
-        UserDatabase.getInstance().saveUsersToFile(USERFILE);
+        UserDatabase.getInstance().saveUsersToFile();
         this.setUser(user);
        // System.out.println(UserDatabase.getInstance().getUniqueCounter());
         return true;

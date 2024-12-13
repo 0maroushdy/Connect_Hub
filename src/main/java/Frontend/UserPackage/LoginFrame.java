@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.AuthenticationException;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form LoginFrame
+     *
      * @param welcomeFrame
      */
     public LoginFrame(WelcomeFrame welcomeFrame) {
@@ -130,21 +132,18 @@ public class LoginFrame extends javax.swing.JFrame {
         String passwordd = new String(password.getPassword());
 
         try {
-            if (UserDatabase.getInstance().userLogin(email, passwordd)) {
-                JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            UserDatabase.getInstance().userLogin(email, passwordd);
+            JOptionPane.showMessageDialog(null, "User has been added successfully and your user id is " + UserSignupSingleton.getInstance().getUser().getUserId(), "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                this.dispose();
-                this.welcomeFrame.dispose();
+            this.dispose();
+            this.welcomeFrame.dispose();
 
-                News news = new News();
-                news.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            News news = new News();
+            news.setVisible(true);
         } catch (IOException ex) {
-           Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AuthenticationException ex) {
+            JOptionPane.showMessageDialog(null, "Failed to login user", "Fail", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_loginActionPerformed
 

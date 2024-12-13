@@ -4,11 +4,11 @@
  */
 package Frontend.GroupPackage;
 
-import Backend.GroupiPackage.Groupi;
-import Backend.GroupiPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
+import GroupPackage.Group;
+import GroupPackage.GroupDataBase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
@@ -19,14 +19,15 @@ import javax.swing.JOptionPane;
  * @author Abdelrahman
  */
 public class PrimaryAdminUI extends javax.swing.JFrame {
-    
+
     private User currentUser;
-    private Groupi group;
+    private Group group;
     private UserDatabase userDatabase;
+
     /**
      * Creates new form PrimaryAdminUI
      */
-    public PrimaryAdminUI(Groupi group) {
+    public PrimaryAdminUI(Group group) {
         initComponents();
         setTitle("PrimaryAdminUI");
         setLocationRelativeTo(null);
@@ -36,114 +37,117 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         this.userDatabase = UserDatabase.getInstance();
         initCustomComponents();
     }
-    
-    private void initCustomComponents(){
-        DefaultListModel <String> membersListModel = new DefaultListModel();
-        
+
+    private void initCustomComponents() {
+        DefaultListModel<String> membersListModel = new DefaultListModel();
+
         membersList.setModel(membersListModel);
-                     /* Filling Out List */
-        membersListModel.addElement(group.getGroupPrimaryAdminId() + " " + this.userDatabase.getUser(group.getGroupPrimaryAdminId()).getUsername());
-        
-        for(String id:group.getGroupMemberIds()){
+        /* Filling Out List */
+        membersListModel.addElement(group.getHandler().getMainAdminId() + " " + this.userDatabase.getUser(group.getHandler().getMainAdminId()).getUsername());
+
+        for (String id : group.getHandler().getMemberIds()) {
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername());
         }
-        
-        for(String id:group.getGroupOtherAdminsIds()){
+
+        for (String id : group.getHandler().getAdminIds()) {
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername());
         }
-        
-        for(String id:group.getGroupRequestsIds()){
+
+        for (String id : group.getHandler().getJoinRequests()) {
             membersListModel.addElement(id + " " + this.userDatabase.getUser(id).getUsername() + " " + "(Request Pending)");
         }
-        
-        promote.addActionListener(new ActionListener(){
+
+        promote.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().promoteOtherAdmin(currentUser.getUserId(),data[0],group)){
-                  JOptionPane.showMessageDialog(null, "Promoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Failed to promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+                String line = membersList.getSelectedValue();
+                String[] data = line.split(" ");
+
+                try {
+                    group.getHandler().promote(currentUser.getUserId().toString(), data[0]);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to promote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Promoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
-        
-         demote.addActionListener(new ActionListener(){
+
+        demote.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().demoteOtherAdmin(currentUser.getUserId(),data[0],group)){
-                  JOptionPane.showMessageDialog(null, "Demoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Failed to demote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+                String line = membersList.getSelectedValue();
+                String[] data = line.split(" ");
+
+                try {
+                    group.getHandler().demote(currentUser.getUserId().toString(), data[0]);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to demote member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Demoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
-         
-        removeMember.addActionListener(new ActionListener(){
+
+        removeMember.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               int ind = membersList.getSelectedIndex();
-               String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().removeAnyGroupMember(currentUser.getUserId(),data[0], group)){
-                  JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Failed to remove member", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+                String line = membersList.getSelectedValue();
+                int ind = membersList.getSelectedIndex();
+                String[] data = line.split(" ");
+
+                try {
+                    group.getHandler().removeMember(currentUser.getUserId().toString(), data[0]);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to remove member", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
-        
-        
-        deleteGroup.addActionListener(new ActionListener(){
+
+        deleteGroup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              if(GroupDatabase.getInstance().deleteGroup(currentUser.getUserId(), group)){
-                  JOptionPane.showMessageDialog(null, "Group is deleted", "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Group cant get deleted", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+
+                try {
+                    group.getHandler().deleteGroup(currentUser.getUserId().toString(), group);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Group cant get deleted", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Group is deleted", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            }
         });
-        
-        
-        acceptRequest.addActionListener(new ActionListener(){
+
+        acceptRequest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().acceptGroupRequest(currentUser.getUserId(),data[0], group)){
-                  JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+                String line = membersList.getSelectedValue();
+                String[] data = line.split(" ");
+                
+                try {
+                    group.getHandler().approveJoinRequest(currentUser.getUserId().toString(), data[0]);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            }
         });
-        
-         declineRequest.addActionListener(new ActionListener(){
+
+        declineRequest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String line = membersList.getSelectedValue();
-               String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().declineGroupRequest(currentUser.getUserId(),data[0], group)){
-                  JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
-              }
-              else {
-                  JOptionPane.showMessageDialog(null, "Failed to decline member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
-              }
-            } 
+                String line = membersList.getSelectedValue();
+                String[] data = line.split(" ");
+
+                try {
+                    group.getHandler().rejectJoinRequest(currentUser.getUserId().toString(), data[0]);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, "Failed to decline member request", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
-        
-        
-       
-        
+
     }
 
     /**
@@ -331,7 +335,6 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptRequest;
