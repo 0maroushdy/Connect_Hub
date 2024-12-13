@@ -123,8 +123,11 @@ public class SearchFrame extends javax.swing.JFrame {
                         String line = groupList.getSelectedValue();
                         String [] data = line.split(" ");
                         Group group = GroupDatabase.getInstance().getGroupById(data[0]);
-                        groupSearch.joinGroup(currentUser, group);
-                        JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                        if(groupSearch.joinGroup(currentUser, group)){
+                        JOptionPane.showMessageDialog(null, "Group request sent to " + group.getGroupId(), "Success", JOptionPane.INFORMATION_MESSAGE);}
+                else{
+                      JOptionPane.showMessageDialog(null, "You are either a member in this group or already sent group request before", "Fail", JOptionPane.INFORMATION_MESSAGE);      
+                        }
                     } 
                 });
                 
@@ -196,7 +199,7 @@ public class SearchFrame extends javax.swing.JFrame {
         searchButton1 = new javax.swing.JButton();
         searchButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(30, 30, 47));
 
         jLabel1.setBackground(new java.awt.Color(92, 107, 192));

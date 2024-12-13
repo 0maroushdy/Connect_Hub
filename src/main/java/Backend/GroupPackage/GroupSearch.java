@@ -30,8 +30,8 @@ public class GroupSearch {
         return this.searchGroups;
     }
     
-    public void joinGroup(User user,Group group){
-        this.groupDatabase.sendGroupRequest(user.getUserId(), group);
+    public boolean joinGroup(User user,Group group){
+       return this.groupDatabase.sendGroupRequest(user.getUserId(), group);
     }
     
     public boolean leaveGroup(String groupMemberId,Group group){

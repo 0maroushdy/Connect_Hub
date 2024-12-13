@@ -70,7 +70,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
           postsContainer.setLayout(new BoxLayout(postsContainer, BoxLayout.Y_AXIS));
 
         for (Post post : ContentDataBase.getInstance().getPosts()) {
-          if (post.getGroupId().equals(group.getGroupId())) {
+         if (post.getGroupId().equals(group.getGroupId())) {
         PostPanell postPanel = new PostPanell(post);
         postsContainer.add(postPanel);
          }
@@ -94,7 +94,10 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String line = membersList.getSelectedValue();
                String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().promoteOtherAdmin(currentUser.getUserId(),data[0],group)){
+              if(currentUser.getUserId().equals(data[0])){
+                  JOptionPane.showMessageDialog(null, "Cant promote yourself", "Fail", JOptionPane.INFORMATION_MESSAGE);
+              }
+             else if(GroupDatabase.getInstance().promoteOtherAdmin(currentUser.getUserId(),data[0],group)){
                   JOptionPane.showMessageDialog(null, "Promoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
@@ -108,7 +111,10 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String line = membersList.getSelectedValue();
                String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().demoteOtherAdmin(currentUser.getUserId(),data[0],group)){
+              if(currentUser.getUserId().equals(data[0])){
+                  JOptionPane.showMessageDialog(null, "Cant demote yourself", "Fail", JOptionPane.INFORMATION_MESSAGE);
+              }
+              else if(GroupDatabase.getInstance().demoteOtherAdmin(currentUser.getUserId(),data[0],group)){
                   JOptionPane.showMessageDialog(null, "Demoted member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
@@ -123,7 +129,10 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                String line = membersList.getSelectedValue();
                int ind = membersList.getSelectedIndex();
                String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().removeAnyGroupMember(currentUser.getUserId(),data[0], group)){
+              if(currentUser.getUserId().equals(data[0])){
+                  JOptionPane.showMessageDialog(null, "Cant remove yourself", "Fail", JOptionPane.INFORMATION_MESSAGE);
+              }
+             else if(GroupDatabase.getInstance().removeAnyGroupMember(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
@@ -151,7 +160,10 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String line = membersList.getSelectedValue();
                String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().acceptGroupRequest(currentUser.getUserId(),data[0], group)){
+               if(currentUser.getUserId().equals(data[0])){
+                   JOptionPane.showMessageDialog(null, "You are already a member of this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+               }
+               else if(GroupDatabase.getInstance().acceptGroupRequest(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {
@@ -165,7 +177,10 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String line = membersList.getSelectedValue();
                String [] data = line.split(" ");
-              if(GroupDatabase.getInstance().declineGroupRequest(currentUser.getUserId(),data[0], group)){
+              if(currentUser.getUserId().equals(data[0])){
+                  JOptionPane.showMessageDialog(null, "you are already a member of this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+              }
+              else if(GroupDatabase.getInstance().declineGroupRequest(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Declined member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
               }
               else {

@@ -128,13 +128,26 @@ public class GroupDatabase {
       return true;
     }
     
-    public void sendGroupRequest(String requestId,Group group){
+    public boolean sendGroupRequest(String requestId,Group group){
                 for(Group groupp:this.groups){
-                    if(groupp.getGroupName().equals(group.getGroupName()) && groupp.getGroupDescription().equals(group.getGroupDescription()) && groupp.getGroupPhoto().equals(group.getGroupPhoto())){
+                    if(groupp.getGroupId().equals(group.getGroupId())){
+                        if(groupp.getGroupPrimaryAdminId().equals(requestId)){
+                            return false;
+                        }
+                        if(groupp.getGroupOtherAdminsIds().contains(requestId)){
+                            return false;
+                        }
+                        if(groupp.getGroupMemberIds().contains(requestId)){
+                            return false;
+                        }
+                        if(groupp.getGroupRequestsIds().contains(requestId)){
+                            return false;
+                        }
                         groupp.getGroupRequestsIds().add(requestId);
                         UserDatabase.getInstance().saveUsersToFile(USERFILE);
                     }
                 }
+                return true;
     }
     
     public boolean acceptGroupRequest(String otherAdminId,String requestId,Group group){

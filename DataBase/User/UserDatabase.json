@@ -19,16 +19,7 @@
         },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
-        "userJoinedGroups": [{
-            "groupName": "hi",
-            "groupDescription": "ghhh",
-            "groupId": "hi-1",
-            "groupMembersIds": [],
-            "groupPrimaryAdminId": "beego-1",
-            "groupOtherAdminsIds": [],
-            "groupPhoto": "C:\\Users\\Abdelrahman\\Pictures\\Screenshot_20230228_032023.png",
-            "groupRequestsIds": ["omar-2"]
-        }]
+        "userJoinedGroups": []
     },
     {
         "Status": "online",
@@ -50,6 +41,15 @@
         },
         "BlockedUsers": [],
         "Password": "c8bc2586cdd87cd6f970fc4262c4bbc49165811788825fbc1ba3366bfde45413",
-        "userJoinedGroups": []
+        "userJoinedGroups": [{
+            "groupName": "hello",
+            "groupDescription": "ggbgb",
+            "groupId": "hello-2",
+            "groupMembersIds": [],
+            "groupPrimaryAdminId": "omar-2",
+            "groupOtherAdminsIds": [],
+            "groupPhoto": "C:\\Users\\Abdelrahman\\Pictures\\Screenshot_20230228_032023.png",
+            "groupRequestsIds": []
+        }]
     }
 ]

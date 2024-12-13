@@ -47,7 +47,7 @@ public class CreateGroup extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, "Group created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                setVisible(false);}
                 else{
-                  JOptionPane.showMessageDialog(null, "Failed to create group", "Fail", JOptionPane.INFORMATION_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Missing Fields", "Fail", JOptionPane.INFORMATION_MESSAGE);
               }
             }
         });

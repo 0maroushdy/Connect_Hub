@@ -158,6 +158,16 @@ public class User {
        }
    }
    
+   
+   public boolean checkIfInJoinedGroups(Group group){
+       for(Group groupp:this.userJoinedGroups){
+           if(groupp.getGroupId().equals(group.getGroupId())){
+               return true;
+           }
+       }
+       return false;
+   }
+   
    public void setUserJoinedGroups(){
        this.userJoinedGroups = new HashSet<>();
    }

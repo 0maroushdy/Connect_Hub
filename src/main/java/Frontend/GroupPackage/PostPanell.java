@@ -45,9 +45,10 @@ public class PostPanell extends javax.swing.JPanel {
         btnDelete.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+               // System.out.println(ContentDataBase.getInstance().getPosts().size());
                 for(Post postt:contentDatabase.getPosts()){
                     if(postt.getContentId().equals(post.getContentId())){
-                        contentDatabase.RemovePost(postt);
+                        contentDatabase.removePost(postt);
                     }
                 }
             }  

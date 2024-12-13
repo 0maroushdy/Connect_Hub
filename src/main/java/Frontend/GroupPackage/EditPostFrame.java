@@ -39,7 +39,7 @@ public class EditPostFrame extends javax.swing.JFrame {
         editPost.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+               if(text.getText()!= null || text.getText().length()!=0 || imagePath!=null || imagePath.length()!=0){
                 for(Post postt:ContentDataBase.getInstance().getPosts()){
                     if(postt.getContentId().equals(post.getContentId())){
                         postt.setPostText(text.getText());
@@ -48,7 +48,10 @@ public class EditPostFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Post has been modified", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
-                
+               }
+                else{
+                   JOptionPane.showMessageDialog(null, "Missing Fields", "Fail", JOptionPane.INFORMATION_MESSAGE);
+               }
                 
             }
         });
