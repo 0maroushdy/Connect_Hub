@@ -56,6 +56,15 @@ public class AddGroupPost extends javax.swing.JFrame {
                       ContentDataBase.getInstance().addContent(post);
                       UserDatabase.getInstance().saveUsersToFile(USERFILE);
                       setVisible(false);
+                      
+//                      for(int i=0; i < group.getGroupMemberIds().size(); i++ ){
+//                          UserDatabase.getInstance().getUser(USERFILE)
+//                      }
+                        for(String ID:group.getGroupMemberIds()){
+                            UserDatabase.getInstance().getUser(ID).getNotificationManager().addGroupActivityNotification(
+                                         UserSignupSingleton.getInstance().getUser().getUsername() +
+                                         " Published a Post at Group: "+group.getGroupName() );
+                        }
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Failed to add post", "Fail", JOptionPane.INFORMATION_MESSAGE);

@@ -35,6 +35,10 @@ public class FriendshipManagement {
             }
             UserDatabase.getInstance().saveUsersToFile(USERFILE);
            // System.out.println(requestSender.getUserSentFriendRequests().size());
+           
+           requestSender.getNotificationManager().addFriendRequestNotification("You have sent a Friend request to: "+requestReceiver.getUsername());
+           requestReceiver.getNotificationManager().addFriendRequestNotification("You have Recieved a Friend request From: "+requestSender.getUsername());
+           
             return true;
         }
         else{

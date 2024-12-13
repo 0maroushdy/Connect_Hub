@@ -134,6 +134,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
               }
              else if(GroupDatabase.getInstance().removeAnyGroupMember(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Removed member with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+                  userDatabase.getUser(data[0]).getNotificationManager().addGroupActivityNotification("You were Removed From Group: " + group.getGroupName());
               }
               else {
                   JOptionPane.showMessageDialog(null, "Failed to remove member", "Fail", JOptionPane.INFORMATION_MESSAGE);
@@ -165,6 +166,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                }
                else if(GroupDatabase.getInstance().acceptGroupRequest(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
+                  userDatabase.getUser(data[0]).getNotificationManager().addGroupActivityNotification("You were Accepted to Group: " + group.getGroupName());
               }
               else {
                   JOptionPane.showMessageDialog(null, "Failed to accept member request", "Fail", JOptionPane.INFORMATION_MESSAGE);

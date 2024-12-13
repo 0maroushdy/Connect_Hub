@@ -112,6 +112,10 @@ public class User {
        return this.userJoinedGroups;
    }
    
+   public NotificationManager getNotificationManager(){
+       return this.notificationMang;
+   }
+   
              /* Setters */
    public void setUserPassword (String unHashedPassword) throws NoSuchAlgorithmException{
        this.password = HashingUtil.generateUserHashedPassword(unHashedPassword);
