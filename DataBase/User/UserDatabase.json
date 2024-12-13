@@ -1,0 +1,56 @@
+[
+    {
+        "Status": "offline",
+        "DateOfBirth": "2024-12-13",
+        "Email": "oo@oo.oo",
+        "Notificatoins": [{
+            "msgID": "1",
+            "seenStatus": false,
+            "message": "You have Recieved a Friend request From: mm"
+        }],
+        "Friends": [],
+        "SentFriendRequests": [],
+        "ReceivedFriendRequests": [{
+            "SenderUserId": "mm-2",
+            "ReceiverUserId": "oo-1",
+            "RequestStatus": "Pending"
+        }],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [],
+        "Username": "oo",
+        "UserId": "oo-1",
+        "Password": "a8c23cc814179578e3a774418ac5fc4702a66eb3b78c876df81b290465e6e334"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-13",
+        "Email": "mm@mm.mm",
+        "Notificatoins": [{
+            "msgID": "1",
+            "seenStatus": false,
+            "message": "You have sent a Friend request to: oo"
+        }],
+        "Friends": [],
+        "SentFriendRequests": [{
+            "SenderUserId": "mm-2",
+            "ReceiverUserId": "oo-1",
+            "RequestStatus": "Pending"
+        }],
+        "ReceivedFriendRequests": [],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [],
+        "Username": "mm",
+        "UserId": "mm-2",
+        "Password": "8fa1dddd53606ceb933c5c6a12e714ed41e11d37a2b7bc48e91d15b54171d033"
+    }
+]
