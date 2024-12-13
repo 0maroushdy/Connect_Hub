@@ -1,1 +1,194 @@
-[]
+[
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-13",
+        "Email": "oo@oo.oo",
+        "Notificatoins": [
+            {
+                "msgID": "1",
+                "seenStatus": false,
+                "message": "You have Recieved a Friend request From: tt"
+            },
+            {
+                "msgID": "2",
+                "seenStatus": false,
+                "message": "You have Recieved a Friend request From: gg"
+            },
+            {
+                "msgID": "3",
+                "seenStatus": false,
+                "message": "You have sent a Friend request to: nn"
+            }
+        ],
+        "Friends": [],
+        "SentFriendRequests": [{
+            "SenderUserId": "oo-1",
+            "ReceiverUserId": "nn-4",
+            "RequestStatus": "Pending"
+        }],
+        "ReceivedFriendRequests": [
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oo-1",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "tt-2",
+                "ReceiverUserId": "oo-1",
+                "RequestStatus": "Pending"
+            }
+        ],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [{
+            "groupName": "uu",
+            "groupDescription": "uu",
+            "groupId": "uu-1",
+            "groupMembersIds": [],
+            "groupPrimaryAdminId": "oo-1",
+            "groupOtherAdminsIds": [],
+            "groupPhoto": "C:\\Users\\Omar\\Documents\\resources\\default_cover.jpg",
+            "groupRequestsIds": []
+        }],
+        "Username": "oo",
+        "UserId": "oo-1",
+        "Password": "a8c23cc814179578e3a774418ac5fc4702a66eb3b78c876df81b290465e6e334"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-04",
+        "Email": "tt@tt.tt",
+        "Notificatoins": [
+            {
+                "msgID": "1",
+                "seenStatus": false,
+                "message": "You have Recieved a Friend request From: gg"
+            },
+            {
+                "msgID": "2",
+                "seenStatus": false,
+                "message": "You have Recieved a Friend request From: nn"
+            }
+        ],
+        "Friends": [],
+        "SentFriendRequests": [{
+            "SenderUserId": "tt-2",
+            "ReceiverUserId": "oo-1",
+            "RequestStatus": "Pending"
+        }],
+        "ReceivedFriendRequests": [
+            {
+                "SenderUserId": "nn-4",
+                "ReceiverUserId": "tt-2",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "tt-2",
+                "RequestStatus": "Pending"
+            }
+        ],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [],
+        "Username": "tt",
+        "UserId": "tt-2",
+        "Password": "0e07cf830957701d43c183f1515f63e6b68027e528f43ef52b1527a520ddec82"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-13",
+        "Email": "gg@gg.gg",
+        "Notificatoins": [{
+            "msgID": "1",
+            "seenStatus": false,
+            "message": "You have Recieved a Friend request From: nn"
+        }],
+        "Friends": [],
+        "SentFriendRequests": [
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "tt-2",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "gg-3",
+                "ReceiverUserId": "oo-1",
+                "RequestStatus": "Pending"
+            }
+        ],
+        "ReceivedFriendRequests": [{
+            "SenderUserId": "nn-4",
+            "ReceiverUserId": "gg-3",
+            "RequestStatus": "Pending"
+        }],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [],
+        "Username": "gg",
+        "UserId": "gg-3",
+        "Password": "cbd3cfb9b9f51bbbfbf08759e243f5b3519cbf6ecc219ee95fe7c667e32c0a8d"
+    },
+    {
+        "Status": "online",
+        "DateOfBirth": "2024-12-13",
+        "Email": "nn@nn.nn",
+        "Notificatoins": [
+            {
+                "msgID": "1",
+                "seenStatus": false,
+                "message": "You have sent a Friend request to: gg"
+            },
+            {
+                "msgID": "2",
+                "seenStatus": false,
+                "message": "You have sent a Friend request to: tt"
+            },
+            {
+                "msgID": "3",
+                "seenStatus": false,
+                "message": "You have Recieved a Friend request From: oo"
+            }
+        ],
+        "Friends": [],
+        "SentFriendRequests": [
+            {
+                "SenderUserId": "nn-4",
+                "ReceiverUserId": "gg-3",
+                "RequestStatus": "Pending"
+            },
+            {
+                "SenderUserId": "nn-4",
+                "ReceiverUserId": "tt-2",
+                "RequestStatus": "Pending"
+            }
+        ],
+        "ReceivedFriendRequests": [{
+            "SenderUserId": "oo-1",
+            "ReceiverUserId": "nn-4",
+            "RequestStatus": "Pending"
+        }],
+        "Profile": {
+            "profilePhoto": "",
+            "profileCover": "",
+            "bio": "<< add Bio Txt >>"
+        },
+        "BlockedUsers": [],
+        "userJoinedGroups": [],
+        "Username": "nn",
+        "UserId": "nn-4",
+        "Password": "fab66aa01347d3f11a16468941378cea495937e5f482e18ea6472681e03d3936"
+    }
+]

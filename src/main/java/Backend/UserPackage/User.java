@@ -52,6 +52,7 @@ public class User {
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
        this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
    }
 
    public User() {
@@ -60,8 +61,8 @@ public class User {
        this.sentFriendRequests = new HashSet<>();
        this.receivedFriendRequests = new HashSet<>();
        this.profile = new UserProfile();
-       this.notificationMang = new NotificationManager();
        this.userJoinedGroups = new HashSet <>();
+       this.notificationMang = new NotificationManager();
     }
          /* Getters */
     public String getUserId(){

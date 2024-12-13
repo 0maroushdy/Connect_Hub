@@ -15,6 +15,7 @@ import Backend.UserProfilePackage.overSizeInputException;
 import Files.FILEPATHS;
 import static Files.FILEPATHS.USERFILE;
 import Frontend.GroupPackage.CreateGroup;
+import Frontend.NotificationPackage.NotiForm;
 import Frontend.SearchPackage.SearchFrame;
 import Frontend.profilePackage.ProfileManagmentForm;
 import javax.imageio.ImageIO;
@@ -148,6 +149,7 @@ public class News extends javax.swing.JFrame {
         buttonPanel.add(searchButton);
         buttonPanel.add(button3);
         buttonPanel.add(refreshButton);
+        buttonPanel.add(notificationBtn);
        // buttonPanel.add(profileBtn);
        
         
@@ -517,6 +519,10 @@ private JPanel friendComp(User friend) {
     }
     
     public void notificationAction(){
+//        this.setVisible(false);
+        this.dispose();
+        new NotiForm();
+        
         
     }
     

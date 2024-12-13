@@ -33,11 +33,11 @@ public class FriendshipManagement {
                     user.getUserReceivedFriendRequests().add(request);
                 }
             }
-            UserDatabase.getInstance().saveUsersToFile(USERFILE);
            // System.out.println(requestSender.getUserSentFriendRequests().size());
            
-           requestSender.getNotificationManager().addFriendRequestNotification("You have sent a Friend request to: "+requestReceiver.getUsername());
+           UserDatabase.getInstance().getUser(requestSender.getUserId()).getNotificationManager().addFriendRequestNotification("You have sent a Friend request to: "+requestReceiver.getUsername());
            requestReceiver.getNotificationManager().addFriendRequestNotification("You have Recieved a Friend request From: "+requestSender.getUsername());
+           UserDatabase.getInstance().saveUsersToFile(USERFILE);
            
             return true;
         }
@@ -73,6 +73,7 @@ public class FriendshipManagement {
          
         }
           UserDatabase.getInstance().saveUsersToFile(USERFILE);
+          
             return true;
         }
         return false;

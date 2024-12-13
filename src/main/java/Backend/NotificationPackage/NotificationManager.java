@@ -4,6 +4,8 @@
  */
 package Backend.NotificationPackage;
 
+import Backend.UserPackage.User;
+import Backend.UserPackage.UserDatabase;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -47,6 +49,16 @@ public class NotificationManager {
     public void addNewPostNotification(String message) {
         this.addNotification(new NewPostNotification(message));
     }
+    
+    public void makeAllSeen(){
+        for(User user : UserDatabase.getInstance().getUsers() ){
+//            if( user.getUserId().equals(this.) )
+            for(UserNotification noti : notifications){
+                noti.setSeenStatus(true);
+            }
+        }
+    }
+    
 
     
     // -----------** Notification Id generator **--------------
