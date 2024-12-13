@@ -28,184 +28,32 @@ public class Group {
     private String description;
     private String photoPath;
 
-    private final String mainAdminId;
-    private final ArrayList<String> adminIds;
-    private final ArrayList<String> memberIds;
+    private GroupHandler handler;
 
-    private final ArrayList<String> joinRequests;
+    private Group(String name, GroupHandler handler, String description, String photoPath, UUID id) {
 
-    private Group(String name, String mainAdminId, String description, String photoPath, UUID id,
-            ArrayList<String> adminIds, ArrayList<String> memberIds, ArrayList<String> joinRequests) {
-        if (name == null || name.equals("") || mainAdminId == null) {
-            throw new IllegalArgumentException("Name and mainAdmin cannot be null or empty.");
+        if (name == null || name.equals("") || handler == null) {
+            throw new IllegalArgumentException("Name and handler cannot be null or empty.");
         }
 
         this.id = (id == null) ? UUID.randomUUID() : id;
 
         this.name = name;
-        this.mainAdminId = mainAdminId;
+
+        this.handler = handler;
 
         //optional
         this.description = description;
         this.photoPath = photoPath;
         //
-
-        if (adminIds == null) {
-            this.adminIds = new ArrayList<>();
-            this.adminIds.add(mainAdminId);
-        } else {
-            this.adminIds = adminIds;
-        }
-
-        if (memberIds == null) {
-            this.memberIds = new ArrayList<>();
-            this.memberIds.add(mainAdminId);
-        } else {
-            this.memberIds = memberIds;
-        }
-
-        this.joinRequests = (joinRequests == null) ? new ArrayList<>() : joinRequests;
     }
 
     public Group(Group.Builder groupBuilder) {
         this(groupBuilder.name,
-                groupBuilder.mainAdminId,
+                groupBuilder.handler,
                 groupBuilder.description,
                 groupBuilder.photoPath,
-                groupBuilder.id,
-                groupBuilder.adminIds,
-                groupBuilder.memberIds,
-                groupBuilder.joinRequests);
-    }
-
-    private void validateInputUsers(String actorId, String targetId) {
-        if (actorId == null || targetId == null) {
-            throw new IllegalArgumentException("Actor and target cannot be null.");
-        }
-        if (actorId.equals(targetId)) {
-            throw new IllegalArgumentException("Actor and target cannot be the same user.");
-        }
-    }
-
-    public void promote(String actorId, String targetId) {
-        validateInputUsers(actorId, targetId);
-
-        //check for minimun permissions of actor to perform the action
-        if (!actorId.equals(this.mainAdminId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " doesn't have permission");
-        }
-        //
-
-        if (this.adminIds.contains(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is already an admin");
-        }
-
-        if (!this.memberIds.contains(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is not in the group");
-        }
-
-        this.adminIds.add(targetId);
-    }
-
-    public void demote(String actorId, String targetId) {
-        validateInputUsers(actorId, targetId);
-
-        //check for minimun permissions of actor to perform the action
-        if (!actorId.equals(this.mainAdminId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " doesn't have permission");
-        }
-        //
-
-        if (!this.adminIds.contains(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is not an admin");
-        }
-
-        this.adminIds.remove(targetId);
-    }
-
-    public void removeMember(String actorId, String targetId) {
-        validateInputUsers(actorId, targetId);
-
-        //check for minimun permissions of actor to perform the action
-        if (this.adminIds.contains(actorId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " doesn't have permission");
-        }
-        //
-
-        if (actorId.equals(this.mainAdminId)) {
-            this.adminIds.remove(targetId);
-        }
-
-        if (!this.memberIds.remove(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is not in the group");
-        }
-    }
-
-    public void approveJoinRequest(String actorId, String targetId) {
-        validateInputUsers(actorId, targetId);
-
-        //check for minimun permissions of actor to perform the action
-        if (!this.adminIds.contains(actorId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " doesn't have permission");
-        }
-        //
-
-        if (this.memberIds.contains(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is already in the group");
-        }
-
-        if (!this.joinRequests.remove(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " didn't request to join");
-        }
-
-        this.memberIds.add(targetId);
-    }
-
-    public void rejectJoinRequest(String actorId, String targetId) {
-        validateInputUsers(actorId, targetId);
-
-        //check for minimun permissions of actor to perform the action
-        if (!this.adminIds.contains(actorId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " doesn't have permission");
-        }
-        //
-
-        if (this.memberIds.contains(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " is already in the group");
-        }
-
-        if (!this.joinRequests.remove(targetId)) {
-            throw new IllegalArgumentException("User with Id: " + targetId
-                    + " didn't request to join");
-        }
-    }
-
-    public void leave(String actorId) {
-        if (actorId == null) {
-            throw new IllegalArgumentException("actor can't be null");
-        }
-        if (actorId.equals(this.mainAdminId)) {
-            throw new IllegalArgumentException("The group's main admin can't leave the group");
-        }
-
-        this.adminIds.remove(actorId);
-
-        if (!this.memberIds.remove(actorId)) {
-            throw new IllegalArgumentException("User with Id: " + actorId
-                    + " is not in the group");
-        }
+                groupBuilder.id);
     }
 
     public JSONObject toJSON() {
@@ -218,11 +66,8 @@ public class Group {
         jsonObject.put("description", this.description);
         jsonObject.put("photoPath", this.photoPath);
         //
-        
-        jsonObject.put("mainAdminId", this.mainAdminId);
-        jsonObject.put("adminIds", new JSONArray(this.adminIds));
-        jsonObject.put("memberIds", new JSONArray(this.memberIds));
-        jsonObject.put("joinRequests", new JSONArray(this.joinRequests));
+
+        jsonObject.put("handler", this.handler.toJSON());
 
         return jsonObject;
     }
@@ -235,19 +80,12 @@ public class Group {
         String description = jsonObject.getString("description");
         String photoPath = jsonObject.getString("photoPath");
 
-        String mainAdminId = jsonObject.getString("mainAdminId");
+       GroupHandler handler = GroupHandler.fromJSON(jsonObject.getJSONObject("handler"));
 
-        ArrayList<String> adminIds = JSONUtils.loadArrayList(jsonObject, "adminIds");
-        ArrayList<String> memberIds = JSONUtils.loadArrayList(jsonObject, "memberIds");
-        ArrayList<String> joinRequests = JSONUtils.loadArrayList(jsonObject, "joinRequests");
-
-        Group.Builder groupBuilder = new Group.Builder(mainAdminId, name)
+        Group.Builder groupBuilder = new Group.Builder(name,handler)
                 .setId(id)
                 .setDescription(description)
-                .setPhotoPath(photoPath)
-                .setAdminIds(adminIds)
-                .setMemberIds(memberIds)
-                .setJoinRequests(joinRequests);
+                .setPhotoPath(photoPath);
 
         return groupBuilder.build();
     }
@@ -255,23 +93,19 @@ public class Group {
     public static class Builder {
 
         private UUID id;
-        private String mainAdminId;
         private String name;
+        private GroupHandler handler;
 
         private String description;
         private String photoPath;
 
-        private ArrayList<String> adminIds;
-        private ArrayList<String> memberIds;
-        private ArrayList<String> joinRequests;
-
-        public Builder(String mainAdminId, String name) {
-            if (name == null || name.equals("") || mainAdminId == null) {
-                throw new IllegalArgumentException("Name and mainAdmin cannot be null or empty.");
+        public Builder(String name, GroupHandler handler) {
+            if (name == null || name.equals("") || handler == null) {
+                throw new IllegalArgumentException("Name and handler cannot be null or empty.");
             }
-            this.mainAdminId = mainAdminId;
+            this.handler = handler;
             this.name = name;
-            
+
             //defaults for optional attributes
             this.description = "";
             this.photoPath = ROCKLY;
@@ -293,23 +127,9 @@ public class Group {
             return this;
         }
 
-        public Builder setAdminIds(ArrayList<String> adminIds) {
-            this.adminIds = adminIds;
-            return this;
-        }
-
-        public Builder setMemberIds(ArrayList<String> memberIds) {
-            this.memberIds = memberIds;
-            return this;
-        }
-
-        public Builder setJoinRequests(ArrayList<String> joinRequests) {
-            this.joinRequests = joinRequests;
-            return this;
-        }
-
         public Group build() {
             return new Group(this);
         }
     }
+
 }
