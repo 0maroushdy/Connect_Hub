@@ -35,6 +35,7 @@ public class NotiForm extends javax.swing.JFrame {
     public NotiForm() {
         initComponents();
         this.currentUser = UserSignupSingleton.getInstance().getUser();
+        
         initCustomComponents();
     }
     
@@ -64,16 +65,19 @@ public class NotiForm extends javax.swing.JFrame {
         for(UserNotification noti: currentUser.getNotificationManager().getNotiList()){
             if(noti.getSeenStatus() == false){
             NewNotificatoinsModel.addElement(noti.getMessage());
-            
-            } else if(noti.getSeenStatus() == true){
+           
+            } if(noti.getSeenStatus() == true){
             OldNotificatoinsModel.addElement(noti.getMessage());
             }
-            
-//            if(noti.getType() == "friendNotification" || noti.getType() == "default"  ){
-//            }
+           
+            if(noti.getType().equals("friendNotification")){
+              FriendsNotifications.addElement(noti.getMessage()); 
+           }
+          
+           if(noti.getType().equals("groupNotification")){
+               GroupsNoti.addElement(noti.getMessage());
+           }
 
-            FriendsNotifications.addElement(noti.getMessage()); // The if --->> 
-            GroupsNoti.addElement(noti.getMessage()); // The if --->> 
         }
         
         btnAcceptFriend.addActionListener(new ActionListener() {
@@ -81,9 +85,7 @@ public class NotiForm extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                String line = lstFriendsNotificatoin.getSelectedValue();
                int ind = lstFriendsNotificatoin.getSelectedIndex();
-               String[] data = line.split(" ");
-               
-               
+               String[] data = line.split(" ");         
                FriendshipManagement friendship = FriendshipManagement.FriendshipManagementFactory.create();
                for(User user:UserDatabase.getInstance().getUsers()){
                    if(user.getUserId().equals(data[0])){
@@ -309,7 +311,7 @@ public class NotiForm extends javax.swing.JFrame {
         remove.setBackground(new java.awt.Color(153, 204, 255));
         remove.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         remove.setForeground(new java.awt.Color(0, 0, 0));
-        remove.setText("Mark As Seen");
+        remove.setText("Mark All As Seen");
         remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeActionPerformed(evt);
@@ -418,10 +420,9 @@ public class NotiForm extends javax.swing.JFrame {
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         // TODO add your handling code here:
+        
         UserSignupSingleton.getInstance().getUser().getNotificationManager().makeAllSeen();
-        fillOutNotifications();
-        
-        
+        fillOutNotifications(); 
     }//GEN-LAST:event_removeActionPerformed
 
     private void btnBack2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack2ActionPerformed

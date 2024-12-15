@@ -5,6 +5,7 @@
 package Backend.NotificationPackage;
 
 import Backend.UserProfilePackage.UserProfile;
+import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
 /**
@@ -90,6 +91,7 @@ import org.json.JSONObject;
         UserNotification notification = new UserNotification(json.getString("message"),
                               json.getString("msgID"), seenSt, json.getString("type") );
         return notification;
+        
     }
     
     

@@ -11,6 +11,7 @@ import Backend.GroupPackage.GroupDatabase;
 import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
 import Backend.UserPackage.UserSignupSingleton;
+import static Files.FILEPATHS.USERFILE;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -41,6 +42,7 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
         setTitle("PrimaryAdminUI");
         setLocationRelativeTo(null);
         pack();
+        
         this.group = group;
         this.currentUser = UserSignupSingleton.getInstance().getUser();
         this.userDatabase = UserDatabase.getInstance();
@@ -167,8 +169,8 @@ public class PrimaryAdminUI extends javax.swing.JFrame {
                else if(GroupDatabase.getInstance().acceptGroupRequest(currentUser.getUserId(),data[0], group)){
                   JOptionPane.showMessageDialog(null, "Accepted member request with id " + data[0], "Success", JOptionPane.INFORMATION_MESSAGE);
                   userDatabase.getUser(data[0]).getNotificationManager().addGroupActivityNotification("You were Accepted to Group: " + group.getGroupName());
-                  UserDatabase.getInstance().getUser(currentUser.getUserId()).getNotificationManager().addFriendRequestNotification(group.getGroupId()+" "+group.getGroupName()+" "+"You have Been Accepted to Group: "+ group.getGroupName());
-
+                  UserDatabase.getInstance().getUser(currentUser.getUserId()).getNotificationManager().addGroupActivityNotification(group.getGroupId()+" "+group.getGroupName()+" "+"You have Accepted to Group: "+ group.getGroupName());
+                  UserDatabase.getInstance().saveUsersToFile(USERFILE);
               }
               else {
                   JOptionPane.showMessageDialog(null, "You are already a member of this group", "Fail", JOptionPane.INFORMATION_MESSAGE);

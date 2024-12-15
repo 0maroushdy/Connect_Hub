@@ -39,11 +39,11 @@ public class NotificationManager {
     
     // -----------** Adding EXTRA Noti. **--------------
     public void addFriendRequestNotification(String message) {
-        this.addNotification(new FriendRequestNotification(message));
+        this.addNotification(new FriendRequestNotification(message,generateNotificatoinId()));
     }
 
     public void addGroupActivityNotification(String message) {
-        this.addNotification(new GroupActivityNotification(message));
+        this.addNotification(new GroupActivityNotification(message,generateNotificatoinId()));
     }
 
     public void addNewPostNotification(String message) {
@@ -57,6 +57,7 @@ public class NotificationManager {
                 noti.setSeenStatus(true);
             }
         }
+        
     }
     
 

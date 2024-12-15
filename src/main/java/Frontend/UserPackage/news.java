@@ -49,6 +49,7 @@ public class News extends javax.swing.JFrame {
         panel6 = new JPanel();
         panel7= new JPanel();
         
+        
         this.setTitle("Newsfeed");
         this.setSize(1100,800);
         this.setLocationRelativeTo(null);

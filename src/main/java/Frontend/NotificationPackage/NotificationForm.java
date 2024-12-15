@@ -15,6 +15,7 @@ public class NotificationForm extends javax.swing.JFrame {
      */
     public NotificationForm() {
         initComponents();
+        
     }
 
     /**
