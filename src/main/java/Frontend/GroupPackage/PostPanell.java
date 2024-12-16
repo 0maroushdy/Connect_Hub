@@ -6,7 +6,9 @@ package Frontend.GroupPackage;
 
 import Backend.ContentPackage.ContentDataBase;
 import Backend.ContentPackage.Post;
+import Backend.UserPackage.User;
 import Backend.UserPackage.UserDatabase;
+import Backend.UserPackage.UserSignupSingleton;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -24,10 +26,11 @@ import javax.swing.JPanel;
  * @author Abdelrahman
  */
 public class PostPanell extends javax.swing.JPanel {
-    
+    private User currentUser;
     private Post post;
     private ContentDataBase contentDatabase;
     private JPanel postsContainer;
+    private boolean isClicked = false;
     /**
      * Creates new form PostPanell
      */
@@ -35,6 +38,7 @@ public class PostPanell extends javax.swing.JPanel {
         initComponents();
         this.post = post;
         this.postsContainer = postsContainer;
+        this.currentUser = UserSignupSingleton.getInstance().getUser();
        // setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.contentDatabase = ContentDataBase.getInstance();
         initCustomComponents();
@@ -46,6 +50,7 @@ public class PostPanell extends javax.swing.JPanel {
         lblTimeStamp.setText(post.getTimestamp());
         lblContentText.setText(post.getText());
         addPostPhoto();
+        lblLikeCounter.setText(post.getPostLikes().size() + " ");
         
         btnDelete.addActionListener(new ActionListener(){
             @Override
@@ -82,6 +87,48 @@ public class PostPanell extends javax.swing.JPanel {
         });
         
         setBorder(BorderFactory.createLineBorder(Color.RED));
+        
+        if(post.getPostLikes().containsKey(currentUser.getUserId())){ btnLike.setBackground(Color.blue);
+        isClicked = true;
+        btnLike.setText("Liked");}
+        
+        btnLike.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 if (isClicked) {
+                    btnLike.setText("Like");
+                    btnLike.setBackground(Color.WHITE);
+                    ContentDataBase.getInstance().removeLike(currentUser, post);
+                    lblLikeCounter.setText(post.getPostLikes().size() + " ");
+                    isClicked = false;
+                } else {
+                    btnLike.setText("Liked");
+                    btnLike.setBackground(Color.blue);
+                    ContentDataBase.getInstance().likePost(currentUser, post);
+                    lblLikeCounter.setText(post.getPostLikes().size() + " ");
+                    isClicked = true;
+                }
+                
+            }  
+        });
+        
+        
+        btnAddComment.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddComment comment = new AddComment(currentUser,post);
+                comment.setVisible(true);
+            }  
+        });
+        
+        btnShowComments.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AllPostComments comments = new AllPostComments(post);
+                comments.setVisible(true); 
+            }  
+        });
         
         
         
@@ -121,10 +168,10 @@ public class PostPanell extends javax.swing.JPanel {
         lblContentPhoto = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
-        btnReact = new javax.swing.JButton();
-        btnComment = new javax.swing.JButton();
-        lblReactionCounter = new javax.swing.JLabel();
-        lblCommentCounter = new javax.swing.JLabel();
+        btnLike = new javax.swing.JButton();
+        btnAddComment = new javax.swing.JButton();
+        lblLikeCounter = new javax.swing.JLabel();
+        btnShowComments = new javax.swing.JButton();
 
         lblAuthorName.setBackground(new java.awt.Color(255, 255, 255));
         lblAuthorName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -152,57 +199,50 @@ public class PostPanell extends javax.swing.JPanel {
         btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEdit.setText("Edit");
 
-        btnReact.setBackground(new java.awt.Color(92, 107, 192));
-        btnReact.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnReact.setText("React");
+        btnLike.setBackground(new java.awt.Color(255, 255, 255));
+        btnLike.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLike.setForeground(new java.awt.Color(0, 0, 0));
+        btnLike.setText("Like");
 
-        btnComment.setBackground(new java.awt.Color(92, 107, 192));
-        btnComment.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnComment.setText("Comment");
+        btnAddComment.setBackground(new java.awt.Color(92, 107, 192));
+        btnAddComment.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAddComment.setText("Add Comment");
 
-        lblReactionCounter.setBackground(new java.awt.Color(255, 255, 255));
-        lblReactionCounter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblReactionCounter.setForeground(new java.awt.Color(0, 0, 0));
-        lblReactionCounter.setOpaque(true);
+        lblLikeCounter.setBackground(new java.awt.Color(255, 255, 255));
+        lblLikeCounter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblLikeCounter.setForeground(new java.awt.Color(0, 0, 0));
+        lblLikeCounter.setOpaque(true);
 
-        lblCommentCounter.setBackground(new java.awt.Color(255, 255, 255));
-        lblCommentCounter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblCommentCounter.setForeground(new java.awt.Color(0, 0, 0));
-        lblCommentCounter.setOpaque(true);
+        btnShowComments.setBackground(new java.awt.Color(92, 107, 192));
+        btnShowComments.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnShowComments.setText("All comments");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblContentText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblContentPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnReact, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                                .addGap(10, 10, 10))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblReactionCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(51, 51, 51)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCommentCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnComment))))
-                .addContainerGap())
+                        .addComponent(lblAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTimeStamp, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblContentText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblContentPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnLike, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblLikeCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddComment)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnShowComments)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,30 +256,29 @@ public class PostPanell extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblContentPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblReactionCounter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCommentCounter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblLikeCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnComment, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReact, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddComment, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLike, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnShowComments, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnComment;
+    private javax.swing.JButton btnAddComment;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnReact;
+    private javax.swing.JButton btnLike;
+    private javax.swing.JButton btnShowComments;
     private javax.swing.JLabel lblAuthorName;
-    private javax.swing.JLabel lblCommentCounter;
     private javax.swing.JLabel lblContentPhoto;
     private javax.swing.JLabel lblContentText;
-    private javax.swing.JLabel lblReactionCounter;
+    private javax.swing.JLabel lblLikeCounter;
     private javax.swing.JLabel lblTimeStamp;
     // End of variables declaration//GEN-END:variables
 

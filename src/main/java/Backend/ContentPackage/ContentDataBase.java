@@ -81,6 +81,27 @@ public class ContentDataBase {
        }
     }
     
+    public boolean likePost(User user,Post post){
+        for(Post postt:this.posts){
+            if(postt.getContentId().equals(post.getContentId())){
+               if(postt.getPostLikes().containsKey(user.getUserId())) return false;
+                postt.getPostLikes().put(user.getUserId(),1);
+                ContentDataBase.getInstance().save();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void removeLike(User user,Post post){
+        for(Post postt:this.posts){
+            if(postt.getContentId().equals(post.getContentId())){
+                postt.getPostLikes().remove(user.getUserId());
+                ContentDataBase.getInstance().save();
+            }
+        }
+    }
+    
     public boolean editPost(String text,String imagePath){
         if(text.length() == 0 || imagePath == null || imagePath.length() == 0) return false;
         
@@ -97,7 +118,7 @@ public class ContentDataBase {
         this.save();
     }
 
-    private synchronized void load() {
+    public synchronized void load() {
         try {
             JSONArray storiesJSON = JSONUtils.readFromFile(STORYFILE);
             for (int i = 0; i < storiesJSON.length(); i++) {

@@ -4,9 +4,14 @@
  */
 package Backend.ContentPackage;
 
+import Backend.ChatPackage.Message;
+import Backend.ChatPackage.MessageDatabase;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -20,7 +25,9 @@ public abstract class AContent implements Comparable<AContent> {
     private String groupId = "";
     private String text;
     private String imagePath;
-
+    private ArrayList <Comment> comments;
+    private Map <String,Integer> likes;
+    
     /*
 
 timeOfUpload is LocalDateTime
@@ -31,7 +38,7 @@ timeStamp is String representation of timeOfUpload
 
     private static final DateTimeFormatter timeStampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    protected AContent(String groupId,String authorId, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId) {
+    protected AContent(String groupId,String authorId, String text, String imagePath, LocalDateTime timeOfUpload, UUID contentId,ArrayList <Comment> comments,Map <String,Integer> likes ) {
         //if condition not needed because the check is in the post and story builder 
         if (authorId == null || text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Author and text cannot be null or empty.");
@@ -49,6 +56,8 @@ timeStamp is String representation of timeOfUpload
         } else {
             this.contentId = contentId;
         }
+        this.comments = comments;
+        this.likes = likes;
     }
 
     public String getTimestamp() {
@@ -82,7 +91,15 @@ timeStamp is String representation of timeOfUpload
     public LocalDateTime getTimeOfUpload() {
         return timeOfUpload;
     }
-
+    
+    public ArrayList <Comment> getPostComments(){
+            return this.comments;
+      }
+    
+    public Map <String,Integer> getPostLikes(){
+        return this.likes;
+    }
+    
     protected void setTimeOfUpload() {
         this.timeOfUpload = LocalDateTime.now();
     }
@@ -105,6 +122,15 @@ timeStamp is String representation of timeOfUpload
 
         jsonObject.put("timeStamp", this.getTimestamp());
         jsonObject.put("groupId",this.groupId);
+        
+        JSONArray commentsArray = new JSONArray();
+        for (Comment comment : CommentDatabase.getInstance().getComments()) {
+            if(comment.getCommentPostId().equals(this.contentId)){
+            commentsArray.put(comment.toJSON());}  
+        }
+        jsonObject.put("comments", commentsArray);
+        
+        jsonObject.put("likes",this.likes);
 
         return jsonObject;
     }

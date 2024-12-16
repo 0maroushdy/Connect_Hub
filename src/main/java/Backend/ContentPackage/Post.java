@@ -4,8 +4,15 @@
  */
 package Backend.ContentPackage;
 
+import Backend.GroupPackage.Group;
+import Backend.GroupPackage.GroupDatabase;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -19,7 +26,9 @@ public class Post extends AContent {
                 postBuilder.text, 
                 postBuilder.imagePath,
                 postBuilder.timeOfUpload,
-                postBuilder.contentId);
+                postBuilder.contentId,
+                postBuilder.comments,
+                postBuilder.likes);
     }
 
     @Override
@@ -27,6 +36,8 @@ public class Post extends AContent {
         this.setTimeOfUpload();
         ContentDataBase.getInstance().addContent(this);
     }
+    
+  
     
     
 
@@ -38,7 +49,25 @@ public class Post extends AContent {
         String timeStamp = jsonObject.getString("timeStamp");
         UUID contentId = UUID.fromString(jsonObject.getString("contentId"));
         LocalDateTime timeOfUpload = LocalDateTime.parse(timeStamp,AContent.getTimeStampFormat());
-        
+        ArrayList <Comment> comments = new ArrayList<>();
+        JSONArray commentsArray = jsonObject.getJSONArray("comments");
+        for (int i = 0; i < commentsArray.length(); i++) {
+          JSONObject commentJson = commentsArray.getJSONObject(i);
+          Comment comment = Comment.fromJSON(commentJson);
+          if (comment != null) { // Ensure the deserialization didn't fail
+           comments.add(comment);
+          if(!CommentDatabase.getInstance().checkIfExists(comment)){
+           CommentDatabase.getInstance().addComment(comment);
+          }
+        } 
+      }
+        JSONObject likesJson = jsonObject.getJSONObject("likes");
+        Map <String, Integer> likes = new HashMap<>();
+        Iterator <String> keys = likesJson.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            likes.put(key, likesJson.getInt(key));
+        } 
         Post.Builder postBuilder = new Post.Builder(
                 groupId,
                 userId,
@@ -46,7 +75,10 @@ public class Post extends AContent {
         )
                 .setImagePath(imagePath)
                 .setTimeOfUpload(timeOfUpload)
-                .setContentId(contentId);
+                .setContentId(contentId)
+                .setContentComments(comments)
+                .setContentLikes(likes);
+                
 
         return postBuilder.build();
     }
@@ -59,6 +91,8 @@ public class Post extends AContent {
         private String imagePath;
         private LocalDateTime timeOfUpload;
         private UUID contentId;
+        private ArrayList <Comment> comments;
+        private Map <String,Integer> likes;
 
         public Builder(String groupId,String authorId, String text) {
             if (authorId == null || text == null || text.isEmpty()) {
@@ -69,6 +103,8 @@ public class Post extends AContent {
             }
             this.authorId = authorId;
             this.text = text;
+            this.comments = new ArrayList<>();
+            this.likes = new HashMap<>();
             this.imagePath = null;
             this.timeOfUpload = null;
         }
@@ -87,7 +123,17 @@ public class Post extends AContent {
             this.contentId = id;
             return this;
         }
-
+        
+        public Builder setContentComments(ArrayList <Comment> comments){
+            this.comments = comments;
+            return this;
+        }
+        
+        public Builder setContentLikes(Map <String,Integer> likes){
+            this.likes = likes;
+            return this;
+        }
+ 
         public Post build() {
             return new Post(this);
         }
