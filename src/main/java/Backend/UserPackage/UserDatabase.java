@@ -4,6 +4,8 @@
  */
 package Backend.UserPackage;
 
+import Backend.ChatPackage.Message;
+import Backend.ChatPackage.MessageDatabase;
 import Backend.GroupPackage.Group;
 import Backend.GroupPackage.GroupDatabase;
 import static Files.FILEPATHS.USERFILE;
@@ -141,6 +143,7 @@ public final class UserDatabase {
         JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
         int maxCounter = 0; // Track the maximum unique ID counter value
         int maxCounter2 = 0;
+        int maxCounter3 = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
            JSONObject jsonObject = jsonArray.getJSONObject(i);
           // String dateOfBirth = jsonObject.getString("DateOfBirth");
@@ -176,11 +179,23 @@ public final class UserDatabase {
                 }
             }
             }
-        
-        
+         
+          for(Message message:MessageDatabase.getInstance().getMessages()){
+            String[] parts3 = message.getMessageId().split("-");
+            if (parts3.length == 2) {
+                try {
+                    int idCounter3 = Integer.parseInt(parts3[1]);
+                    maxCounter3 = Math.max(maxCounter3, idCounter3);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid messageId format: " + message.getMessageId());
+                }
+            }
+            }
+         
         // Update uniqueCounter to avoid duplicates
           uniqueCounter = maxCounter + 1;
           GroupDatabase.getInstance().setCounter(maxCounter2+1);
+          MessageDatabase.getInstance().setCounter(maxCounter3+1);
         
     } catch (IOException e) {
         System.err.println("Error reading file: " + e.getMessage());
