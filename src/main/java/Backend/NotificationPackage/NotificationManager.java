@@ -15,6 +15,7 @@ import org.json.JSONObject;
  * @author Omar
  */
 public class NotificationManager {
+    
     private final ArrayList<UserNotification> notifications;   
     
     // -----------** Constructor **--------------
@@ -47,7 +48,15 @@ public class NotificationManager {
     }
 
     public void addNewPostNotification(String message) {
-        this.addNotification(new NewPostNotification(message));
+        this.addNotification(new NewPostNotification(message,generateNotificatoinId()));
+    }
+    
+    public void addCommentNotification(String message){
+        this.addNotification(new AddedCommentNotification(message,generateNotificatoinId()));
+    }
+    
+     public void addLikeNotification(String message){
+        this.addNotification(new LikedPostNotification(message,generateNotificatoinId()));
     }
     
     public void makeAllSeen(){

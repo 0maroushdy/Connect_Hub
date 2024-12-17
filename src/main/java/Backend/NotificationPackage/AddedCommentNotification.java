@@ -6,17 +6,15 @@ package Backend.NotificationPackage;
 
 /**
  *
- * @author Omar
+ * @author Abdelrahman
  */
-public class NewPostNotification extends UserNotification {
+public class AddedCommentNotification extends UserNotification{
     
-    public NewPostNotification(String message, String Id) {
-        super(message, Id, "NewPostNotification");
+    public AddedCommentNotification(String message, String Id) {
+        super(message, Id, "commentNotification");
     }
-    public NewPostNotification(String message) {
+    public AddedCommentNotification(String message) {
         super(message);
     }
     
-    
-
 }

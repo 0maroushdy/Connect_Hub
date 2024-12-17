@@ -78,6 +78,8 @@ public class CommentDatabase {
                     String id = "Comment" + "-" + uniqueCounter;
                     Comment newComment = Comment.commentBuilder.commentCreate(postt.getContentId(),id,commentPublisher.getUserId(),commentContent);
                     addComment(newComment);
+                    UserDatabase.getInstance().getUser(postt.getAuthorId()).getNotificationManager().addCommentNotification(commentPublisher.getUserId() + " has commented on your post: " + commentContent);
+                    UserDatabase.getInstance().saveUsersToFile(USERFILE);
                     ContentDataBase.getInstance().update();
                     return true;
             }  

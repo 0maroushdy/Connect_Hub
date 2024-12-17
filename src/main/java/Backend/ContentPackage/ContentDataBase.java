@@ -5,6 +5,7 @@
 package Backend.ContentPackage;
 
 import Backend.UserPackage.User;
+import Backend.UserPackage.UserDatabase;
 import static Files.FILEPATHS.*;
 import java.io.IOException;
 import java.time.Duration;
@@ -86,6 +87,8 @@ public class ContentDataBase {
             if(postt.getContentId().equals(post.getContentId())){
                if(postt.getPostLikes().containsKey(user.getUserId())) return false;
                 postt.getPostLikes().put(user.getUserId(),1);
+                UserDatabase.getInstance().getUser(postt.getAuthorId()).getNotificationManager().addLikeNotification(user.getUserId() + " has liked your post");
+                UserDatabase.getInstance().saveUsersToFile(USERFILE);
                 ContentDataBase.getInstance().save();
                 return true;
             }
@@ -97,6 +100,7 @@ public class ContentDataBase {
         for(Post postt:this.posts){
             if(postt.getContentId().equals(post.getContentId())){
                 postt.getPostLikes().remove(user.getUserId());
+               
                 ContentDataBase.getInstance().save();
             }
         }

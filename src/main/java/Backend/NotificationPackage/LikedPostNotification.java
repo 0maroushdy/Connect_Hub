@@ -6,17 +6,15 @@ package Backend.NotificationPackage;
 
 /**
  *
- * @author Omar
+ * @author Abdelrahman
  */
-public class NewPostNotification extends UserNotification {
+public class LikedPostNotification extends UserNotification{
     
-    public NewPostNotification(String message, String Id) {
-        super(message, Id, "NewPostNotification");
+     public LikedPostNotification(String message, String Id) {
+        super(message, Id, "likeNotification");
     }
-    public NewPostNotification(String message) {
+    public LikedPostNotification(String message) {
         super(message);
     }
     
-    
-
 }
