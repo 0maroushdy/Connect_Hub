@@ -82,6 +82,7 @@ public class MessageDatabase {
                     addMessage(newMessage);
                     user.getUserReceivedMessages().add(newMessage);
                     user.getUserSentMessages().add(newMessage);
+                    UserDatabase.getInstance().getUser(friend.getUserId()).getNotificationManager().addMessageNotification(messageSender.getUserId() + " sent you a message: " + messageContent);
                     UserDatabase.getInstance().saveUsersToFile(USERFILE);
                     return true;
                 } 

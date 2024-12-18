@@ -58,6 +58,10 @@ public class NotificationManager {
      public void addLikeNotification(String message){
         this.addNotification(new LikedPostNotification(message,generateNotificatoinId()));
     }
+     
+     public void addMessageNotification(String message){
+        this.addNotification(new ReceivedChatMessageNotification(message,generateNotificatoinId()));
+    }
     
     public void makeAllSeen(){
         for(User user : UserDatabase.getInstance().getUsers() ){
