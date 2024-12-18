@@ -522,9 +522,10 @@ private JPanel friendComp(User friend) {
     
     public void notificationAction(){
 //        this.setVisible(false);
-        this.dispose();
-        new NotiForm();
-        
+      //  this.dispose();
+      //  new NotiForm();
+        NotiForm form = new NotiForm();
+        form.setVisible(true);
         
     }
     

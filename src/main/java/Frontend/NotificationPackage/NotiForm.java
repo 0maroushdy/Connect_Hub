@@ -1,6 +1,7 @@
 
 package Frontend.NotificationPackage;
 
+import Backend.ChatPackage.MessageDatabase;
 import Backend.GroupPackage.Group;
 import Backend.GroupPackage.GroupDatabase;
 import Backend.GroupPackage.GroupSearch;
@@ -54,12 +55,16 @@ public class NotiForm extends javax.swing.JFrame {
         DefaultListModel<String> OldNotificatoinsModel = new DefaultListModel<>();
         DefaultListModel<String> FriendsNotifications = new DefaultListModel<>();
         DefaultListModel<String> GroupsNoti = new DefaultListModel<>();
+        DefaultListModel<String> chatsModel = new DefaultListModel<>();
+        DefaultListModel<String> commentsModel = new DefaultListModel<>();
         
                 /* setting up jlists */
         lstNewNotifications.setModel(NewNotificatoinsModel);
         lstOldNotifications.setModel(OldNotificatoinsModel);
         lstFriendsNotificatoin.setModel(FriendsNotifications);
         lstGroups.setModel(GroupsNoti);
+        lstChats.setModel(chatsModel);
+        lstComments.setModel(commentsModel);
         
                        /* filling out data */
         for(UserNotification noti: currentUser.getNotificationManager().getNotiList()){
@@ -76,6 +81,14 @@ public class NotiForm extends javax.swing.JFrame {
           
            if(noti.getType().equals("groupNotification")){
                GroupsNoti.addElement(noti.getMessage());
+           }
+           
+           if(noti.getType().equals("messageNotification")){
+               chatsModel.addElement(noti.getMessage());
+           }
+           
+           if(noti.getType().equals("commentNotification") || noti.getType().equals("likeNotification")){
+               commentsModel.addElement(noti.getMessage());
            }
 
         }
@@ -156,7 +169,19 @@ public class NotiForm extends javax.swing.JFrame {
                            JOptionPane.showMessageDialog(null, "You are not a member in this group", "Fail", JOptionPane.INFORMATION_MESSAGE);
                        }
                     } 
-                });        
+                }); 
+                
+                
+                 reply.addActionListener(new ActionListener(){
+                  @Override
+                  public void actionPerformed(ActionEvent e) {
+                      String line = lstChats.getSelectedValue();
+                      String [] data = line.split(" ");
+                      User friend = UserDatabase.getInstance().getUser(data[0]);
+                      createMessage message = new createMessage(currentUser,friend);
+                      message.setVisible(true);
+                   }   
+                });
         
         
         
@@ -194,6 +219,14 @@ public class NotiForm extends javax.swing.JFrame {
         lstFriendsNotificatoin = new javax.swing.JList<>();
         btnAcceptFriend = new javax.swing.JButton();
         btnDeclineFriend = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        lstChats = new javax.swing.JList<>();
+        reply = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        lstComments = new javax.swing.JList<>();
+        commentBack = new javax.swing.JButton();
 
         btnBack1.setBackground(new java.awt.Color(153, 204, 255));
         btnBack1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -263,7 +296,7 @@ public class NotiForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack2)
@@ -298,7 +331,7 @@ public class NotiForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -335,7 +368,7 @@ public class NotiForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(remove, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -385,7 +418,7 @@ public class NotiForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeclineFriend)
                     .addComponent(btnAcceptFriend))
@@ -393,6 +426,78 @@ public class NotiForm extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Friends Noti.", jPanel1);
+
+        jScrollPane5.setViewportView(lstChats);
+
+        reply.setBackground(new java.awt.Color(153, 204, 255));
+        reply.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        reply.setForeground(new java.awt.Color(0, 0, 0));
+        reply.setText("Reply");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(184, 184, 184)
+                .addComponent(reply, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(394, Short.MAX_VALUE)
+                .addComponent(reply, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(85, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Chats Noti.", jPanel5);
+
+        jScrollPane6.setViewportView(lstComments);
+
+        commentBack.setBackground(new java.awt.Color(153, 204, 255));
+        commentBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        commentBack.setForeground(new java.awt.Color(0, 0, 0));
+        commentBack.setText("Reply");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addComponent(commentBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(210, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(409, Short.MAX_VALUE)
+                .addComponent(commentBack, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(71, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Comments/Like Noti.", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -418,12 +523,29 @@ public class NotiForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBack1ActionPerformed
 
+    private void btnDeclineFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeclineFriendActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeclineFriendActionPerformed
+
+    private void btnAcceptFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptFriendActionPerformed
+        // TODO add your handling code here:
+        //        FriendshipManagement.FriendshipManagementFactory.create().acceptFriendRequest(currentUser, request);
+    }//GEN-LAST:event_btnAcceptFriendActionPerformed
+
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         // TODO add your handling code here:
-        
+
         UserSignupSingleton.getInstance().getUser().getNotificationManager().makeAllSeen();
-        fillOutNotifications(); 
+        fillOutNotifications();
     }//GEN-LAST:event_removeActionPerformed
+
+    private void leaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveGroupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leaveGroupActionPerformed
+
+    private void joinGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinGroupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_joinGroupActionPerformed
 
     private void btnBack2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack2ActionPerformed
         // TODO add your handling code here:
@@ -435,23 +557,6 @@ public class NotiForm extends javax.swing.JFrame {
             Logger.getLogger(NotiForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBack2ActionPerformed
-
-    private void btnAcceptFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptFriendActionPerformed
-        // TODO add your handling code here:
-//        FriendshipManagement.FriendshipManagementFactory.create().acceptFriendRequest(currentUser, request);
-    }//GEN-LAST:event_btnAcceptFriendActionPerformed
-
-    private void btnDeclineFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeclineFriendActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeclineFriendActionPerformed
-
-    private void joinGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinGroupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_joinGroupActionPerformed
-
-    private void leaveGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveGroupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_leaveGroupActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -460,21 +565,29 @@ public class NotiForm extends javax.swing.JFrame {
     private javax.swing.JButton btnBack1;
     private javax.swing.JButton btnBack2;
     private javax.swing.JButton btnDeclineFriend;
+    private javax.swing.JButton commentBack;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton joinGroup;
     private javax.swing.JButton leaveGroup;
+    private javax.swing.JList<String> lstChats;
+    private javax.swing.JList<String> lstComments;
     private javax.swing.JList<String> lstFriendsNotificatoin;
     private javax.swing.JList<String> lstGroups;
     private javax.swing.JList<String> lstNewNotifications;
     private javax.swing.JList<String> lstOldNotifications;
     private javax.swing.JButton remove;
+    private javax.swing.JButton reply;
     // End of variables declaration//GEN-END:variables
 }
